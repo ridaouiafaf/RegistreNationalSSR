@@ -33,7 +33,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>SSR</span></a>
+            <a href="{% url 'index' %}" class="site_title"><i class="fa fa-hospital-o"></i> <span>SSR</span></a>
           </div>
 
           <div class="clearfix"></div>
@@ -41,11 +41,11 @@
           <!-- menu profile quick info -->
           <div class="profile clearfix">
             <div class="profile_pic">
-              <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+              <img src="{% static 'images/user.png' %}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-              <span>Welcome,</span>
-              <h2>John Doe</h2>
+              <span>Bienvenue,</span>
+              <h2>Houda</h2>
             </div>
           </div>
           <!-- /menu profile quick info -->
@@ -127,6 +127,8 @@
   <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
   <!-- Custom Theme Scripts -->
   <script src="{% static 'build/js/custom.min.js' %}"></script>
+  <!-- jQuery Smart Wizard -->
+  <script src="{% static 'vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js' %}"></script>
   <!-- Additional scripts -->
   {% block scripts %}{% endblock %}
 </body>

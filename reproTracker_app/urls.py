@@ -6,6 +6,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('index2/', views.index2, name='index2'),
     path('index3/', views.index3, name='index3'),
+    
     #------------------------------------------------------------------------------------------------------------------------#
     path('e_commerce/', views.e_commerce, name='e_commerce'),
     path('projects/', views.projects, name='projects'),
