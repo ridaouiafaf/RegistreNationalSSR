@@ -1,0 +1,56 @@
+{% load static %}
+<!-- menu profile quick info -->
+<div class="profile clearfix">
+    <div class="profile_pic">
+        <img src="{% static 'images/user.png' %}" alt="..." class="img-circle profile_img">
+    </div>
+    <div class="profile_info">
+        <span>Bienvenue,</span>
+        <h2>Doctorant(e) Houda</h2>
+    </div>
+</div>
+<!-- /menu profile quick info -->
+
+<br />
+<!-- sidebar menu -->
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3>General</h3>
+        <ul class="nav side-menu">
+            <li><a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="{% url 'index' %}">Dashboard</a></li>
+                    <li><a href="{% url 'index2' %}">Dashboard2</a></li>
+                    <li><a href="{% url 'index3' %}">Dashboard3</a></li>
+                </ul>
+            </li>
+            <li><a><i class="fa fa-edit"></i> Enquetes </a></li>
+            <li><a><i class="fa fa-desktop"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="{% url 'general_elements' %}">Personne</a></li>
+                    <li><a href="{% url 'media_gallery' %}">IST</a></li>
+                    <li><a href="{% url 'typography' %}">Pratiques</a></li>
+                    <li><a href="{% url 'icons' %}">Grossesse</a></li>
+                    <li><a href="{% url 'general_elements' %}">Prénatal & Maternel</a></li>
+                    <li><a href="{% url 'media_gallery' %}">Violence</a></li>
+                    <li><a href="{% url 'typography' %}">Santé reproductive</a></li>
+                    <li><a href="{% url 'icons' %}">Facteurs</a></li>
+                    <li><a href="{% url 'icons' %}">Général</a></li>
+                </ul>
+            </li>
+            <li><a><i class="fa fa-desktop"></i> Visualisation <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="{% url 'general_elements' %}">Graphe 1</a></li>
+                    <li><a href="{% url 'media_gallery' %}">Graphe 2</a></li>
+                    <li><a href="{% url 'typography' %}">Graphe 3</a></li>
+                    <li><a href="{% url 'icons' %}">Maps</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'contacts' %}"><i class="fa fa-table"></i> Contacts </a>
+            </li>
+            <li><a href="{% url 'contacts' %}"><i class="fa fa-table"></i> Archive </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- /sidebar menu -->
