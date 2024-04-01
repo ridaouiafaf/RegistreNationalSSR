@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}Enquete{% endblock %}
 {% block sidebar %}
 {% include 'sidebar_doc.html'%}
 {% endblock %}
@@ -15,7 +16,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="row">
+        <div class="row " style="height: 900px;">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
@@ -33,7 +34,7 @@
                                         <span class="step_no">1</span>
                                         <span class="step_descr">
                                             Etape 1<br />
-                                            <small>Informations personnelles</small>
+                                            <small>Identité</small>
                                         </span>
                                     </a>
                                 </li>
@@ -42,7 +43,7 @@
                                         <span class="step_no">2</span>
                                         <span class="step_descr">
                                             Etape 2<br />
-                                            <small>Etape 2 description</small>
+                                            <small>Conscience</small>
                                         </span>
                                     </a>
                                 </li>
@@ -51,7 +52,7 @@
                                         <span class="step_no">3</span>
                                         <span class="step_descr">
                                             Etape 3<br />
-                                            <small>Etape 3 description</small>
+                                            <small>&nbsp;&nbsp;&nbsp;&nbsp; IST &nbsp;&nbsp;&nbsp;&nbsp;</small>
                                         </span>
                                     </a>
                                 </li>
@@ -60,7 +61,7 @@
                                         <span class="step_no">4</span>
                                         <span class="step_descr">
                                             Etape 4<br />
-                                            <small>Etape 4 description</small>
+                                            <small>Procréation</small>
                                         </span>
                                     </a>
                                 </li>
@@ -69,7 +70,7 @@
                                         <span class="step_no">5</span>
                                         <span class="step_descr">
                                             Etape 5<br />
-                                            <small>Etape 5 description</small>
+                                            <small>Prénatal & Maternité</small>
                                         </span>
                                     </a>
                                 </li>
@@ -78,7 +79,7 @@
                                         <span class="step_no">6</span>
                                         <span class="step_descr">
                                             Etape 6<br />
-                                            <small>Etape 6 description</small>
+                                            <small>Violence sexuelle</small>
                                         </span>
                                     </a>
                                 </li>
@@ -87,7 +88,7 @@
                                         <span class="step_no">7</span>
                                         <span class="step_descr">
                                             Etape 7<br />
-                                            <small>Etape 7 description</small>
+                                            <small>Santé reproductive</small>
                                         </span>
                                     </a>
                                 </li>
@@ -96,7 +97,7 @@
                                         <span class="step_no">8</span>
                                         <span class="step_descr">
                                             Etape 8<br />
-                                            <small>Etape 8 description</small>
+                                            <small>Informations générales</small>
                                         </span>
                                     </a>
                                 </li>
@@ -105,7 +106,7 @@
                                         <span class="step_no">9</span>
                                         <span class="step_descr">
                                             Etape 9<br />
-                                            <small>Etape 9 description</small>
+                                            <small>Enquêteur</small>
                                         </span>
                                     </a>
                                 </li>
@@ -184,8 +185,8 @@
                                         <div class="col-md-6 col-sm-6  ">
                                             <select class="select2_single form-control" name="nationnalite"
                                                 tabindex="-1">
-                                                <option value="marocaine">Marocaine</option>
-                                                <option value="etrangere">Etrangère</option>
+                                                <option value="Marocaine">Marocaine</option>
+                                                <option value="Etrangère">Etrangère</option>
                                             </select>
                                         </div>
                                     </div>
@@ -225,10 +226,10 @@
                                                 class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6  ">
                                             <select class="select2_single form-control" name="etat_civil" tabindex="-1">
-                                                <option value="marie">Marié(e)</option>
-                                                <option value="celibataire">Célibataire</option>
-                                                <option value="divorce">Divorcé(e)</option>
-                                                <option value="veuf">Veuf(ve)</option>
+                                                <option value="Marié(e)">Marié(e)</option>
+                                                <option value="Célibataire">Célibataire</option>
+                                                <option value="Divorcé(e)">Divorcé(e)</option>
+                                                <option value="Veuf(ve)">Veuf(ve)</option>
                                             </select>
                                         </div>
                                     </div>
@@ -543,19 +544,336 @@
                                 </form>
                             </div>
                             <div id="step-5">
-
+                                <form class="form-horizontal form-label-left">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous accès aux services prénatals ? </label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <div id="service_prenatal" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="service_prenatal" id="service_prenatal" value="service_prenatal"
+                                                    class="join-btn"> &nbsp; Oui &nbsp;
+                                            </label>
+                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="service_prenatal" id="service_prenatal" value="service_non_prenatal"
+                                                    class="join-btn"> Non
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-8 col-sm-8"> Avez-vous eu des complications de grosses ? </label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <div id="complication_grosse" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="complication_grosse" id="complication_grosse" value="complication_grosse"
+                                                    class="join-btn"> &nbsp; Oui &nbsp;
+                                            </label>
+                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="complication_grosse" id="complication_grosse" value="non_complication_grosse"
+                                                    class="join-btn"> Non
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces complications:</label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <input id="complications_grosses" name="complications_grosses" class="form-control" required="required" type="text" >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous eu des complications d'accouchement? </label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <div id="complication_accouchement" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="complication_accouchement" id="complication_accouchement" value="complication_accouchement"
+                                                    class="join-btn"> &nbsp; Oui &nbsp;
+                                            </label>
+                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="complication_accouchement" id="complication_accouchement" value="non_complication_accouchement"
+                                                    class="join-btn"> Non
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces complications: </label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <input id="complications_accouchements" name="complications_accouchements" class="form-control" required="required" type="text" >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous accès aux services maternels ? <span
+                                            class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <div id="service_maternel" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="service_maternel" id="service_maternel" value="service_maternel"
+                                                    class="join-btn"> &nbsp; Oui &nbsp;
+                                            </label>
+                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                data-toggle-passive-class="btn-secondary">
+                                                <input type="radio" name="service_maternel" id="service_maternel" value="non_service_maternel"
+                                                    class="join-btn"> Non
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-6 col-sm-6  ">Accouchement naturelle ou opération césarienne: </label>
+                                    <div class="col-md-4 col-sm-4 ">
+                                        <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="text" >
+                                    </div>
+                                </div>
+                            </form>
                             </div>
                             <div id="step-6">
-
+                                <form class="form-horizontal form-label-left">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà subi des violences sexuelles lors de rapports sexuels, combien ? <span class="required">*</span> </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="number" min="0" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà été agressé sexuellement, combien de fois ? <span class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="number" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà été violée, combien de fois ? <span class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="number" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Avez-vous déjà été victime de harcèlement sexuel? (verbal, non-verbal, les deux)  <span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="harcelement_sexuel" tabindex="-1">
+                                                <option value="Verbal">Verbal</option>
+                                                <option value="Non verbal">Non-verbal</option>
+                                                <option value="Les deux">Les deux</option>
+                                                <option value="Aucun">Aucun</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-8 col-sm-8 "> Avez-vous eu recours à des services de santé mentale ? <span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <div id="sante_mentale" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="sante_mentale" id="sante_mentale" value="sante_mentale"
+                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="sante_mentale" id="sante_mentale" value="non_sante_mentale"
+                                                        class="join-btn"> Non
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <div id="step-7">
+                                <form class="form-horizontal form-label-left">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Vérifiez-vous périodiquement la santé de votre système reproducteur, combien de fois ? <span class="required">*</span> </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="verification_sr" name="verification_sr" class="form-control" required="required" type="number" min="0" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-8 col-sm-8 "> Les services nécessaires à ces examens sont-ils à votre disposition ? <span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <div id="service_examen" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="service_examen" id="service_examen" value="service_examen"
+                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="service_examen" id="service_examen" value="non_service_examen"
+                                                        class="join-btn"> Non
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Souffrez-vous d'un problème de santé qui vous empêche d'avoir des relations sexuelles ?<span class="required">*</span> </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="probleme_sexuel" name="probleme_sexuel" class="form-control" required="required" type="text" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Comment trouvez-vous la qualité de vos relations sexuelles ?<span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="satisfaction_sexuelle" tabindex="-1">
+                                                <option value="verbal">non satisfaisante</option>
+                                                <option value="non verbal">passable</option>
+                                                <option value="les deux">acceptable</option>
+                                                <option value="aucun">satisfaisante</option>
+                                                <option value="aucun">très satisfaisante</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-8 col-sm-8 "> Avez-vous déjà demandé un soutien professionnel à ce sujet ? <span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <div id="demande_soutien" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="demande_soutien" id="demande_soutien" value="demande_soutien"
+                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="demande_soutien" id="demande_soutien" value="non_demande_soutien"
+                                                        class="join-btn"> Non
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
 
                             </div>
                             <div id="step-8">
-
+                                <form class="form-horizontal form-label-left">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Quelle est votre religion ?<span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="religion" tabindex="-1">                                                
+                                                <option value="Islam">Islam</option>
+                                                <option value="Christianisme">Christianisme</option>
+                                                <option value="Judaisme">Judaïsme</option>
+                                                <option value="Hindouisme">Hindouisme</option>
+                                                <option value="Bouddhisme">Bouddhisme</option>
+                                                <option value="Sikhisme">Sikhisme</option>
+                                                <option value="Jainisme">Jainisme</option>
+                                                <option value="Témoins de Jéhovah">Témoins de Jéhovah</option>
+                                                <option value="Mormonisme">Mormonisme</option>
+                                                <option value="Zoroastrisme">Zoroastrisme</option>
+                                                <option value="Shintoïsme">Shintoïsme</option>
+                                                <option value="Wicca">Wicca</option>
+                                                <option value="Bahaïsme">Bahaïsme</option>
+                                                <option value="Rastafarisme">Rastafarisme</option>
+                                                <option value="Tenrikyo">Tenrikyo</option>
+                                            </select>                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Quel est votre niveau d'études ?<span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="niveau_etudes" tabindex="-1">
+                                                <option value="Primaire">Primaire</option>
+                                                <option value="Collège">Collège</option>
+                                                <option value="Lycée">Lycée</option>
+                                                <option value="Baccalauréat">Baccalauréat</option>
+                                                <option value="Bachelor">Bachelor (Licence)</option>
+                                                <option value="Master">Master</option>
+                                                <option value="Doctorat">Doctorat</option>
+                                                <option value="Certificat professionnel">Certificat professionnel</option>
+                                                <option value="Diplôme professionnel">Diplôme professionnel</option>
+                                                <option value="Sans instruction">Sans instruction</option>
+                                            </select>                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien votre revenu ? <span class="required">*</span> </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="revenu" name="revenu" class="form-control" required="required" type="number" min="0" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Est ce que ton niveau sociale et financier impacte ta vie sexuelle? ?<span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="niveau_social" tabindex="-1">
+                                                <option value="Oui">Oui</option>
+                                                <option value="Plutôt oui">Plutôt oui</option>
+                                                <option value="Neutre">Neutre</option>
+                                                <option value="Plutôt non">Plutôt non</option>
+                                                <option value="Non">Non</option>
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Est ce qu'il y a des normes culturelles qui impactent ta vie sexuelle ?<span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="norme_culturelle" tabindex="-1">
+                                                <option value="Oui">Oui</option>
+                                                <option value="Plutôt oui">Plutôt oui</option>
+                                                <option value="Neutre">Neutre</option>
+                                                <option value="Plutôt non">Plutôt non</option>
+                                                <option value="Non">Non</option>
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Est ce qu'il y a des normes religieuses qui impactent ta vie sexuelle ?<span
+                                                class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" name="norme_religieuse" tabindex="-1">
+                                                <option value="Oui">Oui</option>
+                                                <option value="Plutôt oui">Plutôt oui</option>
+                                                <option value="Neutre">Neutre</option>
+                                                <option value="Plutôt non">Plutôt non</option>
+                                                <option value="Non">Non</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <div id="step-9">
-
+                                <form class="form-horizontal form-label-left">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3  ">Enquete réalisé par le doctorant : <span
+                                                class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="doctorant" name="doctorant" class="form-control" required="required"
+                                                type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3  ">Année de réalisation <span
+                                                class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="annee_realisation" name="annee_realisation" class="form-control" required="required"
+                                                type="number" min="2024">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-3 col-sm-3  ">Identifiant de l'enquete <span
+                                                class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="enquete" name="enquete" class="form-control" required="required"
+                                                type="text">
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <!-- End SmartWizard Content -->
