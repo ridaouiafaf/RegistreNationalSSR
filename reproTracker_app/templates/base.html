@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   {% load static %}
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,9 +25,19 @@
   <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
   <!-- Custom Theme Style -->
   <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+  <!-- Select2 -->
+  <link href="{% static 'vendors/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+  <!-- bootstrap-wysiwyg -->
+  <link href="{% static 'vendors/google-code-prettify/bin/prettify.min.css' %}" rel="stylesheet">
+  <!-- Switchery -->
+  <link href="{% static 'vendors/switchery/dist/switchery.min.css' %}" rel="stylesheet">
+  <!-- starrr -->
+  <link href="{% static 'vendors/starrr/dist/starrr.css' %}" rel="stylesheet">
+
   <!-- Additional styles -->
   {% block styles %}{% endblock %}
 </head>
+
 <body class="nav-md">
   <div class="container body">
     <div class="main_container">
@@ -117,7 +128,27 @@
   <script src="{% static 'build/js/custom.min.js' %}"></script>
   <!-- jQuery Smart Wizard -->
   <script src="{% static 'vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js' %}"></script>
+  <!-- bootstrap-wysiwyg -->
+  <script src="{% static 'vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
+  <script src="{% static 'vendors/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+  <script src="{% static 'vendors/google-code-prettify/src/prettify.js' %}"></script>
+  <!-- jQuery Tags Input -->
+  <script src="{% static 'vendors/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
+  <!-- Switchery -->
+  <script src="{% static 'vendors/switchery/dist/switchery.min.js' %}"></script>
+  <!-- Select2 -->
+  <script src="{% static 'vendors/select2/dist/js/select2.full.min.js' %}"></script>
+  <!-- Parsley -->
+  <script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+  <!-- Autosize -->
+  <script src="{% static 'vendors/autosize/dist/autosize.min.js' %}"></script>
+  <!-- jQuery autocomplete -->
+  <script src="{% static 'vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js' %}"></script>
+  <!-- starrr -->
+  <script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
+
   <!-- Additional scripts -->
   {% block scripts %}{% endblock %}
 </body>
+
 </html>

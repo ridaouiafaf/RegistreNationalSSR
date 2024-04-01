@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+import json
 # if request.method == 'POST':
     #     username = request.POST.get('username')
     #     password = request.POST.get('password')
@@ -11,6 +12,7 @@ from django.shortcuts import render, redirect
     #         return render(request, 'login.html', {'error_message': error_message})
     # else:
     #     return render(request, 'login.html')
+
 
 def login(request):
     if request.method == 'POST':
@@ -32,10 +34,14 @@ def index2(request):
 
 def index3(request):
     return render(request, 'index3.html')
+
+def enquetes(request):
+    with open('C:\\Users\\hp\\reproTracker\\reproTracker_app\\templates\\villes.json', 'r', encoding='utf-8') as file:
+        villes = json.load(file)
+    with open('C:\\Users\\hp\\reproTracker\\reproTracker_app\\templates\\métiers.json', 'r', encoding='utf-8') as file:
+        metiers = json.load(file)
+    return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-def e_commerce(request):
- 
-    return render(request, 'e_commerce.html')
 
 def projects(request):
     return render(request, 'projects.html')

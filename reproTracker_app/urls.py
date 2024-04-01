@@ -6,9 +6,10 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('index2/', views.index2, name='index2'),
     path('index3/', views.index3, name='index3'),
-    
+    path('enquete/', views.enquetes, name='enquetes'),  
+
     #------------------------------------------------------------------------------------------------------------------------#
-    path('e_commerce/', views.e_commerce, name='e_commerce'),
+
     path('projects/', views.projects, name='projects'),
     path('project_detail/', views.project_detail, name='project_detail'),
     path('contacts/', views.contacts, name='contacts'),
