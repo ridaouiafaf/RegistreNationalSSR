@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-import json
+import json, os
 # if request.method == 'POST':
     #     username = request.POST.get('username')
     #     password = request.POST.get('password')
@@ -36,9 +36,12 @@ def index3(request):
     return render(request, 'index3.html')
 
 def enquetes(request):
-    with open('C:\\Users\\hp\\reproTracker\\reproTracker_app\\templates\\villes.json', 'r', encoding='utf-8') as file:
+    current_directory = os.path.dirname(__file__)+'\\templates'
+    metiers = os.path.join(current_directory, 'métiers.json')
+    villes = os.path.join(current_directory, 'villes.json')
+    with open(villes, 'r', encoding='utf-8') as file:
         villes = json.load(file)
-    with open('C:\\Users\\hp\\reproTracker\\reproTracker_app\\templates\\métiers.json', 'r', encoding='utf-8') as file:
+    with open(metiers, 'r', encoding='utf-8') as file:
         metiers = json.load(file)
     return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
