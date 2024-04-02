@@ -7,6 +7,20 @@
 {% block navbar%}
 {% include 'navbar.html'%}
 {% endblock %}
+{% block styles %}
+<style>
+.centrer {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 530px;
+}
+.centrer > * {
+    width: 70%;
+}
+</style>
+
+{% endblock %}
 {% block content %}
 <div class="right_col" role="main">
     <div class="">
@@ -112,9 +126,8 @@
                                 </li>
 
                             </ul>
-                            <div id="step-1">
-                                <br><br>
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-1" class="centrer">
+                                <form class="form-horizontal form-label-left" > 
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  " for="cin">CIN <span
                                                 class="required">*</span>
@@ -235,11 +248,11 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="step-2">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-2" class="centrer">
+                                <form class="form-horizontal form-label-left" >
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous des connaissances sur les pratiques à faire pour garder ta santé sexuelle? <span
+                                        <label class="col-form-label col-md-6 col-sm-6   "> Avez-vous des connaissances sur les pratiques à faire pour garder ta santé sexuelle? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="conscience" class="btn-group" data-toggle="buttons">
@@ -265,7 +278,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Utilisz-vous les services disponible pour controler et prendre soins de votre vie sexuelle? <span
+                                        <label class="col-form-label col-md-6 col-sm-6   "> Utilisz-vous les services disponible pour controler et prendre soins de votre vie sexuelle? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="utilisation" class="btn-group" data-toggle="buttons">
@@ -291,10 +304,10 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="step-3">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-3" class="centrer">
+                                <form class="form-horizontal form-label-left" >
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection par le virus de l'immunodéficience humaine (VIH)? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par le virus de l'immunodéficience humaine (VIH)? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="vih" class="btn-group" data-toggle="buttons">
@@ -313,7 +326,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection par syphilis ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection par syphilis ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="syphilis" class="btn-group" data-toggle="buttons">
@@ -332,7 +345,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection par trichomonase ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par trichomonase ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="trichomonase" class="btn-group" data-toggle="buttons">
@@ -351,7 +364,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection par gonorrhée ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection par gonorrhée ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="gonorrhée" class="btn-group" data-toggle="buttons">
@@ -370,7 +383,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection par chlamydiose / chlamydia ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par chlamydiose / chlamydia ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="chlamydia" class="btn-group" data-toggle="buttons">
@@ -389,7 +402,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection par l'hépatite B ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par l'hépatite B ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="hepatite_b" class="btn-group" data-toggle="buttons">
@@ -408,7 +421,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   ">  Avez-vous une infection par le virus Herpes simplex (HSV-2) ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 ">  Avez-vous une infection par le virus Herpes simplex (HSV-2) ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="hsv_2" class="btn-group" data-toggle="buttons">
@@ -427,7 +440,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous une infection du papillomavirus humaine (HPV) ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection du papillomavirus humaine (HPV) ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="hpv" class="btn-group" data-toggle="buttons">
@@ -446,17 +459,17 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8  ">Combien de fois vous avez fait du dépistage des infections sexuelles transmissibles (IST) ?</label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien de fois vous avez fait du dépistage des infections sexuelles transmissibles (IST) ?</label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <input id="IST" name="IST" class="form-control" required="required" type="number" min="0">
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div id="step-4">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-4" class="centrer">
+                                <form class="form-horizontal form-label-left"  >
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Utilisez-vous des méthodes de planification familiale ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Utilisez-vous des méthodes de planification familiale ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="planification" class="btn-group" data-toggle="buttons">
@@ -482,7 +495,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous envie d'avoir des enfants ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous envie d'avoir des enfants ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="enfant" class="btn-group" data-toggle="buttons">
@@ -543,10 +556,10 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="step-5">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-5" class="centrer">
+                                <form class="form-horizontal form-label-left"  >
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous accès aux services prénatals ? </label>
+                                    <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous accès aux services prénatals ? </label>
                                     <div class="col-md-4 col-sm-4 ">
                                         <div id="service_prenatal" class="btn-group" data-toggle="buttons">
                                             <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -563,7 +576,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-8 col-sm-8"> Avez-vous eu des complications de grosses ? </label>
+                                    <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des complications de grosses ? </label>
                                     <div class="col-md-4 col-sm-4 ">
                                         <div id="complication_grosse" class="btn-group" data-toggle="buttons">
                                             <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -586,7 +599,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous eu des complications d'accouchement? </label>
+                                    <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des complications d'accouchement? </label>
                                     <div class="col-md-4 col-sm-4 ">
                                         <div id="complication_accouchement" class="btn-group" data-toggle="buttons">
                                             <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -609,7 +622,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-8 col-sm-8   "> Avez-vous accès aux services maternels ? <span
+                                    <label class="col-form-label col-md-6 col-sm-6  "> Avez-vous accès aux services maternels ? <span
                                             class="required">*</span></label>
                                     <div class="col-md-4 col-sm-4 ">
                                         <div id="service_maternel" class="btn-group" data-toggle="buttons">
@@ -634,8 +647,8 @@
                                 </div>
                             </form>
                             </div>
-                            <div id="step-6">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-6" class="centrer">
+                                <form class="form-horizontal form-label-left"   >
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà subi des violences sexuelles lors de rapports sexuels, combien ? <span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
@@ -667,7 +680,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8 "> Avez-vous eu recours à des services de santé mentale ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous eu recours à des services de santé mentale ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="sante_mentale" class="btn-group" data-toggle="buttons">
@@ -686,8 +699,8 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="step-7">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-7" class="centrer">
+                                <form class="form-horizontal form-label-left"  >
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Vérifiez-vous périodiquement la santé de votre système reproducteur, combien de fois ? <span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
@@ -695,7 +708,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8 "> Les services nécessaires à ces examens sont-ils à votre disposition ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Les services nécessaires à ces examens sont-ils à votre disposition ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="service_examen" class="btn-group" data-toggle="buttons">
@@ -732,7 +745,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-8 col-sm-8 "> Avez-vous déjà demandé un soutien professionnel à ce sujet ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous déjà demandé un soutien professionnel à ce sujet ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="demande_soutien" class="btn-group" data-toggle="buttons">
@@ -752,8 +765,8 @@
                                 </form>
 
                             </div>
-                            <div id="step-8">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-8" class="centrer">
+                                <form class="form-horizontal form-label-left"   >
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6">Quelle est votre religion ?<span
                                                 class="required">*</span></label>
@@ -784,13 +797,12 @@
                                             <select class="select2_single form-control" name="niveau_etudes" tabindex="-1">
                                                 <option value="Primaire">Primaire</option>
                                                 <option value="Collège">Collège</option>
-                                                <option value="Lycée">Lycée</option>
                                                 <option value="Baccalauréat">Baccalauréat</option>
-                                                <option value="Bachelor">Bachelor (Licence)</option>
-                                                <option value="Master">Master</option>
-                                                <option value="Doctorat">Doctorat</option>
-                                                <option value="Certificat professionnel">Certificat professionnel</option>
-                                                <option value="Diplôme professionnel">Diplôme professionnel</option>
+                                                <option value="Bac +2">Bac +2</option>
+                                                <option value="Bac +3">Bac +3</option>
+                                                <option value="Bac +4">Bac +4</option>
+                                                <option value="Bac +5">Bac +5</option>
+                                                <option value="Bac +8">Bac +8</option>
                                                 <option value="Sans instruction">Sans instruction</option>
                                             </select>                                            
                                         </div>
@@ -844,8 +856,8 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="step-9">
-                                <form class="form-horizontal form-label-left">
+                            <div id="step-9" class="centrer">
+                                <form class="form-horizontal form-label-left"  >
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  ">Enquete réalisé par le doctorant : <span
                                                 class="required">*</span>
