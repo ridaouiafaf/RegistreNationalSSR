@@ -1,38 +1,44 @@
 from django.shortcuts import render, redirect
 import json, os
-# if request.method == 'POST':
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     user = authenticate(request, username="Houda", password="Houda")
-    #     if user is not None:
-    #         login(request, user)
-    #         return redirect('index')
-    #     else:
-    #         error_message = "Nom d'utilisateur ou mot de passe incorrect."
-    #         return render(request, 'login.html', {'error_message': error_message})
-    # else:
-    #     return render(request, 'login.html')
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.sessions.models import Session
+from django.views.decorators.cache import never_cache
 
-
+@never_cache
 def login(request):
+    request.session.flush()
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username == "Houda" and password == "Houda":
+            request.session['user_authenticated'] = True  
             return redirect('index')
+        elif username == "afaf" and password == "afaf":
+            request.session['user_authenticated'] = True  
+            return redirect('index2')
+        elif username == "doha" and password == "doha":
+            request.session['user_authenticated'] = True  
+            return redirect('index2')
         else:
             error_message = "Nom d'utilisateur ou mot de passe incorrect."
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
-    
+
 def index(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
     return render(request, 'index.html')
 
 def index2(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
     return render(request, 'index2.html')
 
 def index3(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
     return render(request, 'index3.html')
 
 def enquetes(request):
