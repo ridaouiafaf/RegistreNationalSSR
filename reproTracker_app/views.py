@@ -63,6 +63,17 @@ def enquetes(request):
 def personne(request):
     return render(request, 'personne.html')
 
+def ist(request):
+    return render(request, 'ist.html')
+
+def pratiques(request):
+    return render(request, 'pratiques.html')
+
+def grossesse(request):
+    return render(request, 'grossesse.html')
+
+def prenatal_maternel(request):
+    return render(request, 'prenatal_maternel.html')
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
 
 def projects(request):

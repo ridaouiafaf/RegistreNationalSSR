@@ -9,7 +9,10 @@ urlpatterns = [
     path('index3/', views.index3, name='index3'),
     path('enquete/', views.enquetes, name='enquetes'),  
     path('personne/', views.personne, name='personne'),
-
+    path('ist/', views.ist, name='ist'),
+    path('pratiques/', views.pratiques, name='pratiques'),   
+    path('grossesse/', views.grossesse, name='grossesse'),   
+    path('prenatal_maternel/', views.prenatal_maternel, name='prenatal_maternel'),     
     #------------------------------------------------------------------------------------------------------------------------#
 
     path('projects/', views.projects, name='projects'),
