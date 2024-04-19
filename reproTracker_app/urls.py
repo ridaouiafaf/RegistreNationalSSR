@@ -1,12 +1,14 @@
 from django.urls import path,include
 from . import views
 
+
 urlpatterns = [
     path('', views.login, name='login'),
     path('index/', views.index, name='index'),
     path('index2/', views.index2, name='index2'),
     path('index3/', views.index3, name='index3'),
     path('enquete/', views.enquetes, name='enquetes'),  
+    path('personne/', views.personne, name='personne'),
 
     #------------------------------------------------------------------------------------------------------------------------#
 
@@ -26,7 +28,6 @@ urlpatterns = [
     path('form_wizard/', views.form_wizard, name='form_wizard'),
     path('form_upload/', views.form_upload, name='form_upload'),
     path('form_buttons/', views.form_buttons, name='form_buttons'),
-    path('general_elements/', views.general_elements, name='general_elements'),
     path('media_gallery/', views.media_gallery, name='media_gallery'),
     path('typography/', views.typography, name='typography'),
     path('icons/', views.icons, name='icons'),

@@ -30,6 +30,19 @@
           <form method="post">
             {% csrf_token %}
             <h1>Login Form</h1>
+            {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="alert alert-success text-center">
+                  {{ message }}
+                </div>
+              {% else %}
+                <div class="alert alert-danger text-center">
+                  {{ message }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
             {% if error_message %}
             <div style="color: brown; font-size: medium; font-weight: bold;">{{ error_message }}</div>
             {% endif %}

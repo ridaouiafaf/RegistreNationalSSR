@@ -1,30 +1,33 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 import json, os
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
-from django.views.decorators.cache import never_cache
+from django.contrib import auth, messages
 
-@never_cache
 def login(request):
+    # Nettoyer la session
     request.session.flush()
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if username == "Houda" and password == "Houda":
+
+        if username == "houda" and password == "houda":
+            request.session['user_authenticated'] = True    
+            return HttpResponseRedirect(reverse('index'))
+        elif username in ["afaf", "doha"] and password == username:  
             request.session['user_authenticated'] = True  
-            return redirect('index')
-        elif username == "afaf" and password == "afaf":
-            request.session['user_authenticated'] = True  
-            return redirect('index2')
-        elif username == "doha" and password == "doha":
-            request.session['user_authenticated'] = True  
-            return redirect('index2')
+            return render(request, 'index2.html')
         else:
-            error_message = "Nom d'utilisateur ou mot de passe incorrect."
-            return render(request, 'login.html', {'error_message': error_message})
+            messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
+            return render(request, 'login.html')
     else:
         return render(request, 'login.html')
+
+
 
 def index(request):
     if not request.session.get('user_authenticated'):
@@ -49,7 +52,17 @@ def enquetes(request):
         villes = json.load(file)
     with open(metiers, 'r', encoding='utf-8') as file:
         metiers = json.load(file)
+    if request.method == 'POST':
+        print("Hello world")
+        return render(request, 'enquetes.html')
+
+    
     return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
+
+
+def personne(request):
+    return render(request, 'personne.html')
+
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
 
 def projects(request):
@@ -100,8 +113,6 @@ def form_upload(request):
 def form_buttons(request):
     return render(request, 'form_buttons.html')
 
-def general_elements(request):
-    return render(request, 'general_elements.html')
 
 def media_gallery(request):
     return render(request, 'media_gallery.html')
