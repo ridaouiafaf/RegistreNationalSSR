@@ -50,7 +50,33 @@ def enquetes(request):
     with open(metiers, 'r', encoding='utf-8') as file:
         metiers = json.load(file)
     return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+
+def personne(request):
+    return render(request, 'personne.html')
+
+def violence(request):
+    return render(request, 'violence.html')
+
+def sr(request):
+    return render(request, 'sr.html')
+
+def ist(request):
+    return render(request, 'ist.html')
+
+def generel(request):
+    return render(request, 'general.html')
+
+def pratiques(request):
+    return render(request, 'pratiques.html')
+
+def grossesse(request):
+    return render(request, 'grossesse.html')
+def facteur(request):
+    return render(request, 'facteur.html')
+
+def prenatal_maternel(request):
+    return render(request, 'prenatal_maternel.html')
+
 
 def projects(request):
     return render(request, 'projects.html')

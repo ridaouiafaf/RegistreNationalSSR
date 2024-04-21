@@ -7,7 +7,16 @@ urlpatterns = [
     path('index2/', views.index2, name='index2'),
     path('index3/', views.index3, name='index3'),
     path('enquete/', views.enquetes, name='enquetes'),  
-
+    
+    path('personne/', views.personne, name='personne'),
+    path('ist/', views.ist, name='ist'),
+    path('pratiques/', views.pratiques, name='pratiques'),   
+    path('grossesse/', views.grossesse, name='grossesse'), 
+    path('violence/', views.personne, name='violence'),
+    path('sr/', views.personne, name='sr'),  
+    path('general/', views.personne, name='general'),
+    path('facteur/', views.personne, name='facteur'),
+    path('prenatal_maternel/', views.prenatal_maternel, name='prenatal_maternel'),     
     #------------------------------------------------------------------------------------------------------------------------#
 
     path('projects/', views.projects, name='projects'),
