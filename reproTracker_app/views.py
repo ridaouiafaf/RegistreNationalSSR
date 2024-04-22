@@ -38,8 +38,13 @@ def index(request):
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(*) FROM PERSONNE")
             count = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'H'")
+            count_h = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
+            count_f = cursor.fetchone()[0]
 
-    return render(request, 'index.html', {'count':count})
+
+    return render(request, 'index.html', {'personne':count, 'homme':count_h, 'femme':count_f})
 
 def index2(request):
     if not request.session.get('user_authenticated'):

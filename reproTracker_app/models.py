@@ -16,3 +16,4 @@ class Personne(models.Model):
     ville = models.CharField(max_length=45)
     metier = models.CharField(max_length=45)
     etat_civil = models.CharField(max_length=45)
+    sexe = models.CharField(max_length=20)
