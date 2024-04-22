@@ -1,0 +1,20 @@
+# Django-related
+*.pyc
+*.pyo
+*.pyc
+*.sqlite3
+*.venv
+
+# Node.js dependencies
+/node_modules
+
+# Compiled files
+/dist
+/.sass-cache
+
+# Log files
+/log
+*.log
+
+# Temporary files
+/tmp
