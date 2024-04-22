@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
 from django.contrib import auth, messages
+from django.db import connection
+from .models import Personne
 
 def login(request):
     # Nettoyer la session
@@ -32,7 +34,12 @@ def login(request):
 def index(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    return render(request, 'index.html')
+    else:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM PERSONNE")
+            count = cursor.fetchone()[0]
+
+    return render(request, 'index.html', {'count':count})
 
 def index2(request):
     if not request.session.get('user_authenticated'):
