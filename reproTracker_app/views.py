@@ -179,3 +179,6 @@ def fixed_sidebar(request):
 
 def fixed_footer(request):
     return render(request, 'fixed_footer.html')
+
+
+
