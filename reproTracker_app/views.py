@@ -76,7 +76,7 @@ def sr(request):
 def ist(request):
     return render(request, 'ist.html')
 
-def generel(request):
+def general(request):
     return render(request, 'general.html')
 
 def pratiques(request):

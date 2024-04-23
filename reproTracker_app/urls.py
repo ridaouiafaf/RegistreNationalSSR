@@ -12,10 +12,10 @@ urlpatterns = [
     path('ist/', views.ist, name='ist'),
     path('pratiques/', views.pratiques, name='pratiques'),   
     path('grossesse/', views.grossesse, name='grossesse'), 
-    path('violence/', views.personne, name='violence'),
-    path('sr/', views.personne, name='sr'),  
-    path('general/', views.personne, name='general'),
-    path('facteur/', views.personne, name='facteur'),
+    path('violence/', views.violence, name='violence'),
+    path('sr/', views.sr, name='sr'),  
+    path('general/', views.general, name='general'),
+    path('facteur/', views.facteur, name='facteur'),
     path('prenatal_maternel/', views.prenatal_maternel, name='prenatal_maternel'),     
     #------------------------------------------------------------------------------------------------------------------------#
 
