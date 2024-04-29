@@ -167,7 +167,7 @@ class Grossesse(models.Model):
 
 
 class Ist(models.Model):
-    id_personne = models.CharField(primary_key=True, max_length=45)
+    id_personne = models.IntegerField(primary_key=True, max_length=45)
     vih_sid = models.CharField(db_column='VIH/SID', max_length=45, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     syphilis = models.CharField(db_column='SYPHILIS', max_length=45, blank=True, null=True)  # Field name made lowercase.
     gonorrhÚe = models.CharField(max_length=45, blank=True, null=True)
@@ -200,6 +200,17 @@ class Personne(models.Model):
         managed = False
         db_table = 'personne'
 
+
+class Conscience(models.Model):
+    id_personne = models.IntegerField(primary_key=True)
+    connaissance = models.CharField(max_length=45, null=True)
+    mot_cle_connaissance = models.CharField(max_length=100, null=True)
+    utilisation = models.CharField(max_length=45, null=True)
+    mot_cle_utilisation = models.CharField(max_length=100, null=True)
+
+    class Meta:
+        db_table = 'conscience'
+        
 
 class Pratique(models.Model):
     id_personne = models.IntegerField(primary_key=True)

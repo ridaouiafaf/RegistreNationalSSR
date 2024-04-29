@@ -82,7 +82,68 @@ def enquete_soumis(request):
         metier = request.POST.get('metier')
         etat_civil = request.POST.get('etatCivil')
         sexe = request.POST.get('genre')
+
+        id_personne = 0
+        connaissance = ""
+        mot_cle_connaissance = ""
+        utilisation = ""
+        mot_cle_utilisation = ""
         
+        id_personne = 0
+        vih_sid = ""
+        syphilis = ""
+        gonorrhÚe = ""
+        chlamydiose = ""
+        trichomonase = ""
+        hepatite_b = ""
+        hsv = ""
+        pvh = ""
+        taux_depistoge = 0
+
+        id_personne = 0
+        meth_plan = ""
+        mpf = ""
+        desir_enf_plan = ""
+        nbr_enf_plan = 0
+        nbr_enf_nplan = 0
+        nbr_enf_t = 0
+        nbr_avort_desir = 0
+        nbr_avot_ndesir = 0
+        nbr_enf_hors_m = 0
+        
+        id_personne = 0
+        acc_serv_prenatal = ""
+        comp_grass = ""
+        comp_accouch = ""
+        util_sm = ""
+        
+        id_personne = 0
+        violence_sex = ""
+        taux_viol_sex = 0.0
+        abus_viol_sex =3
+        taux_abus_viol_sex = 0.0
+        soutien_psyc = ""
+        harcelement_verbal = ""
+        nbr_harcel_verbal = 0
+        harcelement_n_verbal =""
+        nbr_harcel_n_verb = 0
+
+        id_persone = 0
+        sante_org_genitaux = ""
+        acc_serv_sr = ""
+        prob_impuissance = ""
+        prob_frigidite_sex = ""
+
+        id_personne = 0
+        religion = ""
+        niveau_etud = ""
+        statut_socio_eco = ""
+        impact_vie_sex = ""
+        impact_norm_cult = ""
+        impact_norm_relig = ""
+        satis_sex = ""
+        qualite_sex = ""
+        dem_soutien = ""
 
         print(date_naiss)
         personne = Personne.objects.create(

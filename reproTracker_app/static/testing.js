@@ -66,10 +66,12 @@ function SmartWizard(target, options) {
                     ville: $('select[name="ville"]').val(), 
                     metier: $('select[name="metier"]').val(),
                     etatCivil: $('select[name="etat_civil"]').val(), 
+
                     conscience: $('input[name="conscience"]:checked').val(), 
                     motCleConscience: $('#mot_cle_conscience').val(), 
                     utilisation: $('input[name="utilisation"]:checked').val(), 
                     motCleUtilisation: $('#mot_cle_utilisation').val(), 
+
                     vih: $('input[name="vih"]:checked').val(), 
                     syphilis: $('input[name="syphilis"]:checked').val(), 
                     trichomonase: $('input[name="trichomonase"]:checked').val(), 
@@ -79,6 +81,7 @@ function SmartWizard(target, options) {
                     hsv2: $('input[name="hsv_2"]:checked').val(), 
                     hpv: $('input[name="hpv"]:checked').val(), 
                     ist: $('#IST').val(),
+                    
                     servicePrenatal: $('input[name="service_prenatal"]:checked').val(),
                     complicationGrosse: $('input[name="complication_grosse"]:checked').val(),
                     motsClesComplicationsGrosses: $('#complications_grosses').val(),
@@ -86,22 +89,26 @@ function SmartWizard(target, options) {
                     motsClesComplicationsAccouchements: $('#complications_accouchements').val(),
                     serviceMaternel: $('input[name="service_maternel"]:checked').val(),
                     methodeAccouchement: $('#methode_accouchement').val(),
+                    
                     violencesSexuelles: $('#violences_sexuelles').val(),
                     agressionsSexuelles: $('#agressions_sexuelles').val(),
                     viols: $('#viols').val(),
                     harcelementSexuel: $('select[name="harcelement_sexuel"]').val(),
                     santeMentale: $('input[name="sante_mentale"]:checked').val(),
+
                     verificationSR: $('#verification_sr').val(),
                     serviceExamen: $('input[name="service_examen"]:checked').val(),
                     problemeSexuel: $('#probleme_sexuel').val(),
                     satisfactionSexuelle: $('select[name="satisfaction_sexuelle"]').val(),
                     demandeSoutien: $('input[name="demande_soutien"]:checked').val(),
+
                     religion: $('select[name="religion"]').val(),
                     niveauEtudes: $('select[name="niveau_etudes"]').val(),
                     revenu: $('#revenu').val(),
                     niveauSocial: $('select[name="niveau_social"]').val(),
                     normeCulturelle: $('select[name="norme_culturelle"]').val(),
                     normeReligieuse: $('select[name="norme_religieuse"]').val(),
+
                     doctorant: $('#doctorant').val(),
                     anneeRealisation: $('#annee_realisation').val(),
                     enquete: $('#enquete').val()
