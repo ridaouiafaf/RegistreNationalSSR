@@ -7,6 +7,8 @@ from django.contrib import auth, messages
 from django.db import connection
 from .models import Personne
 from django.views.decorators.cache import never_cache
+from .models import *
+from django.http import JsonResponse
 
 @never_cache
 def login(request):
@@ -63,6 +65,41 @@ def enquetes(request):
     with open(metiers, 'r', encoding='utf-8') as file:
         metiers = json.load(file)
     return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
+
+
+
+def enquete_soumis(request):
+    print('cccccc')
+    if request.method == 'POST' :
+ 
+        prenom = request.POST.get('prenom')
+        nom = request.POST.get('nom')
+        cin = request.POST.get('cin')
+        date_naiss = request.POST.get('dateNaissance')
+        nationalite = request.POST.get('nationnalite')
+        adress = request.POST.get('adresse')
+        ville = request.POST.get('ville')
+        metier = request.POST.get('metier')
+        etat_civil = request.POST.get('etatCivil')
+        sexe = request.POST.get('genre')
+        
+
+        print(date_naiss)
+        personne = Personne.objects.create(
+            nom=nom,
+            prenom=prenom,
+            date_naiss=date_naiss,
+            cin=cin,
+            nationalite=nationalite,
+            adress=adress,
+            ville=ville,
+            metier=metier,
+            etat_civil=etat_civil,
+            sexe=sexe
+        )
+        return JsonResponse({'message': 'Formulaire '})
+    return JsonResponse({'message': 'Une erreur s\'est produite.'}, status=400)
+
 
 def personne(request):
     return render(request, 'personne.html')

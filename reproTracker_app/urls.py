@@ -6,8 +6,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('index2/', views.index2, name='index2'),
     path('index3/', views.index3, name='index3'),
-    path('enquete/', views.enquetes, name='enquetes'),  
-    
+    path('enquetes/', views.enquetes, name='enquetes'),    
     path('personne/', views.personne, name='personne'),
     path('ist/', views.ist, name='ist'),
     path('pratiques/', views.pratiques, name='pratiques'),   
@@ -16,7 +15,10 @@ urlpatterns = [
     path('sr/', views.sr, name='sr'),  
     path('general/', views.general, name='general'),
     path('facteur/', views.facteur, name='facteur'),
-    path('prenatal_maternel/', views.prenatal_maternel, name='prenatal_maternel'),     
+    path('prenatal_maternel/', views.prenatal_maternel, name='prenatal_maternel'),  
+
+    path('enquete_soumis/', views.enquete_soumis, name='enquete_soumis'),
+   
     #------------------------------------------------------------------------------------------------------------------------#
 
     path('projects/', views.projects, name='projects'),

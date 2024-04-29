@@ -9,15 +9,13 @@
 {% endblock %}
 {% block styles %}
 <style>
-.centrer {
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    height: 530px;
-}
-.centrer > * {
-    width: 70%;
-}
+    .centrer {
+        justify-content: center;
+        align-items: center;
+        height: 480px;
+        margin-left: 20%;
+        margin-top: 5%;
+    }
 </style>
 
 {% endblock %}
@@ -30,7 +28,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="row " style="height: 900px;">
+        <div class="row " style="height: 1500px;">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
@@ -126,8 +124,10 @@
                                 </li>
 
                             </ul>
-                            <div id="step-1" class="centrer">
-                                <form class="form-horizontal form-label-left" > 
+                            <form class="form-horizontal form-label-left" method="post">
+                                {% csrf_token %}
+                                <div id="step-1" class="centrer">
+
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  " for="cin">CIN <span
                                                 class="required">*</span>
@@ -156,24 +156,38 @@
                                         </div>
                                     </div>
                                     <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3  ">Date de naissance
+                                        <label class="col-form-label col-md-3 col-sm-3">Date de naissance
                                             <span class="required">*</span>
                                         </label>
-                                        <div class="col-md-6 col-sm-6 ">
+                                        <div class="col-md-6 col-sm-6">
                                             <input id="date_naissance" name="date_naissance"
-                                                class="date-picker form-control" placeholder="jj-mm-aaaa" type="text"
-                                                required="required" type="text" onfocus="this.type='date'"
-                                                onmouseover="this.type='date'" onclick="this.type='date'"
-                                                onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
-                                            <script>
-                                                function timeFunctionLong(input) {
-                                                    setTimeout(function () {
-                                                        input.type = 'text';
-                                                    }, 60000);
-                                                }
-                                            </script>
+                                                class="date-picker form-control" placeholder="jj-mm-aaaa" type="date"
+                                                required="required" onchange="checkAge(this)">
                                         </div>
                                     </div>
+
+                                    <script>
+                                        function checkAge(input) {
+                                            var today = new Date();
+                                            var birthDate = new Date(input.value);
+                                            var age = today.getFullYear() - birthDate.getFullYear();
+                                            var m = today.getMonth() - birthDate.getMonth();
+                                            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                                                age--;
+                                            }
+                                            if (age < 18) {
+                                                var messageElement = document.createElement("p");
+                                                messageElement.textContent = "Vous devez avoir au moins 18 ans pour etre enqueté.";
+                                                messageElement.style.color = "red";
+                                                messageElement.style.fontFamily = "Times New Roman";
+                                                input.parentNode.appendChild(messageElement);
+                                                // Effacer la valeur de la date de naissance
+                                                input.value = '';
+                                            }
+                                        }
+                                    </script>
+
+
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  ">Genre <span
                                                 class="required">*</span></label>
@@ -181,12 +195,12 @@
                                             <div id="gender" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="genre" id="genre" value="homme"
+                                                    <input type="radio" name="genre" id="genre" value="H"
                                                         class="join-btn"> &nbsp; Homme &nbsp;
                                                 </label>
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="genre" id="genre" value="femme"
+                                                    <input type="radio" name="genre" id="genre" value="F"
                                                         class="join-btn"> Femme
                                                 </label>
                                             </div>
@@ -204,7 +218,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3  ">Adresse <span
+                                        <label class="col-form-label col-md-3 col-sm-3  ">Adresse actuelle <span
                                                 class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
@@ -246,68 +260,80 @@
                                             </select>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div id="step-2" class="centrer">
-                                <form class="form-horizontal form-label-left" >
+
+                                </div>
+                                <div id="step-2" class="centrer">
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6   "> Avez-vous des connaissances sur les pratiques à faire pour garder ta santé sexuelle? <span
+                                        <label class="col-form-label col-md-6 col-sm-6">Avez-vous des connaissances sur
+                                            les pratiques à faire pour garder ta santé sexuelle? <span
                                                 class="required">*</span></label>
-                                        <div class="col-md-4 col-sm-4 ">
+                                        <div class="col-md-4 col-sm-4">
                                             <div id="conscience" class="btn-group" data-toggle="buttons">
-                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                                    data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="conscience" id="conscience" value="conscient"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                <label class="btn btn-primary">
+                                                    <input type="radio" name="conscience" id="conscience"
+                                                        value="conscient" class="join-btn"
+                                                        onchange="toggleMotCleInput(this)"> &nbsp; Oui &nbsp;
                                                 </label>
-                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                                    data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="conscience" id="conscience" value="non_conscient"
-                                                        class="join-btn"> Non
+                                                <label class="btn btn-secondary">
+                                                    <input type="radio" name="conscience" id="conscience"
+                                                        value="non_conscient" class="join-btn"
+                                                        onchange="toggleMotCleInput(this)"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Mot-clés: (e.x: Education sexuelle, contraceptifs.. etc)  </label>
-                                        <div class="col-md-4 col-sm-4 ">
-                                            <input id="mot_cle_conscience" name="mot_cle_conscience" class="form-control" required="required" type="text">
+                                        <label class="col-form-label col-md-6 col-sm-6">Mot-clés: (e.x: Education
+                                            sexuelle, contraceptifs.. etc)</label>
+                                        <div class="col-md-4 col-sm-4">
+                                            <input id="mot_cle_conscience" name="mot_cle_conscience"
+                                                class="form-control" required="required" type="text" disabled>
                                         </div>
                                     </div>
 
+                                    <script>
+                                        function toggleMotCleInput(radio) {
+                                            var inputMotCleConscience = document.getElementById('mot_cle_conscience');
+                                            inputMotCleConscience.disabled = (radio.value === 'non_conscient');
+                                        }
+                                    </script>
+
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6   "> Utilisz-vous les services disponible pour controler et prendre soins de votre vie sexuelle? <span
+                                        <label class="col-form-label col-md-6 col-sm-6   "> Utilisz-vous les services
+                                            disponible pour controler et prendre soins de votre vie sexuelle? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="utilisation" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="utilisation" id="utilisation" value="utilise"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="utilisation" id="utilisation"
+                                                        value="utilise" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="utilisation" id="utilisation" value="non_utilise"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="utilisation" id="utilisation"
+                                                        value="non_utilise" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Mot-clés: (e.x: Dépistage, consultation, analyses.. etc)  </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Mot-clés: (e.x: Dépistage,
+                                            consultation, analyses.. etc) </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="mot_cle_utilisation" name="mot_cle_utilisation" class="form-control" required="required" type="text">
+                                            <input id="mot_cle_utilisation" name="mot_cle_utilisation"
+                                                class="form-control" required="required" type="text">
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div id="step-3" class="centrer">
-                                <form class="form-horizontal form-label-left" >
+
+                                </div>
+                                <div id="step-3" class="centrer">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par le virus de l'immunodéficience humaine (VIH)? <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par
+                                            le virus de l'immunodéficience humaine (VIH)? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="vih" class="btn-group" data-toggle="buttons">
@@ -326,8 +352,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection par syphilis ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection
+                                            par syphilis ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="syphilis" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -337,91 +363,92 @@
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="syphilis" id="syphilis" value="non_syphilis"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="syphilis" id="syphilis"
+                                                        value="non_syphilis" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par trichomonase ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par
+                                            trichomonase ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="trichomonase" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="trichomonase" id="trichomonase" value="trichomonase"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="trichomonase" id="trichomonase"
+                                                        value="trichomonase" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="trichomonase" id="trichomonase" value="non_trichomonase"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="trichomonase" id="trichomonase"
+                                                        value="non_trichomonase" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection par gonorrhée ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection
+                                            par gonorrhée ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="gonorrhée" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="gonorrhée" id="gonorrhée" value="gonorrhée"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="gonorrhée" id="gonorrhée"
+                                                        value="gonorrhée" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="gonorrhée" id="gonorrhée" value="non_gonorrhée"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="gonorrhée" id="gonorrhée"
+                                                        value="non_gonorrhée" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par chlamydiose / chlamydia ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par
+                                            chlamydiose / chlamydia ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="chlamydia" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="chlamydia" id="chlamydia" value="chlamydia"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="chlamydia" id="chlamydia"
+                                                        value="chlamydia" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="chlamydia" id="chlamydia" value="non_chlamydia"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="chlamydia" id="chlamydia"
+                                                        value="non_chlamydia" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par l'hépatite B ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous une infection par
+                                            l'hépatite B ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="hepatite_b" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="hepatite_b" id="hepatite_b" value="hepatite_b"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="hepatite_b" id="hepatite_b"
+                                                        value="hepatite_b" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="hepatite_b" id="hepatite_b" value="non_hepatite_b"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="hepatite_b" id="hepatite_b"
+                                                        value="non_hepatite_b" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 ">  Avez-vous une infection par le virus Herpes simplex (HSV-2) ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection
+                                            par le virus Herpes simplex (HSV-2) ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="hsv_2" class="btn-group" data-toggle="buttons">
@@ -440,8 +467,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection du papillomavirus humaine (HPV) ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous une infection du
+                                            papillomavirus humaine (HPV) ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="hpv" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -459,44 +486,47 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien de fois vous avez fait du dépistage des infections sexuelles transmissibles (IST) ?</label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien de fois vous avez
+                                            fait du dépistage des infections sexuelles transmissibles (IST)
+                                            ?</label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="IST" name="IST" class="form-control" required="required" type="number" min="0">
+                                            <input id="IST" name="IST" class="form-control" required="required"
+                                                type="number" min="0">
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div id="step-4" class="centrer">
-                                <form class="form-horizontal form-label-left"  >
+                                </div>
+                                <div id="step-4" class="centrer">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6"> Utilisez-vous des méthodes de planification familiale ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6"> Utilisez-vous des méthodes
+                                            de planification familiale ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="planification" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="planification" id="planification" value="planification"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="planification" id="planification"
+                                                        value="planification" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="planification" id="planification" value="non_planification"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="planification" id="planification"
+                                                        value="non_planification" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Quelles méthodes utilisez-vous ? <span class="required">*</span> </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Quelles méthodes
+                                            utilisez-vous ? <span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="methode" name="methode" class="form-control" required="required" type="text" >
+                                            <input id="methode" name="methode" class="form-control" required="required"
+                                                type="text">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous envie d'avoir des enfants ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous envie d'avoir
+                                            des enfants ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="enfant" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -514,164 +544,195 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez vous combien d'enfants en total ?  </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez vous combien
+                                            d'enfants en total ? </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="nombre_enfant" name="nombre_enfant" class="form-control" required="required" type="number" min="0">
+                                            <input id="nombre_enfant" name="nombre_enfant" class="form-control"
+                                                required="required" type="number" min="0">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien d'enfants nés avec une planification ? </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien d'enfants nés avec
+                                            une planification ? </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="nombre_enfant_planifie" name="nombre_enfant_planifie" class="form-control" required="required" type="number" min="0">
+                                            <input id="nombre_enfant_planifie" name="nombre_enfant_planifie"
+                                                class="form-control" required="required" type="number" min="0">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien d'enfants nés sans planification ?</label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien d'enfants nés sans
+                                            planification ?</label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="nombre_enfant_non_planifie" name="nombre_enfant_non_planifie" class="form-control" required="required" type="number" min="0">
+                                            <input id="nombre_enfant_non_planifie" name="nombre_enfant_non_planifie"
+                                                class="form-control" required="required" type="number" min="0">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">As-tu déjà fait une fausse couche, combien de fois ? </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">As-tu déjà fait une fausse
+                                            couche, combien de fois ? </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="fausse_couche" name="fausse_couche" class="form-control" required="required" type="number" min="0">
+                                            <input id="fausse_couche" name="fausse_couche" class="form-control"
+                                                required="required" type="number" min="0">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà fait une fausse couche intentionnelle, combien de fois ?</label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà fait une
+                                            fausse couche intentionnelle, combien de fois ?</label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="fausse_couche_intentionnelle" name="fausse_couche_intentionnelle" class="form-control" required="required" type="number" min="0">
+                                            <input id="fausse_couche_intentionnelle" name="fausse_couche_intentionnelle"
+                                                class="form-control" required="required" type="number" min="0">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous des enfants hors marriage, combien ? </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous des enfants hors
+                                            marriage, combien ? </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="enfant_hors_mariage" name="enfant_hors_mariage" class="form-control" required="required" type="number" min="0">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div id="step-5" class="centrer">
-                                <form class="form-horizontal form-label-left"  >
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous accès aux services prénatals ? </label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <div id="service_prenatal" class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="service_prenatal" id="service_prenatal" value="service_prenatal"
-                                                    class="join-btn"> &nbsp; Oui &nbsp;
-                                            </label>
-                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="service_prenatal" id="service_prenatal" value="service_non_prenatal"
-                                                    class="join-btn"> Non
-                                            </label>
+                                            <input id="enfant_hors_mariage" name="enfant_hors_mariage"
+                                                class="form-control" required="required" type="number" min="0">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des complications de grosses ? </label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <div id="complication_grosse" class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="complication_grosse" id="complication_grosse" value="complication_grosse"
-                                                    class="join-btn"> &nbsp; Oui &nbsp;
-                                            </label>
-                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="complication_grosse" id="complication_grosse" value="non_complication_grosse"
-                                                    class="join-btn"> Non
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces complications:</label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <input id="complications_grosses" name="complications_grosses" class="form-control" required="required" type="text" >
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des complications d'accouchement? </label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <div id="complication_accouchement" class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="complication_accouchement" id="complication_accouchement" value="complication_accouchement"
-                                                    class="join-btn"> &nbsp; Oui &nbsp;
-                                            </label>
-                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="complication_accouchement" id="complication_accouchement" value="non_complication_accouchement"
-                                                    class="join-btn"> Non
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces complications: </label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <input id="complications_accouchements" name="complications_accouchements" class="form-control" required="required" type="text" >
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6  "> Avez-vous accès aux services maternels ? <span
-                                            class="required">*</span></label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <div id="service_maternel" class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="service_maternel" id="service_maternel" value="service_maternel"
-                                                    class="join-btn"> &nbsp; Oui &nbsp;
-                                            </label>
-                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                                data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="service_maternel" id="service_maternel" value="non_service_maternel"
-                                                    class="join-btn"> Non
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-6 col-sm-6  ">Accouchement naturelle ou opération césarienne: </label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="text" >
-                                    </div>
-                                </div>
-                            </form>
-                            </div>
-                            <div id="step-6" class="centrer">
-                                <form class="form-horizontal form-label-left"   >
+                                <div id="step-5" class="centrer">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà subi des violences sexuelles lors de rapports sexuels, combien ? <span class="required">*</span> </label>
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous accès aux
+                                            services prénatals ? </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="number" min="0" >
+                                            <div id="service_prenatal" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="service_prenatal" id="service_prenatal"
+                                                        value="service_prenatal" class="join-btn"> &nbsp; Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="service_prenatal" id="service_prenatal"
+                                                        value="service_non_prenatal" class="join-btn"> Non
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà été agressé sexuellement, combien de fois ? <span class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des
+                                            complications de grosses ? </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="number" min="0">
+                                            <div id="complication_grosse" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="complication_grosse"
+                                                        id="complication_grosse" value="complication_grosse"
+                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="complication_grosse"
+                                                        id="complication_grosse" value="non_complication_grosse"
+                                                        class="join-btn"> Non
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà été violée, combien de fois ? <span class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces
+                                            complications:</label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="methode_accouchement" name="methode_accouchement" class="form-control" required="required" type="number" min="0">
+                                            <input id="complications_grosses" name="complications_grosses"
+                                                class="form-control" required="required" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Avez-vous déjà été victime de harcèlement sexuel? (verbal, non-verbal, les deux)  <span
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des
+                                            complications d'accouchement? </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <div id="complication_accouchement" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="complication_accouchement"
+                                                        id="complication_accouchement" value="complication_accouchement"
+                                                        class="join-btn"> &nbsp;
+                                                    Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="complication_accouchement"
+                                                        id="complication_accouchement"
+                                                        value="non_complication_accouchement" class="join-btn"> Non
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces
+                                            complications: </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="complications_accouchements" name="complications_accouchements"
+                                                class="form-control" required="required" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  "> Avez-vous accès aux
+                                            services maternels ? <span class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <div id="service_maternel" class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="service_maternel" id="service_maternel"
+                                                        value="service_maternel" class="join-btn"> &nbsp; Oui &nbsp;
+                                                </label>
+                                                <label class="btn btn-secondary" data-toggle-class="btn-primary"
+                                                    data-toggle-passive-class="btn-secondary">
+                                                    <input type="radio" name="service_maternel" id="service_maternel"
+                                                        value="non_service_maternel" class="join-btn"> Non
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Accouchement naturelle ou
+                                            opération césarienne: </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement"
+                                                class="form-control" required="required" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="step-6" class="centrer">
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà subi des
+                                            violences sexuelles lors de rapports sexuels, combien ? <span
+                                                class="required">*</span> </label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement"
+                                                class="form-control" required="required" type="number" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà été agressé
+                                            sexuellement, combien de fois ? <span class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement"
+                                                class="form-control" required="required" type="number" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Avez-vous déjà été violée,
+                                            combien de fois ? <span class="required">*</span></label>
+                                        <div class="col-md-4 col-sm-4 ">
+                                            <input id="methode_accouchement" name="methode_accouchement"
+                                                class="form-control" required="required" type="number" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-md-6 col-sm-6">Avez-vous déjà été victime
+                                            de harcèlement sexuel? (verbal, non-verbal, les deux) <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="harcelement_sexuel" tabindex="-1">
+                                            <select class="select2_single form-control" name="harcelement_sexuel"
+                                                tabindex="-1">
                                                 <option value="Verbal">Verbal</option>
                                                 <option value="Non verbal">Non-verbal</option>
                                                 <option value="Les deux">Les deux</option>
@@ -680,62 +741,68 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous eu recours à des services de santé mentale ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous eu recours à des
+                                            services de santé mentale ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="sante_mentale" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="sante_mentale" id="sante_mentale" value="sante_mentale"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="sante_mentale" id="sante_mentale"
+                                                        value="sante_mentale" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="sante_mentale" id="sante_mentale" value="non_sante_mentale"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="sante_mentale" id="sante_mentale"
+                                                        value="non_sante_mentale" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div id="step-7" class="centrer">
-                                <form class="form-horizontal form-label-left"  >
+                                </div>
+                                <div id="step-7" class="centrer">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Vérifiez-vous périodiquement la santé de votre système reproducteur, combien de fois ? <span class="required">*</span> </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Vérifiez-vous
+                                            périodiquement la santé de votre système reproducteur, combien de fois ?
+                                            <span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="verification_sr" name="verification_sr" class="form-control" required="required" type="number" min="0" >
+                                            <input id="verification_sr" name="verification_sr" class="form-control"
+                                                required="required" type="number" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Les services nécessaires à ces examens sont-ils à votre disposition ? <span
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Les services nécessaires à
+                                            ces examens sont-ils à votre disposition ? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="service_examen" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="service_examen" id="service_examen" value="service_examen"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="service_examen" id="service_examen"
+                                                        value="service_examen" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="service_examen" id="service_examen" value="non_service_examen"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="service_examen" id="service_examen"
+                                                        value="non_service_examen" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Souffrez-vous d'un problème de santé qui vous empêche d'avoir des relations sexuelles ?<span class="required">*</span> </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Souffrez-vous d'un
+                                            problème de santé qui vous empêche d'avoir des relations sexuelles
+                                            ?<span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="probleme_sexuel" name="probleme_sexuel" class="form-control" required="required" type="text" >
+                                            <input id="probleme_sexuel" name="probleme_sexuel" class="form-control"
+                                                required="required" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Comment trouvez-vous la qualité de vos relations sexuelles ?<span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6">Comment trouvez-vous la
+                                            qualité de vos relations sexuelles ?<span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="satisfaction_sexuelle" tabindex="-1">
+                                            <select class="select2_single form-control" name="satisfaction_sexuelle"
+                                                tabindex="-1">
                                                 <option value="verbal">non satisfaisante</option>
                                                 <option value="non verbal">passable</option>
                                                 <option value="les deux">acceptable</option>
@@ -745,33 +812,31 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous déjà demandé un soutien professionnel à ce sujet ? <span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6"> Avez-vous déjà demandé un
+                                            soutien professionnel à ce sujet ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="demande_soutien" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="demande_soutien" id="demande_soutien" value="demande_soutien"
-                                                        class="join-btn"> &nbsp; Oui &nbsp;
+                                                    <input type="radio" name="demande_soutien" id="demande_soutien"
+                                                        value="demande_soutien" class="join-btn"> &nbsp; Oui &nbsp;
                                                 </label>
                                                 <label class="btn btn-secondary" data-toggle-class="btn-primary"
                                                     data-toggle-passive-class="btn-secondary">
-                                                    <input type="radio" name="demande_soutien" id="demande_soutien" value="non_demande_soutien"
-                                                        class="join-btn"> Non
+                                                    <input type="radio" name="demande_soutien" id="demande_soutien"
+                                                        value="non_demande_soutien" class="join-btn"> Non
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
 
-                            </div>
-                            <div id="step-8" class="centrer">
-                                <form class="form-horizontal form-label-left"   >
+                                </div>
+                                <div id="step-8" class="centrer">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Quelle est votre religion ?<span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6">Quelle est votre religion
+                                            ?<span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="religion" tabindex="-1">                                                
+                                            <select class="select2_single form-control" name="religion" tabindex="-1">
                                                 <option value="Islam">Islam</option>
                                                 <option value="Christianisme">Christianisme</option>
                                                 <option value="Judaisme">Judaïsme</option>
@@ -787,14 +852,15 @@
                                                 <option value="Bahaïsme">Bahaïsme</option>
                                                 <option value="Rastafarisme">Rastafarisme</option>
                                                 <option value="Tenrikyo">Tenrikyo</option>
-                                            </select>                                            
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Quel est votre niveau d'études ?<span
-                                                class="required">*</span></label>
+                                        <label class="col-form-label col-md-6 col-sm-6">Quel est votre niveau
+                                            d'études ?<span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="niveau_etudes" tabindex="-1">
+                                            <select class="select2_single form-control" name="niveau_etudes"
+                                                tabindex="-1">
                                                 <option value="Primaire">Primaire</option>
                                                 <option value="Collège">Collège</option>
                                                 <option value="Baccalauréat">Baccalauréat</option>
@@ -804,48 +870,56 @@
                                                 <option value="Bac+5">Bac +5</option>
                                                 <option value="Bac+8">Bac +8</option>
                                                 <option value="Sans instruction">Sans instruction</option>
-                                            </select>                                            
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien votre revenu ? <span class="required">*</span> </label>
+                                        <label class="col-form-label col-md-6 col-sm-6  ">Combien votre revenu ?
+                                            <span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
-                                            <input id="revenu" name="revenu" class="form-control" required="required" type="number" min="0" >
+                                            <input id="revenu" name="revenu" class="form-control" required="required"
+                                                type="number" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Est ce que ton niveau sociale et financier impacte ta vie sexuelle? ?<span
+                                        <label class="col-form-label col-md-6 col-sm-6">Est ce que ton niveau
+                                            sociale et financier impacte ta vie sexuelle? ?<span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="niveau_social" tabindex="-1">
+                                            <select class="select2_single form-control" name="niveau_social"
+                                                tabindex="-1">
                                                 <option value="Oui">Oui</option>
                                                 <option value="Plutôt oui">Plutôt oui</option>
                                                 <option value="Neutre">Neutre</option>
                                                 <option value="Plutôt non">Plutôt non</option>
                                                 <option value="Non">Non</option>
                                             </select>
-                                            
+
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Est ce qu'il y a des normes culturelles qui impactent ta vie sexuelle ?<span
+                                        <label class="col-form-label col-md-6 col-sm-6">Est ce qu'il y a des normes
+                                            culturelles qui impactent ta vie sexuelle ?<span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="norme_culturelle" tabindex="-1">
+                                            <select class="select2_single form-control" name="norme_culturelle"
+                                                tabindex="-1">
                                                 <option value="Oui">Oui</option>
                                                 <option value="Plutôt oui">Plutôt oui</option>
                                                 <option value="Neutre">Neutre</option>
                                                 <option value="Plutôt non">Plutôt non</option>
                                                 <option value="Non">Non</option>
                                             </select>
-                                            
+
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6">Est ce qu'il y a des normes religieuses qui impactent ta vie sexuelle ?<span
+                                        <label class="col-form-label col-md-6 col-sm-6">Est ce qu'il y a des normes
+                                            religieuses qui impactent ta vie sexuelle ?<span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
-                                            <select class="select2_single form-control" name="norme_religieuse" tabindex="-1">
+                                            <select class="select2_single form-control" name="norme_religieuse"
+                                                tabindex="-1">
                                                 <option value="Oui">Oui</option>
                                                 <option value="Plutôt oui">Plutôt oui</option>
                                                 <option value="Neutre">Neutre</option>
@@ -854,17 +928,15 @@
                                             </select>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div id="step-9" class="centrer">
-                                <form class="form-horizontal form-label-left"  >
+                                </div>
+                                <div id="step-9" class="centrer">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3  ">Enquete réalisé par le doctorant : <span
-                                                class="required">*</span>
+                                        <label class="col-form-label col-md-3 col-sm-3  ">Enquete réalisé par le
+                                            doctorant : <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="doctorant" name="doctorant" class="form-control" required="required"
-                                                type="text">
+                                            <input id="doctorant" name="doctorant" class="form-control"
+                                                required="required" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -872,21 +944,21 @@
                                                 class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="annee_realisation" name="annee_realisation" class="form-control" required="required"
-                                                type="number" min="2024">
+                                            <input id="annee_realisation" name="annee_realisation" class="form-control"
+                                                required="required" type="number" min="2024">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-3 col-sm-3  ">Identifiant de l'enquete <span
-                                                class="required">*</span>
+                                        <label class="col-form-label col-md-3 col-sm-3  ">Identifiant de l'enquete
+                                            <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
                                             <input id="enquete" name="enquete" class="form-control" required="required"
                                                 type="text">
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                         <!-- End SmartWizard Content -->
                     </div>
