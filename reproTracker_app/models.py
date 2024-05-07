@@ -168,9 +168,9 @@ class Grossesse(models.Model):
 
 class Ist(models.Model):
     id_personne = models.IntegerField(primary_key=True, max_length=45)
-    vih_sid = models.CharField(db_column='VIH/SID', max_length=45, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    vih_sid = models.CharField(db_column='VIH_SID', max_length=45, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     syphilis = models.CharField(db_column='SYPHILIS', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    gonorrhÚe = models.CharField(max_length=45, blank=True, null=True)
+    gonorrhee = models.CharField(max_length=45, blank=True, null=True)
     chlamydiose = models.CharField(max_length=45, blank=True, null=True)
     trichomonase = models.CharField(max_length=45, blank=True, null=True)
     hepatite_b = models.CharField(db_column='hepatite_B', max_length=45, blank=True, null=True)  # Field name made lowercase.
