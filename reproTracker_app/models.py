@@ -1,10 +1,3 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -123,43 +116,39 @@ class DjangoSession(models.Model):
 
 class Facteur(models.Model):
     id_personne = models.IntegerField(primary_key=True)
-    religion = models.CharField(max_length=45, blank=True, null=True)
-    niveau_etud = models.CharField(max_length=45, blank=True, null=True)
-    statut_socio_eco = models.CharField(max_length=45, blank=True, null=True)
-    impact_vie_sex = models.CharField(max_length=45, blank=True, null=True)
-    impact_norm_cult = models.CharField(max_length=45, blank=True, null=True)
-    impact_norm_relig = models.CharField(max_length=45, blank=True, null=True)
-    satis_sex = models.CharField(max_length=45, blank=True, null=True)
-    qualite_sex = models.CharField(max_length=45, blank=True, null=True)
-    dem_soutien = models.CharField(max_length=45, blank=True, null=True)
+    religion = models.CharField(max_length=100)
+    niv_etud = models.CharField(max_length=100)
+    revenu = models.FloatField()
+    niv_social = models.CharField(max_length=100)
+    impact_norme_culturelle = models.CharField(max_length=100)
+    impact_norme_religieuse = models.CharField(max_length=100)
 
     class Meta:
         managed = False
         db_table = 'facteur'
 
-
-class General(models.Model):
+class Enquete(models.Model):
     id_personne = models.IntegerField(primary_key=True)
-    docteur = models.CharField(max_length=45, blank=True, null=True)
-    ann_realise = models.DateField(blank=True, null=True)
-    id_enq = models.IntegerField(blank=True, null=True)
+    doctorant = models.CharField(max_length=100)
+    annee_realisation = models.IntegerField()
+    id_enquete = models.CharField(max_length=100)
 
     class Meta:
         managed = False
-        db_table = 'general'
+        db_table = 'enquete'
 
 
 class Grossesse(models.Model):
     id_personne = models.IntegerField(primary_key=True)
-    meth_plan = models.CharField(max_length=45, blank=True, null=True)
-    mpf = models.CharField(db_column='MPF', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    desir_enf_plan = models.CharField(max_length=45, blank=True, null=True)
-    nbr_enf_plan = models.IntegerField(blank=True, null=True)
-    nbr_enf_nplan = models.IntegerField(blank=True, null=True)
-    nbr_enf_t = models.IntegerField(blank=True, null=True)
-    nbr_avort_desir = models.IntegerField(blank=True, null=True)
-    nbr_avot_ndesir = models.IntegerField(blank=True, null=True)
-    nbr_enf_hors_m = models.IntegerField(blank=True, null=True)
+    planification = models.CharField(max_length=100) 
+    meth_planification = models.CharField(max_length=100)  
+    envi_enfant = models.CharField(max_length=100)  
+    nb_enfant = models.IntegerField()  
+    nb_enfant_planifie = models.IntegerField()  
+    nb_enfant_nplanifie = models.IntegerField() 
+    nb_fausse_couche = models.IntegerField() 
+    nb_fausse_couche_intentionnelle = models.IntegerField() 
+    nb_enfant_hors_mariage = models.IntegerField()
 
     class Meta:
         managed = False
@@ -167,10 +156,10 @@ class Grossesse(models.Model):
 
 
 class Ist(models.Model):
-    id_personne = models.IntegerField(primary_key=True, max_length=45)
-    vih_sid = models.CharField(db_column='VIH/SID', max_length=45, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    id_personne = models.IntegerField(primary_key=True)
+    vih_sid = models.CharField(db_column='VIH_SID', max_length=45, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     syphilis = models.CharField(db_column='SYPHILIS', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    gonorrhÚe = models.CharField(max_length=45, blank=True, null=True)
+    gonorrhee = models.CharField(max_length=45, blank=True, null=True)
     chlamydiose = models.CharField(max_length=45, blank=True, null=True)
     trichomonase = models.CharField(max_length=45, blank=True, null=True)
     hepatite_b = models.CharField(db_column='hepatite_B', max_length=45, blank=True, null=True)  # Field name made lowercase.
@@ -226,10 +215,13 @@ class Pratique(models.Model):
 
 class PrenatalMaternel(models.Model):
     id_personne = models.IntegerField(primary_key=True)
-    acc_serv_prenatal = models.CharField(max_length=45, blank=True, null=True)
-    comp_grass = models.CharField(max_length=45, blank=True, null=True)
-    comp_accouch = models.CharField(max_length=45, blank=True, null=True)
-    util_sm = models.CharField(db_column='util_SM', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    acc_serv_prenatal = models.CharField(max_length=100)
+    comp_grass = models.CharField(max_length=100)
+    desc_comp_gross = models.CharField(max_length=100)
+    comp_accouch = models.CharField(max_length=100)
+    desc_comp_accouch = models.CharField(max_length=100)
+    acc_serv_maternel = models.CharField(max_length=100)
+    meth_accouch = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -237,11 +229,12 @@ class PrenatalMaternel(models.Model):
 
 
 class Sr(models.Model):
-    id_persone = models.IntegerField(primary_key=True)
-    sante_org_genitaux = models.CharField(max_length=45, blank=True, null=True)
-    acc_serv_sr = models.CharField(max_length=45, blank=True, null=True)
-    prob_impuissance = models.CharField(max_length=45, blank=True, null=True)
-    prob_frigidite_sex = models.CharField(max_length=45, blank=True, null=True)
+    id_personne = models.IntegerField(primary_key=True)
+    nb_verification_sr = models.IntegerField()
+    acc_service_examen = models.CharField(max_length=100)
+    problemes_sex = models.CharField(max_length=100)
+    qualité_relation_sex = models.CharField(max_length=100)
+    demande_soutien = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -250,15 +243,12 @@ class Sr(models.Model):
 
 class Violence(models.Model):
     id_personne = models.IntegerField(primary_key=True)
-    violence_sex = models.CharField(max_length=45, blank=True, null=True)
-    taux_viol_sex = models.FloatField(blank=True, null=True)
-    abus_viol_sex = models.CharField(max_length=45, blank=True, null=True)
-    taux_abus_viol_sex = models.FloatField(blank=True, null=True)
+    taux_viol_sex = models.IntegerField(blank=True, null=True)
+    agress_sex = models.IntegerField(blank=True, null=True)
+    taux_abus_viol_sex = models.IntegerField(blank=True, null=True)
     soutien_psyc = models.CharField(max_length=45, blank=True, null=True)
-    harcelement_verbal = models.CharField(max_length=45, blank=True, null=True)
-    nbr_harcel_verbal = models.IntegerField(blank=True, null=True)
-    harcelement_n_verbal = models.CharField(max_length=45, blank=True, null=True)
-    nbr_harcel_n_verb = models.IntegerField(blank=True, null=True)
+    type_harcelement_sex = models.CharField(max_length=45, blank=True, null=True)
+    taux_harcelement_sex = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

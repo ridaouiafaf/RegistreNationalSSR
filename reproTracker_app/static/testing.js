@@ -67,6 +67,16 @@ function SmartWizard(target, options) {
                     metier: $('select[name="metier"]').val(),
                     etatCivil: $('select[name="etat_civil"]').val(), 
 
+                    planification: $('input[name="planification"]:checked').val(),
+                    methode: $('#methode').val(),
+                    envi_enfant: $('input[name="enfant"]:checked').val(),
+                    nombre_enfant: $('#nombre_enfant').val(),
+                    nombre_enfant_planifie: $('#nombre_enfant_planifie').val(),
+                    nombre_enfant_non_planifie: $('#nombre_enfant_non_planifie').val(),
+                    fausse_couche: $('#fausse_couche').val(),
+                    fausse_couche_intentionnelle: $('#fausse_couche_intentionnelle').val(),
+                    enfant_hors_mariage: $('#enfant_hors_mariage').val(),
+
                     conscience: $('input[name="conscience"]:checked').val(), 
                     motCleConscience: $('#mot_cle_conscience').val(), 
                     utilisation: $('input[name="utilisation"]:checked').val(), 
@@ -94,6 +104,7 @@ function SmartWizard(target, options) {
                     agressionsSexuelles: $('#agressions_sexuelles').val(),
                     viols: $('#viols').val(),
                     harcelementSexuel: $('select[name="harcelement_sexuel"]').val(),
+                    nbr_harcel_sex: $('#nbr_harcel_sex').val(),
                     santeMentale: $('input[name="sante_mentale"]:checked').val(),
 
                     verificationSR: $('#verification_sr').val(),

@@ -8,6 +8,7 @@ from django.db import connection
 from .models import Personne
 from django.views.decorators.cache import never_cache
 from .models import *
+from django.db.models import Max
 from django.http import JsonResponse
 
 @never_cache
@@ -69,9 +70,9 @@ def enquetes(request):
 
 
 def enquete_soumis(request):
-    print('cccccc')
     if request.method == 'POST' :
  
+        # Personne oooooooookkkk
         prenom = request.POST.get('prenom')
         nom = request.POST.get('nom')
         cin = request.POST.get('cin')
@@ -82,70 +83,6 @@ def enquete_soumis(request):
         metier = request.POST.get('metier')
         etat_civil = request.POST.get('etatCivil')
         sexe = request.POST.get('genre')
-
-        id_personne = 0
-        connaissance = ""
-        mot_cle_connaissance = ""
-        utilisation = ""
-        mot_cle_utilisation = ""
-        
-        id_personne = 0
-        vih_sid = ""
-        syphilis = ""
-        gonorrhÚe = ""
-        chlamydiose = ""
-        trichomonase = ""
-        hepatite_b = ""
-        hsv = ""
-        pvh = ""
-        taux_depistoge = 0
-
-        id_personne = 0
-        meth_plan = ""
-        mpf = ""
-        desir_enf_plan = ""
-        nbr_enf_plan = 0
-        nbr_enf_nplan = 0
-        nbr_enf_t = 0
-        nbr_avort_desir = 0
-        nbr_avot_ndesir = 0
-        nbr_enf_hors_m = 0
-        
-        id_personne = 0
-        acc_serv_prenatal = ""
-        comp_grass = ""
-        comp_accouch = ""
-        util_sm = ""
-        
-        id_personne = 0
-        violence_sex = ""
-        taux_viol_sex = 0.0
-        abus_viol_sex =3
-        taux_abus_viol_sex = 0.0
-        soutien_psyc = ""
-        harcelement_verbal = ""
-        nbr_harcel_verbal = 0
-        harcelement_n_verbal =""
-        nbr_harcel_n_verb = 0
-
-        id_persone = 0
-        sante_org_genitaux = ""
-        acc_serv_sr = ""
-        prob_impuissance = ""
-        prob_frigidite_sex = ""
-
-        id_personne = 0
-        religion = ""
-        niveau_etud = ""
-        statut_socio_eco = ""
-        impact_vie_sex = ""
-        impact_norm_cult = ""
-        impact_norm_relig = ""
-        satis_sex = ""
-        qualite_sex = ""
-        dem_soutien = ""
-
-        print(date_naiss)
         personne = Personne.objects.create(
             nom=nom,
             prenom=prenom,
@@ -158,6 +95,156 @@ def enquete_soumis(request):
             etat_civil=etat_civil,
             sexe=sexe
         )
+        id_personne = Personne.objects.filter(cin=cin).aggregate(Max('id_personne'))['id_personne__max']
+        print(id_personne)
+
+        # Conscience oookkk
+        connaissance = request.POST.get('conscience')
+        mot_cle_connaissance = request.POST.get('motCleConscience')
+        utilisation = request.POST.get('utilisation')
+        mot_cle_utilisation = request.POST.get('motCleUtilisation')
+
+        conscience = Conscience.objects.create(
+            id_personne=id_personne,
+            connaissance=connaissance,
+            mot_cle_connaissance=mot_cle_connaissance,
+            utilisation=utilisation,
+            mot_cle_utilisation=mot_cle_utilisation
+        )
+
+        #Ist oooookkkk
+        vih_sid = request.POST.get('vih')
+        syphilis = request.POST.get('syphilis')
+        gonorrhee = request.POST.get('gonorrhee')
+        chlamydiose = request.POST.get('chlamydia')
+        trichomonase = request.POST.get('trichomonase')
+        hepatite_b = request.POST.get('hepatiteB')
+        hsv = request.POST.get('hsv2')
+        pvh = request.POST.get('hpv')
+        taux_depistoge = request.POST.get('ist')
+
+        ist = Ist.objects.create(
+            id_personne = id_personne,
+            vih_sid = vih_sid,
+            syphilis = syphilis,
+            gonorrhee = gonorrhee,
+            chlamydiose = chlamydiose,
+            trichomonase = trichomonase,
+            hepatite_b = hepatite_b,
+            hsv = hsv,
+            pvh = pvh,
+            taux_depistoge = taux_depistoge
+        )
+
+        #Grossesse  ooooookkkkkk
+        planification = request.POST.get('planification') 
+        meth_planification = request.POST.get('methode') 
+        envi_enfant = request.POST.get('envi_enfant') 
+        nb_enfant = request.POST.get('nombre_enfant') 
+        nb_enfant_planifie = request.POST.get('nombre_enfant_planifie') 
+        nb_enfant_nplanifie = request.POST.get('nombre_enfant_non_planifie') 
+        nb_fausse_couche = request.POST.get('fausse_couche') 
+        nb_fausse_couche_intentionnelle = request.POST.get('fausse_couche_intentionnelle') 
+        nb_enfant_hors_mariage = request.POST.get('enfant_hors_mariage') 
+
+        grossesse = Grossesse.objects.create(
+            id_personne=id_personne,
+            planification=planification,
+            meth_planification=meth_planification,
+            envi_enfant=envi_enfant,
+            nb_enfant=nb_enfant,
+            nb_enfant_planifie=nb_enfant_planifie,
+            nb_enfant_nplanifie=nb_enfant_nplanifie,
+            nb_fausse_couche=nb_fausse_couche,
+            nb_fausse_couche_intentionnelle=nb_fausse_couche_intentionnelle,
+            nb_enfant_hors_mariage=nb_enfant_hors_mariage
+        )
+        
+        #PrenatalMaternel oookkkkkkkk
+        acc_serv_prenatal = request.POST.get('servicePrenatal')
+        comp_grass = request.POST.get('complicationGrosse')
+        desc_comp_gross = request.POST.get('motsClesComplicationsGrosses')
+        comp_accouch = request.POST.get('complicationAccouchement')
+        desc_comp_accouch = request.POST.get('motsClesComplicationsAccouchements')
+        acc_serv_maternel = request.POST.get('serviceMaternel')
+        meth_accouch = request.POST.get('methodeAccouchement')
+        
+        prenatal_maternel = PrenatalMaternel.objects.create(
+            id_personne=id_personne,
+            acc_serv_prenatal=acc_serv_prenatal,
+            comp_grass=comp_grass,
+            desc_comp_gross=desc_comp_gross,
+            comp_accouch=comp_accouch,
+            desc_comp_accouch=desc_comp_accouch,
+            acc_serv_maternel=acc_serv_maternel,
+            meth_accouch=meth_accouch
+        )
+        
+        # Violence ooooooooooookkkkkkk
+        taux_viol_sex = request.POST.get('violencesSexuelles') #Avez-vous déjà subi des violences sexuelles lors de rapports sexuels, combien ? *
+        agress_sex = request.POST.get('agressionsSexuelles') #Avez-vous déjà été agressé sexuellement, combien de fois ? *
+        taux_abus_viol_sex = request.POST.get('viols')
+        soutien_psyc = request.POST.get('santeMentale') #Avez-vous eu recours à des services de santé mentale ? *
+        type_harcelement_sex = request.POST.get('harcelementSexuel') #Avez-vous déjà été victime de harcèlement sexuel? (verbal, non-verbal, les deux) *
+        taux_harcelement_sex = request.POST.get('nbr_harcel_sex') #Quel est le nombre d'harcélement sexuel ? *
+
+        violence = Violence.objects.create(
+            id_personne=id_personne,
+            taux_viol_sex=taux_viol_sex,
+            agress_sex= agress_sex,
+            taux_abus_viol_sex=taux_abus_viol_sex,
+            soutien_psyc=soutien_psyc,
+            type_harcelement_sex=type_harcelement_sex,
+            taux_harcelement_sex=taux_harcelement_sex
+        )
+
+
+        # Sr okkkkkkkkkk
+        nb_verification_sr = request.POST.get('verificationSR') #int
+        acc_service_examen = request.POST.get('serviceExamen') #char
+        problemes_sex = request.POST.get('problemeSexuel') #char
+        qualité_relation_sex = request.POST.get('satisfactionSexuelle') #char
+        demande_soutien = request.POST.get('demandeSoutien') #char
+
+        sr = Sr.objects.create(
+            id_personne=id_personne,
+            nb_verification_sr=nb_verification_sr,
+            acc_service_examen=acc_service_examen,
+            problemes_sex=problemes_sex,
+            qualité_relation_sex=qualité_relation_sex,
+            demande_soutien=demande_soutien
+        )
+
+        # Facteur okkk
+        religion = request.POST.get('religion')
+        niv_etud = request.POST.get('niveauEtudes')
+        revenu = request.POST.get('revenu') #
+        niv_social = request.POST.get('niveauSocial')
+        impact_norme_culturelle = request.POST.get('normeCulturelle')
+        impact_norme_religieuse = request.POST.get('normeReligieuse')
+
+        facteur = Facteur.objects.create(
+            id_personne=id_personne,
+            religion=religion, 
+            niv_etud=niv_etud, 
+            revenu=revenu,
+            niv_social=niv_social, 
+            impact_norme_culturelle=impact_norme_culturelle,
+            impact_norme_religieuse=impact_norme_religieuse
+        )
+
+        # Enquete oookkk
+        doctorant = request.POST.get('doctorant')
+        annee_realisation = request.POST.get('anneeRealisation')
+        id_enquete = request.POST.get('enquete')
+
+        enquete = Enquete.objects.create(
+            id_personne=id_personne,
+            doctorant=doctorant, 
+            annee_realisation=annee_realisation,
+            id_enquete=id_enquete
+        )
+
         return JsonResponse({'message': 'Formulaire '})
     return JsonResponse({'message': 'Une erreur s\'est produite.'}, status=400)
 
