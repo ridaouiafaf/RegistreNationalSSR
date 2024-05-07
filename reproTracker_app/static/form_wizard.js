@@ -56,28 +56,42 @@ function SmartWizard(target, options) {
         $($this.buttons.finish).click(function () {
             if (!$(this).hasClass('buttonDisabled')) {
                 var enquete_data = {
-                    prenom: $('#prenom').val(), // Récupérer la valeur du champ prénom
-                    nom: $('#nom').val(), // Récupérer la valeur du champ nom
-                    dateNaissance: $('#date_naissance').val(), // Récupérer la valeur du champ date de naissance
-                    genre: $('input[name="genre"]:checked').val(), // Récupérer la valeur du champ genre
-                    nationnalite: $('select[name="nationnalite"]').val(), // Récupérer la valeur du champ nationnalité
-                    adresse: $('#adresse').val(), // Récupérer la valeur du champ adresse
-                    ville: $('select[name="ville"]').val(), // Récupérer la valeur du champ ville
-                    metier: $('select[name="metier"]').val(), // Récupérer la valeur du champ métier
-                    etatCivil: $('select[name="etat_civil"]').val(), // Récupérer la valeur du champ état civil
-                    conscience: $('input[name="conscience"]:checked').val(), // Récupérer la valeur du champ conscience
-                    motCleConscience: $('#mot_cle_conscience').val(), // Récupérer la valeur du champ mot clé conscience
-                    utilisation: $('input[name="utilisation"]:checked').val(), // Récupérer la valeur du champ utilisation
-                    motCleUtilisation: $('#mot_cle_utilisation').val(), // Récupérer la valeur du champ mot clé utilisation
-                    vih: $('input[name="vih"]:checked').val(), // Récupérer la valeur du champ VIH
-                    syphilis: $('input[name="syphilis"]:checked').val(), // Récupérer la valeur du champ syphilis
-                    trichomonase: $('input[name="trichomonase"]:checked').val(), // Récupérer la valeur du champ trichomonase
-                    gonorrhee: $('input[name="gonorrhee"]:checked').val(), // Récupérer la valeur du champ gonorrhée
-                    chlamydia: $('input[name="chlamydia"]:checked').val(), // Récupérer la valeur du champ chlamydia
-                    hepatiteB: $('input[name="hepatite_b"]:checked').val(), // Récupérer la valeur du champ hépatite B
-                    hsv2: $('input[name="hsv_2"]:checked').val(), // Récupérer la valeur du champ HSV-2
-                    hpv: $('input[name="hpv"]:checked').val(), // Récupérer la valeur du champ HPV
-                    ist: $('#IST').val(), // Récupérer la valeur du champ IST
+                    cin: $('#cin').val(),
+                    prenom: $('#prenom').val(), 
+                    nom: $('#nom').val(), 
+                    dateNaissance: $('#date_naissance').val(), 
+                    genre: $('input[name="genre"]:checked').val(), 
+                    nationnalite: $('select[name="nationnalite"]').val(), 
+                    adresse: $('#adresse').val(), 
+                    ville: $('select[name="ville"]').val(), 
+                    metier: $('select[name="metier"]').val(),
+                    etatCivil: $('select[name="etat_civil"]').val(), 
+
+                    planification: $('input[name="planification"]:checked').val(),
+                    methode: $('#methode').val(),
+                    envi_enfant: $('input[name="enfant"]:checked').val(),
+                    nombre_enfant: $('#nombre_enfant').val(),
+                    nombre_enfant_planifie: $('#nombre_enfant_planifie').val(),
+                    nombre_enfant_non_planifie: $('#nombre_enfant_non_planifie').val(),
+                    fausse_couche: $('#fausse_couche').val(),
+                    fausse_couche_intentionnelle: $('#fausse_couche_intentionnelle').val(),
+                    enfant_hors_mariage: $('#enfant_hors_mariage').val(),
+
+                    conscience: $('input[name="conscience"]:checked').val(), 
+                    motCleConscience: $('#mot_cle_conscience').val(), 
+                    utilisation: $('input[name="utilisation"]:checked').val(), 
+                    motCleUtilisation: $('#mot_cle_utilisation').val(), 
+
+                    vih: $('input[name="vih"]:checked').val(), 
+                    syphilis: $('input[name="syphilis"]:checked').val(), 
+                    trichomonase: $('input[name="trichomonase"]:checked').val(), 
+                    gonorrhee: $('input[name="gonorrhee"]:checked').val(), 
+                    chlamydia: $('input[name="chlamydia"]:checked').val(), 
+                    hepatiteB: $('input[name="hepatite_b"]:checked').val(), 
+                    hsv2: $('input[name="hsv_2"]:checked').val(), 
+                    hpv: $('input[name="hpv"]:checked').val(), 
+                    ist: $('#IST').val(),
+                    
                     servicePrenatal: $('input[name="service_prenatal"]:checked').val(),
                     complicationGrosse: $('input[name="complication_grosse"]:checked').val(),
                     motsClesComplicationsGrosses: $('#complications_grosses').val(),
@@ -85,27 +99,34 @@ function SmartWizard(target, options) {
                     motsClesComplicationsAccouchements: $('#complications_accouchements').val(),
                     serviceMaternel: $('input[name="service_maternel"]:checked').val(),
                     methodeAccouchement: $('#methode_accouchement').val(),
+                    
                     violencesSexuelles: $('#violences_sexuelles').val(),
                     agressionsSexuelles: $('#agressions_sexuelles').val(),
                     viols: $('#viols').val(),
                     harcelementSexuel: $('select[name="harcelement_sexuel"]').val(),
+                    nbr_harcel_sex: $('#nbr_harcel_sex').val(),
                     santeMentale: $('input[name="sante_mentale"]:checked').val(),
+
                     verificationSR: $('#verification_sr').val(),
                     serviceExamen: $('input[name="service_examen"]:checked').val(),
                     problemeSexuel: $('#probleme_sexuel').val(),
                     satisfactionSexuelle: $('select[name="satisfaction_sexuelle"]').val(),
                     demandeSoutien: $('input[name="demande_soutien"]:checked').val(),
+
                     religion: $('select[name="religion"]').val(),
                     niveauEtudes: $('select[name="niveau_etudes"]').val(),
                     revenu: $('#revenu').val(),
                     niveauSocial: $('select[name="niveau_social"]').val(),
                     normeCulturelle: $('select[name="norme_culturelle"]').val(),
                     normeReligieuse: $('select[name="norme_religieuse"]').val(),
+
                     doctorant: $('#doctorant').val(),
                     anneeRealisation: $('#annee_realisation').val(),
                     enquete: $('#enquete').val()
                 };
 
+                
+        
                 // if (prenom.trim() === '' || nom.trim() === '' || dateNaissance.trim() === '' || genre === undefined || nationnalite === null 
                 //     || adresse.trim() === '' || ville === null || metier === null || etatCivil === null || conscience === undefined || motCleConscience.trim() === ''
                 //     || utilisation === undefined || motCleUtilisation.trim() === '' || vih === undefined || syphilis === undefined || trichomonase === undefined 
@@ -152,14 +173,14 @@ function SmartWizard(target, options) {
 
                 // Votre code AJAX modifié
                 $.ajax({
-                    url: '/enquetes/',
+                    url: '/enquete_soumis/',
                     type: 'POST',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     },
                     data: enquete_data,
                     success: function (response) {
-                        alert('Formulaire soumis !');
+                        alert('Formulaire soumis avec succés');
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
@@ -169,8 +190,6 @@ function SmartWizard(target, options) {
 
 
 
-                // Afficher les informations dans l'alerte
-                // alert("Bonjour " + prenom + " " + nom + "\nDate de naissance : " + dateNaissance + "\nGenre : " + genre + "\nNationnalité : " + nationnalite + "\nAdresse : " + adresse + "\nVille : " + ville + "\nMétier : " + metier + "\nÉtat civil : " + etatCivil + "\nConnaissance des pratiques pour garder la santé sexuelle : " + conscience + "\nMot-clé conscience : " + motCleConscience + "\nUtilisation des services pour contrôler et prendre soin de votre vie sexuelle : " + utilisation + "\nMot-clé utilisation : " + motCleUtilisation + "\nInfection par le VIH : " + vih + "\nInfection par syphilis : " + syphilis + "\nInfection par trichomonase : " + trichomonase + "\nInfection par gonorrhée : " + gonorrhee + "\nInfection par chlamydia : " + chlamydia + "\nInfection par l'hépatite B : " + hepatiteB + "\nInfection par le HSV-2 : " + hsv2 + "\nInfection par le HPV : " + hpv + "\nDépistage des infections sexuelles transmissibles (IST) : " + ist);
 
                 if ($.isFunction($this.options.onFinish)) {
                     var context = { fromStep: $this.curStepIdx + 1 };
