@@ -1098,7 +1098,7 @@
 
         inputs.forEach(function (input) {
             if (input.value.trim() === '') {
-                toastr.error('Essayer de remplir les champs obligatoires.');
+                toastr.warning('Essayer de remplir les champs obligatoires.');
             } else {
                 this.validationMessage = '';
             }
