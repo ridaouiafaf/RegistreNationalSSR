@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/ico" />
+  <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/ico" />
   <title>{% block title %}{% endblock %}</title>
   <!-- Bootstrap -->
   <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -100,6 +100,7 @@
       <!-- /footer content -->
     </div>
   </div>
+<<<<<<< HEAD
   <!-- jQuery -->
   <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
   <!-- Bootstrap -->
@@ -181,9 +182,190 @@
   
 <!-- Inclure toastr JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+=======
+<!-- jQuery -->
+<script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+<!-- NProgress -->
+<script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+<!-- iCheck -->
+<script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+<!-- Datatables -->
+<script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+<script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+<script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
 
+<!-- Custom Theme Scripts -->
+<script src="{% static 'build/js/custom.min.js' %}"></script>
+<!-- Chart.js -->
+<script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- gauge.js -->
+<script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
+<!-- bootstrap-progressbar -->
+<script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+<!-- Skycons -->
+<script src="{% static 'vendors/skycons/skycons.js' %}"></script>
+<!-- Flot -->
+<script src="{% static 'vendors/Flot/jquery.flot.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.pie.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.time.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.stack.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.resize.js' %}"></script>
+<!-- Flot plugins -->
+<script src="{% static 'vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
+<script src="{% static 'vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
+<script src="{% static 'vendors/flot.curvedlines/curvedLines.js' %}"></script>
+<!-- DateJS -->
+<script src="{% static 'vendors/DateJS/build/date.js' %}"></script>
+<!-- JQVMap -->
+<script src="{% static 'vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
+<script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
+<script src="{% static 'vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<!-- jQuery Smart Wizard -->
+<script src="{% static 'form_wizard.js' %}"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="{% static 'vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
+<script src="{% static 'vendors/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+<script src="{% static 'vendors/google-code-prettify/src/prettify.js' %}"></script>
+<!-- jQuery Tags Input -->
+<script src="{% static 'vendors/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
+<!-- Switchery -->
+<script src="{% static 'vendors/switchery/dist/switchery.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'vendors/select2/dist/js/select2.full.min.js' %}"></script>
+<!-- Parsley -->
+<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+<!-- Autosize -->
+<script src="{% static 'vendors/autosize/dist/autosize.min.js' %}"></script>
+<!-- jQuery autocomplete -->
+<script src="{% static 'vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js' %}"></script>
+<!-- starrr -->
+<script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
+
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: [{% for personne in personnes %}"{{ personne.nom }}", {% endfor %}],
+          datasets: [{
+              label: 'Number of People',
+              data: [{% for personne in personnes %}"{{ personne.id_personne }}", {% endfor %}],
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+</script>
+<script>
+  // Retrieve data from Django view
+  var cities = {{ cities|safe }};
+  var counts = {{ counts|safe }};
+>>>>>>> 0634f9e26240357ea75be77d30ee6bd4138bb0dd
+
+  // Prepare data for Chart.js
+  var data = {
+      labels: cities,
+      datasets: [{
+          label: 'Number of People',
+          data: counts,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color for bars
+          borderColor: 'rgba(255, 99, 132, 1)', // Border color for bars
+          borderWidth: 1
+      }]
+  };
+
+  // Chart options
+  var options = {
+      responsive: true,
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      }
+  };
+
+  // Create and render the bar chart
+  var ctx = document.getElementById('cityChart').getContext('2d');
+  var cityChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options
+  });
+</script>
+<script>
+  var data = {
+  labels: ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'],
+  datasets: [{
+    label: 'Nombre de "oui" par IST',
+    data: [{{ vih_sid_count }}, {{ syphilis_count }}, {{ gonorrhee_count }}, {{ chlamydiose_count }}, {{ trichomonase_count }}, {{ hepatite_b_count }}, {{ hsv_count }}, {{ pvh_count }}],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.5)',
+      'rgba(54, 162, 235, 0.5)',
+      'rgba(255, 206, 86, 0.5)',
+      'rgba(75, 192, 192, 0.5)',
+      'rgba(153, 102, 255, 0.5)',
+      'rgba(255, 159, 64, 0.5)',
+      'rgba(255, 0, 0, 0.5)',
+      'rgba(0, 255, 0, 0.5)'
+    ],
+    borderColor: [
+      'rgba(255, 99, 132, 1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)',
+      'rgba(255, 0, 0, 1)',
+      'rgba(0, 255, 0, 1)'
+    ],
+    borderWidth: 1
+  }]
+};
+
+var options = {
+  responsive: true
+};
+
+var ctx = document.getElementById('istChart').getContext('2d');
+var myPieChart = new Chart(ctx, {
+  type: 'pie',
+  data: data,
+  options: options
+});
+
+</script>
   <!-- Additional scripts -->
-  {% block scripts %}{% endblock %}
+  {% block scripts %}  {% endblock %}
 </body>
 
 </html>

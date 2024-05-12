@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}Dasboard{% endblock %}
 {% block sidebar %}
 {% include 'sidebar.html'%}
 {% endblock %}
@@ -14,7 +15,7 @@
     <div class="tile_count">
       <div class="col-md-4 col-sm-4  tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Personne </span>
-        <div class="count">{{personne}}</div>
+        <div class="count">{{person}}</div>
         <!-- <span class="count_bottom"><i class="green">4 <i class="fa fa-sort-asc"></i></i></span> -->
       </div>
       <!-- <div class="col-md-4 col-sm-4  tile_stats_count">
@@ -50,13 +51,11 @@
     <div class="col-md-12 col-sm-12 ">
       <div class="dashboard_graph x_panel">
         <div class="row x_title">
-          <div class="col-md-6">
-           
-        </div>
+          <!-- <div class="col-md-6"></div> -->
         <div class="x_content">
-          <div class="demo-container" style="height:250px">
-            <div id="chart_plot_03" class="demo-placeholder"></div>
-          </div>
+          <canvas id="myChart" width="50" height="50"></canvas>
+          <canvas id="cityChart"></canvas>
+          <canvas id="istChart"></canvas>
         </div>
       </div>
     </div>
@@ -66,6 +65,7 @@
 </div>
 <!-- /page content -->
 {% endblock %}
+
 {% block footer%}
 {% include 'footer.html'%}
 {% endblock %}

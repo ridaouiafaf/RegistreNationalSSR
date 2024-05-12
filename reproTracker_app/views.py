@@ -10,6 +10,8 @@ from django.views.decorators.cache import never_cache
 from .models import *
 from django.db.models import Max
 from django.http import JsonResponse
+from django.db.models import Count
+from django.db.models import Q
 
 @never_cache
 def login(request):
@@ -43,9 +45,41 @@ def index(request):
             count_h = cursor.fetchone()[0]
             cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
             count_f = cursor.fetchone()[0]
+            personnes = Personne.objects.all()
+            city_counts = Personne.objects.values('ville').annotate(count=models.Count('id_personne'))
+            cities = [entry['ville'] for entry in city_counts]
+            counts = [entry['count'] for entry in city_counts]
+            years = [personne.date_naiss.year for personne in personnes]
+
+            vih_sid_count = Ist.objects.filter(vih_sid='oui').count()
+            syphilis_count = Ist.objects.filter(syphilis='oui').count()
+            gonorrhee_count = Ist.objects.filter(gonorrhee='oui').count()
+            chlamydiose_count = Ist.objects.filter(chlamydiose='oui').count()
+            trichomonase_count = Ist.objects.filter(trichomonase='oui').count()
+            hepatite_b_count = Ist.objects.filter(hepatite_b='oui').count()
+            hsv_count = Ist.objects.filter(hsv='oui').count()
+            pvh_count = Ist.objects.filter(pvh='oui').count()
+
+            context= {
+                'person':count,
+                'homme':count_h, 
+                'femme':count_f,
+                'personnes':personnes,
+                'cities': cities,
+                'counts': counts,
+                'years' : years,
+                'vih_sid_count':vih_sid_count,
+                'syphilis_count':syphilis_count,
+                'gonorrhee_count':gonorrhee_count,
+                'chlamydiose_count':chlamydiose_count,
+                'trichomonase_count':trichomonase_count,
+                'hepatite_b_count':hepatite_b_count,
+                'hsv_count':hsv_count,
+                'pvh_count':pvh_count,
+            }
 
 
-    return render(request, 'index.html', {'personne':count, 'homme':count_h, 'femme':count_f})
+    return render(request, 'index.html', context)
 
 def index2(request):
     if not request.session.get('user_authenticated'):
