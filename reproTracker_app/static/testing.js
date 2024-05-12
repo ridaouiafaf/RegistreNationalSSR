@@ -125,24 +125,11 @@ function SmartWizard(target, options) {
                     enquete: $('#enquete').val()
                 };
 
-        
-                // if (prenom.trim() === '' || nom.trim() === '' || dateNaissance.trim() === '' || genre === undefined || nationnalite === null 
-                //     || adresse.trim() === '' || ville === null || metier === null || etatCivil === null || conscience === undefined || motCleConscience.trim() === ''
-                //     || utilisation === undefined || motCleUtilisation.trim() === '' || vih === undefined || syphilis === undefined || trichomonase === undefined 
-                //     || gonorrhee === undefined || chlamydia === undefined || hepatiteB === undefined || hsv2 === undefined || hpv === undefined || ist.trim() === ''
-                //     || violencesSexuelles.trim() === '' || agressionsSexuelles.trim() === '' || viols.trim() === '' || harcelementSexuel === undefined || santeMentale === undefined
-                //     || verificationSR.trim() === '' || serviceExamen === undefined || problemeSexuel.trim() === '' || satisfactionSexuelle === null || demandeSoutien === undefined
-                //     || religion === null || niveauEtudes === null || revenu.trim() === '' || niveauSocial === null || normeCulturelle === null || normeReligieuse === null
-                //     || doctorant.trim() === '' || anneeRealisation.trim() === '' || enquete.trim() === ''
-                //     || servicePrenatal === undefined || complicationGrosse === undefined 
-                //     || motsClesComplicationsGrosses.trim() === '' || complicationAccouchement === undefined 
-                //     || motsClesComplicationsAccouchements.trim() === '' || serviceMaternel === undefined || methodeAccouchement.trim() === ''
-                //     )
-                //      {
-
-                //     alert("Veuillez remplir tous les champs.");
-                //     return false;
-                // }
+                if (prenom.value.trim() === '' || nom.value.trim() === '') {
+                    toastr.error("Veuillez remplir les champs obligatoires.");
+                    return false;
+                }else{
+            
 
                 // Obtenez le jeton CSRF à partir des cookies
                 function getCookie(name) {
@@ -179,12 +166,14 @@ function SmartWizard(target, options) {
                     },
                     data: enquete_data,
                     success: function (response) {
-                        alert('Formulaire soumis avec succés');
+                        toastr.success('Formulaire soumis avec succès');
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
+                        toastr.error('Une erreur s\'est produite lors de la soumission du formulaire');
                     }
                 });
+            }
                 
 
 

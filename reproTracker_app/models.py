@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -131,7 +131,7 @@ class Enquete(models.Model):
     id_personne = models.IntegerField(primary_key=True)
     doctorant = models.CharField(max_length=100)
     annee_realisation = models.IntegerField()
-    id_enquete = models.CharField(max_length=100)
+    id_enquete = models.UUIDField( default=uuid.uuid4, editable=False)
 
     class Meta:
         managed = False

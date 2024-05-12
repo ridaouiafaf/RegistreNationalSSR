@@ -236,13 +236,11 @@ def enquete_soumis(request):
         # Enquete oookkk
         doctorant = request.POST.get('doctorant')
         annee_realisation = request.POST.get('anneeRealisation')
-        id_enquete = request.POST.get('enquete')
 
         enquete = Enquete.objects.create(
             id_personne=id_personne,
             doctorant=doctorant, 
-            annee_realisation=annee_realisation,
-            id_enquete=id_enquete
+            annee_realisation=annee_realisation
         )
 
         return JsonResponse({'message': 'Formulaire '})
