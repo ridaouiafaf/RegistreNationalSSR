@@ -124,25 +124,35 @@
                                 </li>
 
                             </ul>
-                            <form class="form-horizontal form-label-left" method="post">
+                            <form class="form-horizontal form-label-left" method="post" id="enquete_form">
                                 {% csrf_token %}
                                 <div id="step-1" class="centrer">
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  " for="cin">CIN <span
                                                 class="required">*</span>
                                         </label>
-                                        <div class="col-md-6 col-sm-6 ">
+                                        <div class="col-md-6 col-sm-6 o">
                                             <input type="text" id="cin" name="cin" required="required"
-                                                class="form-control">
+                                                class="form-control o" minlength="5">
                                         </div>
                                     </div>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            var cinInput = document.getElementById('cin');
+                                            cinInput.addEventListener('change', function () {
+                                                if (this.value.trim().length < 5) {
+                                                    toastr.error('Le CIN doit avoir au moins 5 caractères.');
+                                                }
+                                            });
+                                        })
+                                    </script>
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  " for="prenom">Prénom
                                             <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
                                             <input type="text" id="prenom" name="prenom" required="required"
-                                                class="form-control">
+                                                class="form-control o">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -151,7 +161,7 @@
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
                                             <input type="text" id="nom" name="nom" required="required"
-                                                class="form-control ">
+                                                class="form-control o">
                                         </div>
                                     </div>
                                     <div class="item form-group">
@@ -160,7 +170,7 @@
                                         </label>
                                         <div class="col-md-6 col-sm-6">
                                             <input id="date_naissance" name="date_naissance"
-                                                class="date-picker form-control" placeholder="jj-mm-aaaa" type="date"
+                                                class="date-picker o form-control" placeholder="jj-mm-aaaa" type="date"
                                                 required="required" onchange="checkAge(this)">
                                         </div>
                                     </div>
@@ -203,17 +213,11 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-
-
-
-
                                     <div class="form-group row">
                                         <label class="control-label col-md-3 col-sm-3  ">Nationnalité <span
                                                 class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6  ">
-                                            <select class="select2_single form-control" name="nationnalite"
+                                            <select class="select2_single o form-control" name="nationnalite"
                                                 tabindex="-1">
                                                 <option value="Marocaine">Marocaine</option>
                                                 <option value="Etrangère">Etrangère</option>
@@ -225,15 +229,15 @@
                                                 class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="adresse" name="adresse" class="form-control" required="required"
-                                                type="text">
+                                            <input id="adresse" name="adresse" class="o form-control"
+                                                required="required" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3 col-sm-3  ">Ville de
                                             résidence<span class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6  ">
-                                            <select class="select2_single form-control" name="ville" tabindex="-1">
+                                            <select class="select2_single form-control o" name="ville" tabindex="-1">
                                                 {% for ville in villes %}
                                                 <option value="{{ ville }}">{{ ville }}</option>
                                                 {% endfor %}
@@ -244,7 +248,7 @@
                                         <label class="control-label col-md-3 col-sm-3  ">Métier <span
                                                 class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6  ">
-                                            <select class="select2_single form-control" name="metier" tabindex="-1">
+                                            <select class="select2_single o form-control" name="metier" tabindex="-1">
                                                 {% for metier in metiers %}
                                                 <option value="{{ metier }}">{{ metier }}</option>
                                                 {% endfor %}
@@ -255,7 +259,8 @@
                                         <label class="control-label col-md-3 col-sm-3  ">Etat civil <span
                                                 class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6  ">
-                                            <select class="select2_single form-control" name="etat_civil" tabindex="-1">
+                                            <select class="select2_single o form-control" name="etat_civil"
+                                                tabindex="-1">
                                                 <option value="Marié(e)">Marié(e)</option>
                                                 <option value="Célibataire">Célibataire</option>
                                                 <option value="Divorcé(e)">Divorcé(e)</option>
@@ -808,7 +813,8 @@
                                 <div id="step-7" class="centrer">
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Vérifiez-vous
-                                            périodiquement la santé de votre système reproducteur, combien de fois ?
+                                            périodiquement la santé de votre système reproducteur, combien de fois par
+                                            an ?
                                             <span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <input id="verification_sr" name="verification_sr" class="form-control"
@@ -837,7 +843,7 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Souffrez-vous d'un
                                             problème de santé qui vous empêche d'avoir des relations sexuelles
-                                            ?<span class="required">*</span> </label>
+                                            ?, lequel ?<span class="required">*</span> </label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <input id="probleme_sexuel" name="probleme_sexuel" class="form-control"
                                                 required="required" type="text">
@@ -929,7 +935,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6">Est ce que ton niveau
-                                            sociale et financier impacte ta vie sexuelle? ?<span
+                                            sociale et financier impacte ta vie sexuelle ?<span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4">
                                             <select class="select2_single form-control" name="niveau_social"
@@ -1025,14 +1031,12 @@
                 div.style.visibility = "hidden";
             }
         });
-        alert('Homme');
     });
 
     labelF.addEventListener('click', () => {
         document.querySelectorAll('.x').forEach(function (div) {
             div.style.visibility = "visible";
         });
-        alert('Femme');
     });
 
     // Step 2 *******************************************************************
@@ -1087,6 +1091,20 @@
     complication_accouchement_nonL.addEventListener('click', () => {
         complications_accouchements.disabled = true;
     });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var inputs = document.querySelectorAll('.o input, .o textarea, .o select');
+
+        inputs.forEach(function (input) {
+            if (input.value.trim() === '') {
+                toastr.error('Essayer de remplir les champs obligatoires.');
+            } else {
+                this.validationMessage = '';
+            }
+        });
+    });
+
 </script>
 {% endblock %}
 

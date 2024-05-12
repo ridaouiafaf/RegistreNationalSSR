@@ -181,7 +181,7 @@
   
 <!-- Inclure toastr JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
+<script>
   // Prepare data for Chart.js
   var data = {
       labels: cities,
@@ -214,7 +214,7 @@
       options: options
   });
 </script>
-<script>
+<!-- <script>
   var data = {
   labels: ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'],
   datasets: [{
@@ -255,7 +255,7 @@ var myPieChart = new Chart(ctx, {
   options: options
 });
 
-</script>
+</script> -->
   <!-- Additional scripts -->
   {% block scripts %}  {% endblock %}
 </body>

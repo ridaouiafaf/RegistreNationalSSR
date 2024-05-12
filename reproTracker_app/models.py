@@ -141,7 +141,7 @@ class Enquete(models.Model):
 class Grossesse(models.Model):
     id_personne = models.IntegerField(primary_key=True)
     planification = models.CharField(max_length=100) 
-    meth_planification = models.CharField(max_length=100)  
+    meth_planification = models.CharField(max_length=100, default="Aucun")  
     envi_enfant = models.CharField(max_length=100)  
     nb_enfant = models.IntegerField()  
     nb_enfant_planifie = models.IntegerField()  

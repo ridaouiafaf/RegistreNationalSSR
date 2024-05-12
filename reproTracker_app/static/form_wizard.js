@@ -125,12 +125,31 @@ function SmartWizard(target, options) {
                     enquete: $('#enquete').val()
                 };
 
-                
-                if (prenom.trim() === '' || nom.trim() === '') {
-                    alert("rempliir");
-                toastr.error("Veuillez remplir tous les champs.");
-                return false;
-            }else{
+                if (
+                    enquete_data.cin != null && enquete_data.prenom != null && enquete_data.nom != null && enquete_data.dateNaissance != null &&
+                    enquete_data.genre != null && enquete_data.nationnalite != null && enquete_data.adresse != null && enquete_data.ville != null &&
+                    enquete_data.metier != null && enquete_data.etatCivil != null &&
+                    enquete_data.envi_enfant != null && enquete_data.nombre_enfant != null &&
+                    enquete_data.nombre_enfant_planifie != null && enquete_data.nombre_enfant_non_planifie != null &&
+                    enquete_data.enfant_hors_mariage != null &&
+                    enquete_data.conscience != null && enquete_data.motCleConscience != null &&
+                    enquete_data.utilisation != null && enquete_data.motCleUtilisation != null &&
+                    enquete_data.vih != null && enquete_data.syphilis != null && enquete_data.trichomonase != null &&
+                    enquete_data.gonorrhee != null && enquete_data.chlamydia != null && enquete_data.hepatiteB != null &&
+                    enquete_data.hsv2 != null && enquete_data.hpv != null && enquete_data.ist != null &&
+                    enquete_data.servicePrenatal != null && enquete_data.serviceMaternel != null &&
+                    enquete_data.violencesSexuelles != null && enquete_data.agressionsSexuelles != null && enquete_data.viols != null &&
+                    enquete_data.harcelementSexuel != null && enquete_data.nbr_harcel_sex != null && enquete_data.santeMentale != null &&
+                    enquete_data.verificationSR != null && enquete_data.serviceExamen != null && enquete_data.problemeSexuel != null &&
+                    enquete_data.satisfactionSexuelle != null && enquete_data.demandeSoutien != null &&
+                    enquete_data.religion != null && enquete_data.niveauEtudes != null && enquete_data.revenu != null &&
+                    enquete_data.niveauSocial != null && enquete_data.normeCulturelle != null &&
+                    enquete_data.normeReligieuse != null && enquete_data.doctorant != null &&
+                    enquete_data.anneeRealisation != null && enquete_data.enquete != null
+                ) {
+                    toastr.error("Veuillez remplir les champs obligatoires !");
+                    return false;
+                }else{
             
 
                 // Obtenez le jeton CSRF à partir des cookies
