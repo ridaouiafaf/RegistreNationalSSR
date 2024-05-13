@@ -126,7 +126,7 @@ function SmartWizard(target, options) {
                 };
 
                 if (
-                    enquete_data.cin != null && enquete_data.prenom != null && enquete_data.nom != null && enquete_data.dateNaissance != null &&
+                    enquete_data.cin.trim() == '' && enquete_data.prenom.trim() == '' && enquete_data.nom.trim() == '' && enquete_data.dateNaissance != null &&
                     enquete_data.genre != null && enquete_data.nationnalite != null && enquete_data.adresse != null && enquete_data.ville != null &&
                     enquete_data.metier != null && enquete_data.etatCivil != null &&
                     enquete_data.envi_enfant != null && enquete_data.nombre_enfant != null &&
@@ -150,9 +150,6 @@ function SmartWizard(target, options) {
                     toastr.error("Veuillez remplir les champs obligatoires !");
                     return false;
                 }else{
-            
-
-                // Obtenez le jeton CSRF à partir des cookies
                 function getCookie(name) {
                     var cookieValue = null;
                     if (document.cookie && document.cookie !== '') {
@@ -187,6 +184,9 @@ function SmartWizard(target, options) {
                     },
                     data: enquete_data,
                     success: function (response) {
+                        $('#cin').val('');
+                        $('#prenom').val('');
+                        $('#nom').val('');
                         toastr.success('Formulaire soumis avec succès');
                     },
                     error: function (xhr, status, error) {

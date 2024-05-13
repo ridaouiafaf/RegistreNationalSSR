@@ -32,6 +32,14 @@ def login(request):
     else:
         return render(request, 'login.html')
 
+
+
+def inscrire(request):
+    if request.method == 'POST':
+        return render(request, 'login.html')
+    else:
+        return redirect('login')
+
 def index(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  

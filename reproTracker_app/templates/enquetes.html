@@ -134,17 +134,22 @@
                                         <div class="col-md-6 col-sm-6 o">
                                             <input type="text" id="cin" name="cin" required="required"
                                                 class="form-control o" minlength="5">
+                                                <span id="cin_erreur" style="color: rgb(235, 163, 7);"
+                                                class="error-message"></span>
                                         </div>
                                     </div>
                                     <script>
-                                        document.addEventListener('DOMContentLoaded', function () {
-                                            var cinInput = document.getElementById('cin');
+                                            const cinInput = document.getElementById('cin');                                            
+                                            const cin_erreur = document.getElementById('cin_erreur');
                                             cinInput.addEventListener('change', function () {
                                                 if (this.value.trim().length < 5) {
-                                                    toastr.error('Le CIN doit avoir au moins 5 caractères.');
+                                                    cin_erreur.textContent = 'Le CIN doit avoir au moins 5 caractères.';
                                                 }
+                                                else {
+                                                    cin_erreur.textContent = '';
+                                            }
                                             });
-                                        })
+                                           
                                     </script>
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3  " for="prenom">Prénom
@@ -489,7 +494,7 @@
 
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Combien de fois vous avez
-                                            fait du dépistage des infections sexuelles transmissibles (IST)
+                                            fait du dépistage des infections sexuelles transmissibles (IST) par an
                                             ? <span>*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <input id="IST" name="IST" class="form-control" required="required"
@@ -583,7 +588,6 @@
                                     </div>
 
                                     <script>
-                                        // Sélectionner les éléments d'entrée
                                         const nombreTotalEnfantsInput = document.getElementById('nombre_enfant');
                                         const nombreEnfantsPlanifiesInput = document.getElementById('nombre_enfant_planifie');
                                         const nombreEnfantsNonPlanifiesInput = document.getElementById('nombre_enfant_non_planifie');

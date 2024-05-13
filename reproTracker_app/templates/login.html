@@ -8,9 +8,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/ico" />
   <title> Santé Sexuelle et reproductive | </title>
-
   <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
@@ -27,7 +26,7 @@
     <div class="login_wrapper">
       <div class="animate form login_form">
         <section class="login_content">
-          <form method="post">
+          <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <h1>Login Form</h1>
             {% if error_message %}
@@ -41,24 +40,24 @@
               <input type="password" class="form-control" placeholder="Password" required="" name="password" id="password" />
             </div>
             <div>
-              <input type="submit" class="btn btn-default submit" value="Log in">
-              <a class="reset_pass" href="#">Lost your password?</a>
+              <input type="submit" class="btn btn-default submit" value="Se connecter">
+              <a class="reset_pass" href="#">Mot de passe oublié ?</a>
             </div>
 
             <div class="clearfix"></div>
 
             <div class="separator">
-              <p class="change_link">New to site?
-                <a href="#signup" class="to_register"> Create Account </a>
+              <p class="change_link">Nouveau ?
+                <a href="#signup" class="to_register"> Créer un compte </a>
               </p>
 
               <div class="clearfix"></div>
               <br />
 
               <div>
-                <h1><i class=""></i> Santé Sexuelle et reproductive</h1>
-                <p>©2024 All Rights Reserved. Santé Sexuelle et reproductive is a Bootstrap 4 template. Privacy and
-                  Terms</p>
+                <h1><img src="{% static 'images/logo.ico' %}" alt="logo" style="max-width: 35px;  max-height: 35px;" /> Santé Sexuelle et reproductive</h1>
+                <p>©2024 All Rights Reserved. <br>
+                  Santé Sexuelle et reproductive - service urologie</p>
               </div>
             </div>
           </form>
@@ -67,8 +66,9 @@
 
       <div id="register" class="animate form registration_form">
         <section class="login_content">
-          <form>
-            <h1>Create Account</h1>
+          <form method="post" action="{% url 'inscrire' %}">
+            {% csrf_token %}
+            <h1>Créer un compte</h1>
             <div>
               <input type="text" class="form-control" placeholder="Username" required="" />
             </div>
@@ -79,22 +79,22 @@
               <input type="password" class="form-control" placeholder="Password" required="" />
             </div>
             <div>
-              <a class="btn btn-default submit" href="index.html">Submit</a>
+              <input type="submit" class="btn btn-default submit" value="S'inscrire">
             </div>
 
             <div class="clearfix"></div>
 
             <div class="separator">
-              <p class="change_link">Already a member ?
-                <a href="#signin" class="to_register"> Log in </a>
+              <p class="change_link">Déja un membre ?
+                <a href="#signin" class="to_register"> Se coonecter </a>
               </p>
 
               <div class="clearfix"></div>
               <br />
 
               <div>
-                <h1><i class="fa fa-paw"></i> Santé Sexuelle et reproductive</h1>
-                <p>©2016 All Rights Reserved. Santé Sexuelle et reproductive</p>
+                <h1><img src="{% static 'images/logo.ico' %}" alt="logo" style="max-width: 35px;  max-height: 35px;" /> Santé Sexuelle et reproductive</h1>
+                <p>©2024 All Rights Reserved. Santé Sexuelle et reproductive - service urologie</p>
               </div>
             </div>
           </form>
