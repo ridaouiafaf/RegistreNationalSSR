@@ -46,14 +46,16 @@
                                         <thead>
                                             <tr>
                                                 <th>ID Personne</th>
+                                                <th>Planification</th>
                                                 <th>Methode planification</th>
-                                                <th>MPF</th>
-                                                <th>Desir enf plan</th>
-                                                <th>nbr_enf_plan</th>
-                                                <th>Nbe enf non plan</th>
-                                                <th>nbr_avort_desir</th>
-                                                <th>nbr_avot_ndesir</th>
-                                                <th>nbr_enf_hors_m</th>
+                                                <th>Envi enfant</th>
+                                                <th>nombre enfant</th>
+                                                <th>nb enfant planifie</th>
+                                                <th>nb enfant nplanifie</th>
+                                                <th>nb fausse couche</th>
+                                                <th>nb fausse couche intentionnelle</th>
+                                                <th>nb enfant hors mariage</th>
+
 
                                             </tr>
                                         </thead>
@@ -63,14 +65,15 @@
                                             {% for item in grossesses %}
                                             <tr>
                                                 <td>{{item.id_personne}}</td>
-                                                <td>{{item.meth_plan}}</td>
-                                                <td>{{item.mpf }}</td>
-                                                <td>{{item.desir_enf_plan}}</td>
-                                                <td>{{item.nbr_enf_plan}}</td>
-                                                <td>{{item.nbr_enf_nplan}}</td>
-                                                <td>{{item.nbr_avort_desir}}</td>
-                                                <td>{{item.nbr_avot_ndesir}}</td>
-                                                <td>{{item.nbr_enf_hors_m}}</td>
+                                                <td>{{item.planification}}</td>
+                                                <td>{{item.meth_planification}}</td>
+                                                <td>{{item.envi_enfant }}</td>
+                                                <td>{{item.nb_enfant}}</td>
+                                                <td>{{item.nb_enfant_planifie}}</td>
+                                                <td>{{item.nb_enfant_nplanifie}}</td>
+                                                <td>{{item.nb_fausse_couche}}</td>
+                                                <td>{{item.nb_fausse_couche_intentionnelle}}</td>
+                                                <td>{{item.nb_enfant_hors_mariage}}</td>
                                             </tr>
                                             {% endfor %}
                                                 

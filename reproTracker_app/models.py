@@ -216,6 +216,16 @@ class Conscience(models.Model):
     class Meta:
         db_table = 'conscience'
         
+class Generale(models.Model):
+    id_personne = models.IntegerField(primary_key=True)
+    docteur = models.CharField(max_length=45, null=True)
+    ann_realise =models.DateField(blank=True, null=True)
+    id_enq = models.CharField(max_length=45, null=True)
+
+    class Meta:
+        db_table = 'generale'
+        
+
 
 class Pratique(models.Model):
     id_personne = models.IntegerField(primary_key=True)
