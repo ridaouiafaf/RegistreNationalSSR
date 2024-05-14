@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import json, os, re
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -19,17 +19,17 @@ def login(request):
         password = request.POST.get('password')
 
         with connection.cursor() as cursor:
-            cursor.execute("SELECT role, etat_compte FROM doctorant WHERE email = %s AND password = %s", [email, password])
+            cursor.execute("SELECT cin, role, etat_compte FROM doctorant WHERE email = %s AND password = %s", [email, password])
             row = cursor.fetchone()
 
             if row:
-                role, etat_compte = row
+                cin, role, etat_compte = row
                 if etat_compte == "active":
+                    request.session['user_authenticated'] = True
+                    request.session['user_cin'] = cin  
                     if role == "responsable":
-                        request.session['user_authenticated'] = email
                         return redirect('index')
                     else:
-                        request.session['user_authenticated'] = email
                         return redirect('index2')
                 else:
                     error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
@@ -37,7 +37,6 @@ def login(request):
             else:
                 error_message = "Nom d'utilisateur ou mot de passe incorrect."
                 return render(request, 'login.html', {'error_message': error_message})
-
     else:
         return render(request, 'login.html')
 
@@ -140,6 +139,43 @@ def enquetes(request):
         metiers = json.load(file)
     return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
 
+
+def compte_active(request):
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
+        if current_user_cin:
+            data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
+        else:
+            data = Doctorant.objects.filter(etat_compte='active')
+    else:
+        data = Doctorant.objects.filter(etat_compte='active')
+    
+    return render(request, 'compte_active.html', {'data': data})
+
+def desactiver_compte(request, cin):
+    doctorant = get_object_or_404(Doctorant, cin=cin)
+    doctorant.etat_compte = 'inactive'
+    doctorant.save()
+    messages.success(request, f"Le compte avec {cin} est désactivé")
+    return redirect('compte_active')
+
+def activer_compte(request, cin):
+    doctorant = get_object_or_404(Doctorant, cin=cin)
+    doctorant.etat_compte = 'active'
+    doctorant.save()
+    messages.success(request, f"Le compte avec {cin} est activé")
+    return redirect('compte_desactive')
+
+def compte_desactive(request):
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
+        if current_user_cin:
+            data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
+        else:
+            data = Doctorant.objects.filter(etat_compte='inactive')
+    else:
+        data = Doctorant.objects.filter(etat_compte='inactive')
+    return render(request, 'compte_desactive.html', {'data': data})
 
 @transaction.atomic
 def enquete_soumis(request):
@@ -386,11 +422,6 @@ def login_page(request):
 def pricing_tables(request):
     return render(request, 'pricing_tables.html')
 
-def form(request):
-    return render(request, 'form.html')
-
-def advanced_components(request):
-    return render(request, 'advanced_components.html')
 
 def form_validation(request):
     return render(request, 'form_validation.html')

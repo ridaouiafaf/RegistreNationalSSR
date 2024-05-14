@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Comptes désactivés{% endblock %}
+{% block sidebar %}
+{% include 'sidebar.html'%}
+{% endblock %}
+{% block navbar%}
+{% include 'navbar.html'%}
+{% endblock %}
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Comptes désactivés<small>liste</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <p class="text-muted font-13 m-b-30"></p>
+                                    {% if messages %}
+                                    <ul>
+                                        {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                            {{ message }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                    <table id="datatable-buttons" class="table table-striped table-bordered"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                            <tr>
+                                                <th>CIN</th>
+                                                <th>Nom complet</th>
+                                                <th>Email</th>
+                                                <th>Téléphone</th>
+                                                <th>Role</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for doctorant in data %}
+                                            <tr>
+                                                <td>{{ doctorant.cin }}</td>
+                                                <td>{{ doctorant.nomComplet }}</td>
+                                                <td>{{ doctorant.email }}</td>
+                                                <td>{{ doctorant.telephone }}</td>
+                                                <td>{{ doctorant.role }}</td>
+                                                <td>
+                                                    <form action="{% url 'activer_compte' doctorant.cin %}"
+                                                        method="post">
+                                                        {% csrf_token %}
+                                                        <button type="submit">Activer</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
