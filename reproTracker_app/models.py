@@ -154,6 +154,22 @@ class Grossesse(models.Model):
         managed = False
         db_table = 'grossesse'
 
+class Doctorant(models.Model):
+    ETAT_COMPTE_CHOICES = (
+        ('active', 'active'),
+        ('inactive', 'inactive'),
+    )
+    nomComplet = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=100)
+    telephone = models.CharField(max_length=15)
+    role = models.CharField(max_length=20)
+    cin = models.CharField(max_length=20, primary_key=True)
+    etat_compte = models.CharField(max_length=10, choices=ETAT_COMPTE_CHOICES, default='inactive')
+
+    class Meta:
+        managed = False
+        db_table = 'doctorant'
 
 class Ist(models.Model):
     id_personne = models.IntegerField(primary_key=True)

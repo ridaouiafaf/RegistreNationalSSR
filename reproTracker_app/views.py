@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-import json, os
+from django.shortcuts import render, redirect, get_object_or_404
+import json, os, re
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
@@ -13,24 +14,63 @@ from django.db.models import Count, Q, Max
 
 @never_cache
 def login(request):
-    request.session.flush()
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('username')
         password = request.POST.get('password')
-        if username == "Houda" and password == "Houda":
-            request.session['user_authenticated'] = True  
-            return redirect('index')
-        elif username == "afaf" and password == "afaf":
-            request.session['user_authenticated'] = True  
-            return redirect('index2')
-        elif username == "doha" and password == "doha":
-            request.session['user_authenticated'] = True  
-            return redirect('index2')
-        else:
-            error_message = "Nom d'utilisateur ou mot de passe incorrect."
-            return render(request, 'login.html', {'error_message': error_message})
+
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT cin, role, etat_compte FROM doctorant WHERE email = %s AND password = %s", [email, password])
+            row = cursor.fetchone()
+
+            if row:
+                cin, role, etat_compte = row
+                if etat_compte == "active":
+                    request.session['user_authenticated'] = True
+                    request.session['user_cin'] = cin  
+                    if role == "responsable":
+                        return redirect('index')
+                    else:
+                        return redirect('index2')
+                else:
+                    error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
+                    return render(request, 'login.html', {'error_message': error_message})
+            else:
+                error_message = "Nom d'utilisateur ou mot de passe incorrect."
+                return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+
+def inscrire(request):
+    if request.method == 'POST':
+        nomComplet = request.POST.get('nom_prenom')
+        email = request.POST.get('email')
+        password = request.POST.get('passwordInscrire')
+        telephone = request.POST.get('tele')
+        role = request.POST.get('role')
+        cin = request.POST.get('cin')
+        
+        doctorant = Doctorant.objects.create(
+            nomComplet=nomComplet,
+            email=email,
+            password=password,
+            telephone=telephone,
+            role=role,
+            cin=cin
+        )                
+        success_message = '''Votre compte est crée avec succès   
+                            Veuilez attendre l'activation de votre compte'''
+        return render(request, 'login.html', {'success_message': success_message})
+    else:
+        return redirect('login')
+    
+def validate_email(email):
+    email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(email_regex, email)
+
+
+def validate_phone(phone):
+    phone_regex = r'^(\+212|00212|0)(6|7)[0-9]{8}$'
+    return re.match(phone_regex, phone)
 
 def index(request):
     if not request.session.get('user_authenticated'):
@@ -99,6 +139,43 @@ def enquetes(request):
         metiers = json.load(file)
     return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
 
+
+def compte_active(request):
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
+        if current_user_cin:
+            data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
+        else:
+            data = Doctorant.objects.filter(etat_compte='active')
+    else:
+        data = Doctorant.objects.filter(etat_compte='active')
+    
+    return render(request, 'compte_active.html', {'data': data})
+
+def desactiver_compte(request, cin):
+    doctorant = get_object_or_404(Doctorant, cin=cin)
+    doctorant.etat_compte = 'inactive'
+    doctorant.save()
+    messages.success(request, f"Le compte avec {cin} est désactivé")
+    return redirect('compte_active')
+
+def activer_compte(request, cin):
+    doctorant = get_object_or_404(Doctorant, cin=cin)
+    doctorant.etat_compte = 'active'
+    doctorant.save()
+    messages.success(request, f"Le compte avec {cin} est activé")
+    return redirect('compte_desactive')
+
+def compte_desactive(request):
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
+        if current_user_cin:
+            data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
+        else:
+            data = Doctorant.objects.filter(etat_compte='inactive')
+    else:
+        data = Doctorant.objects.filter(etat_compte='inactive')
+    return render(request, 'compte_desactive.html', {'data': data})
 
 @transaction.atomic
 def enquete_soumis(request):
@@ -345,11 +422,6 @@ def login_page(request):
 def pricing_tables(request):
     return render(request, 'pricing_tables.html')
 
-def form(request):
-    return render(request, 'form.html')
-
-def advanced_components(request):
-    return render(request, 'advanced_components.html')
 
 def form_validation(request):
     return render(request, 'form_validation.html')
