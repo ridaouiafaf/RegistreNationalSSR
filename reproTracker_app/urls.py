@@ -30,7 +30,6 @@ urlpatterns = [
     path('page_404/', views.page_404, name='page_404'),
     path('page_500/', views.page_500, name='page_500'),
     path('plain_page/', views.plain_page, name='plain_page'),
-    path('login/', views.login_page, name='login'),
     path('pricing_tables/', views.pricing_tables, name='pricing_tables'),
     path('form/', views.form, name='form'),
     path('advanced_components/', views.advanced_components, name='advanced_components'),

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-import json, os
+import json, os, re
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
@@ -13,32 +14,64 @@ from django.db.models import Count, Q, Max
 
 @never_cache
 def login(request):
-    request.session.flush()
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('username')
         password = request.POST.get('password')
-        if username == "Houda" and password == "Houda":
-            request.session['user_authenticated'] = True  
-            return redirect('index')
-        elif username == "afaf" and password == "afaf":
-            request.session['user_authenticated'] = True  
-            return redirect('index2')
-        elif username == "doha" and password == "doha":
-            request.session['user_authenticated'] = True  
-            return redirect('index2')
-        else:
-            error_message = "Nom d'utilisateur ou mot de passe incorrect."
-            return render(request, 'login.html', {'error_message': error_message})
+
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT role, etat_compte FROM doctorant WHERE email = %s AND password = %s", [email, password])
+            row = cursor.fetchone()
+
+            if row:
+                role, etat_compte = row
+                if etat_compte == "active":
+                    if role == "responsable":
+                        request.session['user_authenticated'] = email
+                        return redirect('index')
+                    else:
+                        request.session['user_authenticated'] = email
+                        return redirect('index2')
+                else:
+                    error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
+                    return render(request, 'login.html', {'error_message': error_message})
+            else:
+                error_message = "Nom d'utilisateur ou mot de passe incorrect."
+                return render(request, 'login.html', {'error_message': error_message})
+
     else:
         return render(request, 'login.html')
-
-
 
 def inscrire(request):
     if request.method == 'POST':
-        return render(request, 'login.html')
+        nomComplet = request.POST.get('nom_prenom')
+        email = request.POST.get('email')
+        password = request.POST.get('passwordInscrire')
+        telephone = request.POST.get('tele')
+        role = request.POST.get('role')
+        cin = request.POST.get('cin')
+        
+        doctorant = Doctorant.objects.create(
+            nomComplet=nomComplet,
+            email=email,
+            password=password,
+            telephone=telephone,
+            role=role,
+            cin=cin
+        )                
+        success_message = '''Votre compte est crée avec succès   
+                            Veuilez attendre l'activation de votre compte'''
+        return render(request, 'login.html', {'success_message': success_message})
     else:
         return redirect('login')
+    
+def validate_email(email):
+    email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(email_regex, email)
+
+
+def validate_phone(phone):
+    phone_regex = r'^(\+212|00212|0)(6|7)[0-9]{8}$'
+    return re.match(phone_regex, phone)
 
 def index(request):
     if not request.session.get('user_authenticated'):

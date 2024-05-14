@@ -16,6 +16,7 @@
   <link href="{% static 'vendors/animate.css/animate.min.css' %}" rel="stylesheet">
   <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
 
+
 </head>
 
 <body class="login">
@@ -30,14 +31,18 @@
             {% csrf_token %}
             <h1>Login Form</h1>
             {% if error_message %}
-            <div style="color: brown; font-size: medium; font-weight: bold;">{{ error_message }}</div>
+            <div style="color: brown; font-size: medium; font-weight: bold;">{{ error_message }}</div><br>
             {% endif %}
-            <br>
+            {% if success_message %}
+            <div style="color: rgb(17, 208, 87); font-size: medium; font-weight: bold;">{{ success_message }}</div>
+            {% endif %}
             <div>
-              <input type="text" class="form-control" placeholder="Username" required="" name="username" id="username" />
+              <input type="text" class="form-control" placeholder="email" required="" name="username"
+                id="username" />
             </div>
             <div>
-              <input type="password" class="form-control" placeholder="Password" required="" name="password" id="password" />
+              <input type="password" class="form-control" placeholder="Password" required="" name="password"
+                id="password" />
             </div>
             <div>
               <input type="submit" class="btn btn-default submit" value="Se connecter">
@@ -55,7 +60,8 @@
               <br />
 
               <div>
-                <h1><img src="{% static 'images/logo.ico' %}" alt="logo" style="max-width: 35px;  max-height: 35px;" /> Santé Sexuelle et reproductive</h1>
+                <h1><img src="{% static 'images/logo.ico' %}" alt="logo" style="max-width: 35px;  max-height: 35px;" />
+                  Santé Sexuelle et reproductive</h1>
                 <p>©2024 All Rights Reserved. <br>
                   Santé Sexuelle et reproductive - service urologie</p>
               </div>
@@ -66,17 +72,41 @@
 
       <div id="register" class="animate form registration_form">
         <section class="login_content">
-          <form method="post" action="{% url 'inscrire' %}">
+          <form method="post" action="{% url 'inscrire' %}" onsubmit="return validateForm()">
             {% csrf_token %}
             <h1>Créer un compte</h1>
             <div>
-              <input type="text" class="form-control" placeholder="Username" required="" />
+              <input type="text" class="form-control" placeholder="Nom Prénom" id="nom_prenom" name="nom_prenom"
+                required="" />
             </div>
             <div>
-              <input type="email" class="form-control" placeholder="Email" required="" />
+              <input type="text" class="form-control" placeholder="CIN" id="cin" name="cin" required="" />
             </div>
             <div>
-              <input type="password" class="form-control" placeholder="Password" required="" />
+              <input type="email" class="form-control" placeholder="Adresse Email" id="email" name="email"
+                required="" />
+              <span id="emailError" style="color: red; display: none;">Format d'email invalide</span><br>
+            </div>
+            <div>
+              <input type="tel" class="form-control" placeholder="Téléphone" id="tele" name="tele" required="" />
+              <span id="teleError" style="color: red; display: none;">Format de téléphone invalide</span> <br>
+            </div>
+            <div><br>
+              <select class="form-control" id="role" name="role" required="">
+                <option value="" disabled selected>Choisir votre rôle</option>
+                <option value="doctorant">Doctorant</option>
+                <option value="responsable">Responsable</option>
+              </select><br>
+            </div>
+            <div>
+              <input type="password" class="form-control" placeholder="Mot de passe" id="passwordInscrire"
+                name="passwordInscrire" required="" />
+            </div>
+            <div>
+              <input type="password" class="form-control" placeholder="Confirmer votre mot de passe"
+                id="confirmPassword" name="confirmPassword" required="" />
+              <span id="passwordError" style="color: red; display: none;">Les mots de passe ne correspondent pas</span>
+              <br>
             </div>
             <div>
               <input type="submit" class="btn btn-default submit" value="S'inscrire">
@@ -85,19 +115,76 @@
             <div class="clearfix"></div>
 
             <div class="separator">
-              <p class="change_link">Déja un membre ?
-                <a href="#signin" class="to_register"> Se coonecter </a>
+              <p class="change_link">Déjà un membre ?
+                <a href="#signin" class="to_register"> Se connecter </a>
               </p>
 
               <div class="clearfix"></div>
               <br />
 
               <div>
-                <h1><img src="{% static 'images/logo.ico' %}" alt="logo" style="max-width: 35px;  max-height: 35px;" /> Santé Sexuelle et reproductive</h1>
+                <h1><img src="{% static 'images/logo.ico' %}" alt="logo" style="max-width: 35px;  max-height: 35px;" />
+                  Santé Sexuelle et reproductive</h1>
                 <p>©2024 All Rights Reserved. Santé Sexuelle et reproductive - service urologie</p>
               </div>
             </div>
           </form>
+
+          <script>
+            function validateForm() {
+              var emailError = document.getElementById("emailError");
+              var teleError = document.getElementById("teleError");
+              var passwordError = document.getElementById("passwordError");
+              
+              // Vérifiez si les erreurs sont affichées, si oui, retournez false pour empêcher l'envoi du formulaire
+              if (emailError.style.display === "block" || teleError.style.display === "block" || passwordError.style.display === "block") {
+                return false;
+              }
+              
+              // Si aucune erreur n'est affichée, retournez true pour autoriser l'envoi du formulaire
+              return true;
+            }
+          
+            document.addEventListener("DOMContentLoaded", function () {
+              var emailInput = document.getElementById("email");
+              var teleInput = document.getElementById("tele");
+              var passwordInput = document.getElementById("passwordInscrire");
+              var confirmPasswordInput = document.getElementById("confirmPassword");
+          
+              emailInput.addEventListener("input", validateEmail);
+              teleInput.addEventListener("input", validateTele);
+              passwordInput.addEventListener("input", validatePassword);
+              confirmPasswordInput.addEventListener("input", validatePassword);
+          
+              function validateEmail() {
+                var emailPattern = /^\w+([\.-]?\w+)*@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+                if (!emailPattern.test(emailInput.value)) {
+                  document.getElementById("emailError").style.display = "block";
+                } else {
+                  document.getElementById("emailError").style.display = "none";
+                }
+              }
+          
+              function validateTele() {
+                var telePattern = /^\d{10}$/;
+                if (!telePattern.test(teleInput.value)) {
+                  document.getElementById("teleError").style.display = "block";
+                } else {
+                  document.getElementById("teleError").style.display = "none";
+                }
+              }
+          
+              function validatePassword() {
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                  document.getElementById("passwordError").style.display = "block";
+                } else {
+                  document.getElementById("passwordError").style.display = "none";
+                }
+              }
+            });
+          </script>
+          
+
         </section>
       </div>
     </div>
