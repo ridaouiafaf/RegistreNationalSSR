@@ -57,4 +57,18 @@ urlpatterns = [
     path('other_charts/', views.other_charts, name='other_charts'),
     path('fixed_sidebar/', views.fixed_sidebar, name='fixed_sidebar'),
     path('fixed_footer/', views.fixed_footer, name='fixed_footer'),
+
+
+
+
+    
+    path('personnes/', views.personne, name='personne'),
+    path('Sr/', views.sr, name='sr'),
+    path('IST/', views.ist, name='ist'),
+    path('PrenatalMaternel/', views.prenatal_maternel, name='prenatal_maternel'),
+    path('Violence/', views.violence, name='violence'),
+    path('Grossesse/', views.grossesse, name='grossesse'),
+    path('Pratique/', views.pratiques, name='pratiques'),
+    path('Facteur/', views.facteur, name='facteur'),
+    
 ]

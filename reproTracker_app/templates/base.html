@@ -8,7 +8,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="{% static 'images/logo.ico' %}" type="image/ico" />
-  <title>{% block title %}{% endblock %}</title>
+
+  <title>
+    {% block title %}
+    {% endblock %}
+  </title>
   <!-- Bootstrap -->
   <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Font Awesome -->
@@ -46,7 +50,8 @@
 
 
   <!-- Additional styles -->
-  {% block styles %}{% endblock %}
+  {% block styles %}
+  {% endblock %}
 
 
 </head>
@@ -61,8 +66,6 @@
           </div> -->
 
           <div class="clearfix"></div>
-
-
 
           <!-- sidebar menu -->
           {% block sidebar %} {% endblock %}

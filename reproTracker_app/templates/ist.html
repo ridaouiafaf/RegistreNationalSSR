@@ -42,7 +42,7 @@
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>id_personne</th>
+                                                <th>ID personne</th>
                                                 <th>VIH/SID</th>
                                                 <th>SYPHILIS</th>
                                                 <th>gonorrhée</th>
@@ -51,97 +51,27 @@
                                                 <th>hepatite_B</th>
                                                 <th>HSV</th>
                                                 <th>PVH</th>
-                                                <th>taux_depistoge</th>
+                                                <th>Taux depistoge</th>
                                             </tr>
                                         </thead>
 
 
                                         <tbody>
+                                            {% for item in ists %}
                                             <tr>
-                                                <td>1</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>10</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>0</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>1</td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>8</td>
-                                            </tr>
-                                            <tr>
-                                                <td>7</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>oui</td>
-                                                <td>oui</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>non</td>
-                                                <td>0</td>
+                                                <td>{{item.id_personne}}</td>
+                                                <td>{{item.vih_sid}}</td>
+                                                <td>{{item.syphilis}}</td>
+                                                <td>{{item.gonorrhee}}</td>
+                                                <td>{{item.chlamydiose}}</td>
+                                                <td>{{item.trichomonase}}</td>
+                                                <td>{{item.hepatite_b}}</td>
+                                                <td>{{item.hsv}}</td>
+                                                <td>{{item.phv}}</td>
+                                                <td>{{item.taux_depistoge}}</td>
                                             </tr>
                                            
+                                            {% endfor %}
                                            
                                         </tbody>
                                     </table>

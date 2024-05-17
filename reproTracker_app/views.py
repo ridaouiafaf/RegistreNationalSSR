@@ -388,31 +388,50 @@ def enquete_soumis(request):
     return JsonResponse({'message': 'Une erreur s\'est produite.'}, status=400)
 
 
+
+
+
+
 def personne(request):
-    return render(request, 'personne.html')
-
-def violence(request):
-    return render(request, 'violence.html')
-
-def sr(request):
-    return render(request, 'sr.html')
+    personnes = Personne.objects.all()  
+    return render(request, 'personne.html', {'personnes': personnes})
 
 def ist(request):
-    return render(request, 'ist.html')
+    ists = Ist.objects.all() 
+    return render(request, 'ist.html', {'ists': ists})
 
-def general(request):
-    return render(request, 'general.html')
+
+def violence(request):
+    violences = Violence.objects.all()  
+    return render(request, 'violence.html', {'violences': violences})
+
+def sr(request):
+    srs = Sr.objects.all()  
+    return render(request, 'sr.html', {'srs': srs})
 
 def pratiques(request):
-    return render(request, 'pratiques.html')
+    pratiques = Pratique.objects.all()  
+    return render(request, 'pratiques.html', {'pratiques': pratiques})
 
 def grossesse(request):
-    return render(request, 'grossesse.html')
+    grossesses = Grossesse.objects.all()  
+    return render(request, 'grossesse.html', {'grossesses': grossesses})
+
 def facteur(request):
-    return render(request, 'facteur.html')
+    facteurs = Facteur.objects.all()  
+    return render(request, 'facteur.html', {'facteurs': facteurs})
 
 def prenatal_maternel(request):
-    return render(request, 'prenatal_maternel.html')
+    prenatal_maternels = PrenatalMaternel.objects.all()  
+    return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
+
+
+def general (request):
+    generales = Generale.objects.all()  
+    return render(request, 'general.html', {'generales': generales})
+
+
+
 
 
 def projects(request):
