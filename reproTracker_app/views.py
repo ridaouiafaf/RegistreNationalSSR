@@ -85,131 +85,158 @@ def validate_phone(phone):
 
 def index(request):
     if not request.session.get('user_authenticated'):
-        return redirect('login')  
-    else:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM PERSONNE")
-            count = cursor.fetchone()[0]
-            cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'H'")
-            count_h = cursor.fetchone()[0]
-            cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
-            count_f = cursor.fetchone()[0]
-            personnes = Personne.objects.all()
-            city_counts = Personne.objects.values('ville').annotate(count=models.Count('id_personne'))
-            cities = [entry['ville'] for entry in city_counts]
-            counts = [entry['count'] for entry in city_counts]
-            years = [personne.date_naiss.year for personne in personnes]
+        return redirect('login')
+    
+    user_role = request.session.get('user_role')
+    
+    if user_role != 'responsable':
+        return redirect('login')
 
-            vih_sid_count = Ist.objects.filter(vih_sid='oui').count()
-            syphilis_count = Ist.objects.filter(syphilis='oui').count()
-            gonorrhee_count = Ist.objects.filter(gonorrhee='oui').count()
-            chlamydiose_count = Ist.objects.filter(chlamydiose='oui').count()
-            trichomonase_count = Ist.objects.filter(trichomonase='oui').count()
-            hepatite_b_count = Ist.objects.filter(hepatite_b='oui').count()
-            hsv_count = Ist.objects.filter(hsv='oui').count()
-            pvh_count = Ist.objects.filter(pvh='oui').count()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT COUNT(*) FROM PERSONNE")
+        count = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'H'")
+        count_h = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
+        count_f = cursor.fetchone()[0]
 
-            context= {
-                'person':count,
-                'homme':count_h, 
-                'femme':count_f,
-                'personnes':personnes,
-                'cities': cities,
-                'counts': counts,
-                'years' : years,
-                'vih_sid_count':vih_sid_count,
-                'syphilis_count':syphilis_count,
-                'gonorrhee_count':gonorrhee_count,
-                'chlamydiose_count':chlamydiose_count,
-                'trichomonase_count':trichomonase_count,
-                'hepatite_b_count':hepatite_b_count,
-                'hsv_count':hsv_count,
-                'pvh_count':pvh_count,
-            }
+    personnes = Personne.objects.all()
+    city_counts = Personne.objects.values('ville').annotate(count=models.Count('id_personne'))
+    cities = [entry['ville'] for entry in city_counts]
+    counts = [entry['count'] for entry in city_counts]
+    years = [personne.date_naiss.year for personne in personnes]
 
+    vih_sid_count = Ist.objects.filter(vih_sid='oui').count()
+    syphilis_count = Ist.objects.filter(syphilis='oui').count()
+    gonorrhee_count = Ist.objects.filter(gonorrhee='oui').count()
+    chlamydiose_count = Ist.objects.filter(chlamydiose='oui').count()
+    trichomonase_count = Ist.objects.filter(trichomonase='oui').count()
+    hepatite_b_count = Ist.objects.filter(hepatite_b='oui').count()
+    hsv_count = Ist.objects.filter(hsv='oui').count()
+    pvh_count = Ist.objects.filter(pvh='oui').count()
 
+    context= {
+        'person': count,
+        'homme': count_h, 
+        'femme': count_f,
+        'personnes': personnes,
+        'cities': cities,
+        'counts': counts,
+        'years': years,
+        'vih_sid_count': vih_sid_count,
+        'syphilis_count': syphilis_count,
+        'gonorrhee_count': gonorrhee_count,
+        'chlamydiose_count': chlamydiose_count,
+        'trichomonase_count': trichomonase_count,
+        'hepatite_b_count': hepatite_b_count,
+        'hsv_count': hsv_count,
+        'pvh_count': pvh_count,
+    }
     return render(request, 'index.html', context)
 
 def index2(request):
     if not request.session.get('user_authenticated'):
-        return redirect('login')  
+        return redirect('login')
+    
+    user_role = request.session.get('user_role')
+    
+    if user_role != 'doctorant':
+        return redirect('login')
+
     return render(request, 'index2.html')
 
 def index3(request):
     if not request.session.get('user_authenticated'):
-        return redirect('login')  
+        return redirect('login')
+    
+    user_role = request.session.get('user_role')
+    
+    if user_role != 'responsable':
+        return redirect('login')
+
     return render(request, 'index3.html')
 
 def enquetes(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        if request.session.get('user_authenticated'):
-            current_user_cin = request.session.get('user_cin')
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
 
-        current_directory = os.path.join(os.path.dirname(__file__), 'templates')
-        metiers_path = os.path.join(current_directory, 'métiers.json')
-        villes_path = os.path.join(current_directory, 'villes.json')
+    current_directory = os.path.join(os.path.dirname(__file__), 'templates')
+    metiers_path = os.path.join(current_directory, 'métiers.json')
+    villes_path = os.path.join(current_directory, 'villes.json')
 
-        with open(villes_path, 'r', encoding='utf-8') as file:
-            villes = json.load(file)
-        with open(metiers_path, 'r', encoding='utf-8') as file:
-            metiers = json.load(file)
-        
-        return render(request, 'enquetes.html', {
-            'villes': villes,
-            'metiers': metiers,
-            'cin_user':current_user_cin
-        })
+    with open(villes_path, 'r', encoding='utf-8') as file:
+        villes = json.load(file)
+    with open(metiers_path, 'r', encoding='utf-8') as file:
+        metiers = json.load(file)
+    
+    return render(request, 'enquetes.html', {
+        'villes': villes,
+        'metiers': metiers,
+        'cin_user':current_user_cin
+    })
 
 def compte_active(request):
     if not request.session.get('user_authenticated'):
-        return redirect('login')  
+        return redirect('login')
+    
+    user_role = request.session.get('user_role')
+    if user_role != 'responsable':
+        return redirect('login')
+    
+    current_user_cin = request.session.get('user_cin')
+    if current_user_cin:
+        data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
     else:
-        if request.session.get('user_authenticated'):
-            current_user_cin = request.session.get('user_cin')
-            if current_user_cin:
-                data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
-            else:
-                data = Doctorant.objects.filter(etat_compte='active')
-        else:
-            data = Doctorant.objects.filter(etat_compte='active')
-        
-        return render(request, 'compte_active.html', {'data': data})
+        data = Doctorant.objects.filter(etat_compte='active')
+
+    return render(request, 'compte_active.html', {'data': data})
 
 def desactiver_compte(request, cin):
     if not request.session.get('user_authenticated'):
-        return redirect('login')  
-    else:
-        doctorant = get_object_or_404(Doctorant, cin=cin)
-        doctorant.etat_compte = 'inactive'
-        doctorant.save()
-        messages.success(request, f"Le compte avec {cin} est désactivé")
-        return redirect('compte_active')
+        return redirect('login')
+    
+    user_role = request.session.get('user_role')
+    if user_role != 'responsable':
+        return redirect('login')
+    
+    doctorant = get_object_or_404(Doctorant, cin=cin)
+    doctorant.etat_compte = 'inactive'
+    doctorant.save()
+    messages.success(request, f"Le compte avec {cin} est désactivé")
+    return redirect('compte_active')
 
 def activer_compte(request, cin):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        doctorant = get_object_or_404(Doctorant, cin=cin)
-        doctorant.etat_compte = 'active'
-        doctorant.save()
-        messages.success(request, f"Le compte avec {cin} est activé")
-        return redirect('compte_desactive')
+    user_role = request.session.get('user_role')
+    if user_role != 'responsable':
+        return redirect('login')
+    doctorant = get_object_or_404(Doctorant, cin=cin)
+    doctorant.etat_compte = 'active'
+    doctorant.save()
+    messages.success(request, f"Le compte avec {cin} est activé")
+    return redirect('compte_desactive')
 
 def compte_desactive(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        if request.session.get('user_authenticated'):
-            current_user_cin = request.session.get('user_cin')
-            if current_user_cin:
-                data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
-            else:
-                data = Doctorant.objects.filter(etat_compte='inactive')
+    user_role = request.session.get('user_role')
+    if user_role != 'responsable':
+        return redirect('login')
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
+        if current_user_cin:
+            data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
         else:
             data = Doctorant.objects.filter(etat_compte='inactive')
-        return render(request, 'compte_desactive.html', {'data': data})
+    else:
+        data = Doctorant.objects.filter(etat_compte='inactive')
+    return render(request, 'compte_desactive.html', {'data': data})
 
 @transaction.atomic
 def enquete_soumis(request):
@@ -430,58 +457,74 @@ def contacts(request):
 def personne(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        personnes = Personne.objects.all()  
-        return render(request, 'personne.html', {'personnes': personnes})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    personnes = Personne.objects.all()  
+    return render(request, 'personne.html', {'personnes': personnes})
 
 def ist(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        ists = Ist.objects.all() 
-        return render(request, 'ist.html', {'ists': ists})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    ists = Ist.objects.all() 
+    return render(request, 'ist.html', {'ists': ists})
 
 def violence(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        violences = Violence.objects.all()  
-        return render(request, 'violence.html', {'violences': violences})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    violences = Violence.objects.all()  
+    return render(request, 'violence.html', {'violences': violences})
 
 def sr(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        srs = Sr.objects.all()  
-        return render(request, 'sr.html', {'srs': srs})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    srs = Sr.objects.all()  
+    return render(request, 'sr.html', {'srs': srs})
 
 def pratiques(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        pratiques = Pratique.objects.all()  
-        return render(request, 'pratiques.html', {'pratiques': pratiques})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    pratiques = Pratique.objects.all()  
+    return render(request, 'pratiques.html', {'pratiques': pratiques})
 
 def grossesse(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        grossesses = Grossesse.objects.all()  
-        return render(request, 'grossesse.html', {'grossesses': grossesses})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    grossesses = Grossesse.objects.all()  
+    return render(request, 'grossesse.html', {'grossesses': grossesses})
 
 def facteur(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        facteurs = Facteur.objects.all()  
-        return render(request, 'facteur.html', {'facteurs': facteurs})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    facteurs = Facteur.objects.all()  
+    return render(request, 'facteur.html', {'facteurs': facteurs})
 
 def prenatal_maternel(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
-    else:
-        prenatal_maternels = PrenatalMaternel.objects.all()  
-        return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
+    prenatal_maternels = PrenatalMaternel.objects.all()  
+    return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
 
 def general (request):
     if not request.session.get('user_authenticated'):
