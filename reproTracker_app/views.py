@@ -141,60 +141,75 @@ def index3(request):
     return render(request, 'index3.html')
 
 def enquetes(request):
-    if request.session.get('user_authenticated'):
-        current_user_cin = request.session.get('user_cin')
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        if request.session.get('user_authenticated'):
+            current_user_cin = request.session.get('user_cin')
 
-    current_directory = os.path.join(os.path.dirname(__file__), 'templates')
-    metiers_path = os.path.join(current_directory, 'métiers.json')
-    villes_path = os.path.join(current_directory, 'villes.json')
+        current_directory = os.path.join(os.path.dirname(__file__), 'templates')
+        metiers_path = os.path.join(current_directory, 'métiers.json')
+        villes_path = os.path.join(current_directory, 'villes.json')
 
-    with open(villes_path, 'r', encoding='utf-8') as file:
-        villes = json.load(file)
-    with open(metiers_path, 'r', encoding='utf-8') as file:
-        metiers = json.load(file)
-    
-    return render(request, 'enquetes.html', {
-        'villes': villes,
-        'metiers': metiers,
-        'cin_user':current_user_cin
-    })
+        with open(villes_path, 'r', encoding='utf-8') as file:
+            villes = json.load(file)
+        with open(metiers_path, 'r', encoding='utf-8') as file:
+            metiers = json.load(file)
+        
+        return render(request, 'enquetes.html', {
+            'villes': villes,
+            'metiers': metiers,
+            'cin_user':current_user_cin
+        })
 
 def compte_active(request):
-    if request.session.get('user_authenticated'):
-        current_user_cin = request.session.get('user_cin')
-        if current_user_cin:
-            data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        if request.session.get('user_authenticated'):
+            current_user_cin = request.session.get('user_cin')
+            if current_user_cin:
+                data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
+            else:
+                data = Doctorant.objects.filter(etat_compte='active')
         else:
             data = Doctorant.objects.filter(etat_compte='active')
-    else:
-        data = Doctorant.objects.filter(etat_compte='active')
-    
-    return render(request, 'compte_active.html', {'data': data})
+        
+        return render(request, 'compte_active.html', {'data': data})
 
 def desactiver_compte(request, cin):
-    doctorant = get_object_or_404(Doctorant, cin=cin)
-    doctorant.etat_compte = 'inactive'
-    doctorant.save()
-    messages.success(request, f"Le compte avec {cin} est désactivé")
-    return redirect('compte_active')
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        doctorant = get_object_or_404(Doctorant, cin=cin)
+        doctorant.etat_compte = 'inactive'
+        doctorant.save()
+        messages.success(request, f"Le compte avec {cin} est désactivé")
+        return redirect('compte_active')
 
 def activer_compte(request, cin):
-    doctorant = get_object_or_404(Doctorant, cin=cin)
-    doctorant.etat_compte = 'active'
-    doctorant.save()
-    messages.success(request, f"Le compte avec {cin} est activé")
-    return redirect('compte_desactive')
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        doctorant = get_object_or_404(Doctorant, cin=cin)
+        doctorant.etat_compte = 'active'
+        doctorant.save()
+        messages.success(request, f"Le compte avec {cin} est activé")
+        return redirect('compte_desactive')
 
 def compte_desactive(request):
-    if request.session.get('user_authenticated'):
-        current_user_cin = request.session.get('user_cin')
-        if current_user_cin:
-            data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        if request.session.get('user_authenticated'):
+            current_user_cin = request.session.get('user_cin')
+            if current_user_cin:
+                data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
+            else:
+                data = Doctorant.objects.filter(etat_compte='inactive')
         else:
             data = Doctorant.objects.filter(etat_compte='inactive')
-    else:
-        data = Doctorant.objects.filter(etat_compte='inactive')
-    return render(request, 'compte_desactive.html', {'data': data})
+        return render(request, 'compte_desactive.html', {'data': data})
 
 @transaction.atomic
 def enquete_soumis(request):
@@ -393,42 +408,69 @@ def enquete_soumis(request):
 
 
 def personne(request):
-    personnes = Personne.objects.all()  
-    return render(request, 'personne.html', {'personnes': personnes})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        personnes = Personne.objects.all()  
+        return render(request, 'personne.html', {'personnes': personnes})
 
 def ist(request):
-    ists = Ist.objects.all() 
-    return render(request, 'ist.html', {'ists': ists})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        ists = Ist.objects.all() 
+        return render(request, 'ist.html', {'ists': ists})
 
 
 def violence(request):
-    violences = Violence.objects.all()  
-    return render(request, 'violence.html', {'violences': violences})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        violences = Violence.objects.all()  
+        return render(request, 'violence.html', {'violences': violences})
 
 def sr(request):
-    srs = Sr.objects.all()  
-    return render(request, 'sr.html', {'srs': srs})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        srs = Sr.objects.all()  
+        return render(request, 'sr.html', {'srs': srs})
 
 def pratiques(request):
-    pratiques = Pratique.objects.all()  
-    return render(request, 'pratiques.html', {'pratiques': pratiques})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        pratiques = Pratique.objects.all()  
+        return render(request, 'pratiques.html', {'pratiques': pratiques})
 
 def grossesse(request):
-    grossesses = Grossesse.objects.all()  
-    return render(request, 'grossesse.html', {'grossesses': grossesses})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        grossesses = Grossesse.objects.all()  
+        return render(request, 'grossesse.html', {'grossesses': grossesses})
 
 def facteur(request):
-    facteurs = Facteur.objects.all()  
-    return render(request, 'facteur.html', {'facteurs': facteurs})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        facteurs = Facteur.objects.all()  
+        return render(request, 'facteur.html', {'facteurs': facteurs})
 
 def prenatal_maternel(request):
-    prenatal_maternels = PrenatalMaternel.objects.all()  
-    return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        prenatal_maternels = PrenatalMaternel.objects.all()  
+        return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
 
 
 def general (request):
-    generales = Generale.objects.all()  
-    return render(request, 'general.html', {'generales': generales})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        generales = Generale.objects.all()  
+        return render(request, 'general.html', {'generales': generales})
 
 
 
