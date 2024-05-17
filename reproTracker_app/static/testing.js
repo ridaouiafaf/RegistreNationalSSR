@@ -66,7 +66,7 @@ function SmartWizard(target, options) {
                     ville: $('select[name="ville"]').val(), 
                     metier: $('select[name="metier"]').val(),
                     etatCivil: $('select[name="etat_civil"]').val(), 
-
+        
                     planification: $('input[name="planification"]:checked').val(),
                     methode: $('#methode').val(),
                     envi_enfant: $('input[name="enfant"]:checked').val(),
@@ -76,12 +76,12 @@ function SmartWizard(target, options) {
                     fausse_couche: $('#fausse_couche').val(),
                     fausse_couche_intentionnelle: $('#fausse_couche_intentionnelle').val(),
                     enfant_hors_mariage: $('#enfant_hors_mariage').val(),
-
+        
                     conscience: $('input[name="conscience"]:checked').val(), 
                     motCleConscience: $('#mot_cle_conscience').val(), 
                     utilisation: $('input[name="utilisation"]:checked').val(), 
                     motCleUtilisation: $('#mot_cle_utilisation').val(), 
-
+        
                     vih: $('input[name="vih"]:checked').val(), 
                     syphilis: $('input[name="syphilis"]:checked').val(), 
                     trichomonase: $('input[name="trichomonase"]:checked').val(), 
@@ -106,100 +106,94 @@ function SmartWizard(target, options) {
                     harcelementSexuel: $('select[name="harcelement_sexuel"]').val(),
                     nbr_harcel_sex: $('#nbr_harcel_sex').val(),
                     santeMentale: $('input[name="sante_mentale"]:checked').val(),
-
+        
                     verificationSR: $('#verification_sr').val(),
                     serviceExamen: $('input[name="service_examen"]:checked').val(),
                     problemeSexuel: $('#probleme_sexuel').val(),
                     satisfactionSexuelle: $('select[name="satisfaction_sexuelle"]').val(),
                     demandeSoutien: $('input[name="demande_soutien"]:checked').val(),
-
+        
                     religion: $('select[name="religion"]').val(),
                     niveauEtudes: $('select[name="niveau_etudes"]').val(),
                     revenu: $('#revenu').val(),
                     niveauSocial: $('select[name="niveau_social"]').val(),
                     normeCulturelle: $('select[name="norme_culturelle"]').val(),
-                    normeReligieuse: $('select[name="norme_religieuse"]').val(),
-
-                    doctorant: $('#doctorant').val(),
-                    anneeRealisation: $('#annee_realisation').val(),
-                    enquete: $('#enquete').val()
+                    normeReligieuse: $('select[name="norme_religieuse"]').val()
                 };
-
+        
+                // Vérification des champs requis
                 if (
-                    enquete_data.cin != null && enquete_data.prenom != null && enquete_data.nom != null && enquete_data.dateNaissance != null &&
-                    enquete_data.genre != null && enquete_data.nationnalite != null && enquete_data.adresse != null && enquete_data.ville != null &&
-                    enquete_data.metier != null && enquete_data.etatCivil != null &&
-                    enquete_data.envi_enfant != null && enquete_data.nombre_enfant != null &&
-                    enquete_data.nombre_enfant_planifie != null && enquete_data.nombre_enfant_non_planifie != null &&
-                    enquete_data.enfant_hors_mariage != null &&
-                    enquete_data.conscience != null && enquete_data.motCleConscience != null &&
-                    enquete_data.utilisation != null && enquete_data.motCleUtilisation != null &&
-                    enquete_data.vih != null && enquete_data.syphilis != null && enquete_data.trichomonase != null &&
-                    enquete_data.gonorrhee != null && enquete_data.chlamydia != null && enquete_data.hepatiteB != null &&
-                    enquete_data.hsv2 != null && enquete_data.hpv != null && enquete_data.ist != null &&
-                    enquete_data.servicePrenatal != null && enquete_data.serviceMaternel != null &&
-                    enquete_data.violencesSexuelles != null && enquete_data.agressionsSexuelles != null && enquete_data.viols != null &&
-                    enquete_data.harcelementSexuel != null && enquete_data.nbr_harcel_sex != null && enquete_data.santeMentale != null &&
-                    enquete_data.verificationSR != null && enquete_data.serviceExamen != null && enquete_data.problemeSexuel != null &&
-                    enquete_data.satisfactionSexuelle != null && enquete_data.demandeSoutien != null &&
-                    enquete_data.religion != null && enquete_data.niveauEtudes != null && enquete_data.revenu != null &&
-                    enquete_data.niveauSocial != null && enquete_data.normeCulturelle != null &&
-                    enquete_data.normeReligieuse != null && enquete_data.doctorant != null &&
-                    enquete_data.anneeRealisation != null && enquete_data.enquete != null
-                ) {
-                    toastr.error("Veuillez remplir les champs obligatoires !");
-                    return false;
-                }else{
-            
-
-                // Obtenez le jeton CSRF à partir des cookies
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie !== '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = cookies[i].trim();
-                            // Recherchez le jeton CSRF
-                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
+                    enquete_data.cin.trim() == '' || enquete_data.prenom.trim() == '' || enquete_data.nom.trim() == '' || enquete_data.dateNaissance == '' ||
+                    enquete_data.genre == null || enquete_data.nationnalite == null || enquete_data.adresse.trim() == '' || enquete_data.ville == null ||
+                    enquete_data.metier == null || enquete_data.etatCivil == null ||
+                    enquete_data.envi_enfant == null || enquete_data.nombre_enfant.trim() == '' ||
+                    enquete_data.nombre_enfant_planifie.trim() == '' || enquete_data.nombre_enfant_non_planifie.trim() == '' ||
+                    enquete_data.enfant_hors_mariage.trim() == '' ||
+                    enquete_data.conscience == null || enquete_data.utilisation == null || 
+                    enquete_data.vih == null || enquete_data.syphilis == null || enquete_data.trichomonase == null ||
+                    enquete_data.gonorrhee == null || enquete_data.chlamydia == null || enquete_data.hepatiteB == null ||
+                    enquete_data.hsv2 == null || enquete_data.hpv == null || enquete_data.ist.trim() == '' ||
+                    enquete_data.violencesSexuelles.trim() == '' || enquete_data.agressionsSexuelles.trim() == '' || enquete_data.viols.trim() == '' ||
+                    enquete_data.harcelementSexuel.trim() == '' || enquete_data.nbr_harcel_sex.trim() == '' || enquete_data.santeMentale == null ||
+                    enquete_data.verificationSR.trim() == '' || enquete_data.serviceExamen == null || enquete_data.problemeSexuel.trim() == '' ||
+                    enquete_data.satisfactionSexuelle == null || enquete_data.demandeSoutien == null ||
+                    enquete_data.religion == null || enquete_data.niveauEtudes == null || enquete_data.revenu.trim() == '' ||
+                    enquete_data.niveauSocial == null || enquete_data.normeCulturelle == null ||
+                    enquete_data.normeReligieuse == null) {
+                    alert("sitik");
+                    if(enquete_data.genre=='F'){
+                        if(enquete_data.servicePrenatal==null || enquete_data.complicationGrosse==null||
+                            enquete_data.complicationAccouchement==null || enquete_data.serviceMaternel==null || enquete_data.methodeAccouchement==''){                    
+                            toastr.error("Veuillez remplir les champs obligatoires !");
+                            return false;}
+                    } else{
+                        toastr.error("Veuillez remplir les champs obligatoires !");
+                        return false;
+                    }
+                } else {
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie !== '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = cookies[i].trim();
+                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
                             }
                         }
+                        return cookieValue;
                     }
-                    return cookieValue;
-                }
-
-                // Ajoutez le jeton CSRF à vos en-têtes de requête AJAX
-                $.ajaxSetup({
-                    beforeSend: function (xhr, settings) {
-                        if (!this.crossDomain) {
-                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        
+                    $.ajaxSetup({
+                        beforeSend: function (xhr, settings) {
+                            if (!this.crossDomain) {
+                                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                            }
                         }
-                    }
-                });
-
-                // Votre code AJAX modifié
-                $.ajax({
-                    url: '/enquete_soumis/',
-                    type: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    data: enquete_data,
-                    success: function (response) {
-                        toastr.success('Formulaire soumis avec succès');
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                        toastr.error('Une erreur s\'est produite lors de la soumission du formulaire');
-                    }
-                });
-            }
-                
-
-
-
-
+                    });
+        
+                    $.ajax({
+                        url: '/enquete_soumis/',
+                        type: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        data: enquete_data,
+                        success: function (response) {
+                            $('#cin').val('');
+                            $('#prenom').val('');
+                            $('#nom').val('');
+                            toastr.success('Formulaire soumis avec succès');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                            toastr.error('Une erreur s\'est produite lors de la soumission du formulaire');
+                        }
+                    });
+                }
+        
                 if ($.isFunction($this.options.onFinish)) {
                     var context = { fromStep: $this.curStepIdx + 1 };
                     if (!$this.options.onFinish.call(this, $($this.steps), context)) {
@@ -212,9 +206,10 @@ function SmartWizard(target, options) {
                     }
                 }
             }
-
+        
             return false;
         });
+        
 
 
         $($this.steps).bind("click", function (e) {

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import json, os, re
+import json, os, re, bcrypt
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -11,6 +11,9 @@ from django.views.decorators.cache import never_cache
 from .models import *
 from django.http import JsonResponse
 from django.db.models import Count, Q, Max
+from datetime import datetime
+
+
 
 @never_cache
 def login(request):
@@ -26,7 +29,8 @@ def login(request):
                 cin, role, etat_compte = row
                 if etat_compte == "active":
                     request.session['user_authenticated'] = True
-                    request.session['user_cin'] = cin  
+                    request.session['user_cin'] = cin 
+                    request.session['user_role'] = role 
                     if role == "responsable":
                         return redirect('index')
                     else:
@@ -43,12 +47,20 @@ def login(request):
 def inscrire(request):
     if request.method == 'POST':
         nomComplet = request.POST.get('nom_prenom')
+        if nomComplet:
+            nomComplet = nomComplet.strip().lower()
         email = request.POST.get('email')
+        if email:
+            email = email.strip().lower()
         password = request.POST.get('passwordInscrire')
+        if password:
+            salt = bcrypt.gensalt()
+            password = bcrypt.hashpw(password.encode('utf-8'), salt)
         telephone = request.POST.get('tele')
         role = request.POST.get('role')
         cin = request.POST.get('cin')
-        
+        if cin:
+            cin = cin.strip().upper()
         doctorant = Doctorant.objects.create(
             nomComplet=nomComplet,
             email=email,
@@ -66,7 +78,6 @@ def inscrire(request):
 def validate_email(email):
     email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(email_regex, email)
-
 
 def validate_phone(phone):
     phone_regex = r'^(\+212|00212|0)(6|7)[0-9]{8}$'
@@ -130,57 +141,84 @@ def index3(request):
     return render(request, 'index3.html')
 
 def enquetes(request):
-    current_directory = os.path.dirname(__file__)+'\\templates'
-    metiers = os.path.join(current_directory, 'métiers.json')
-    villes = os.path.join(current_directory, 'villes.json')
-    with open(villes, 'r', encoding='utf-8') as file:
-        villes = json.load(file)
-    with open(metiers, 'r', encoding='utf-8') as file:
-        metiers = json.load(file)
-    return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        if request.session.get('user_authenticated'):
+            current_user_cin = request.session.get('user_cin')
 
+        current_directory = os.path.join(os.path.dirname(__file__), 'templates')
+        metiers_path = os.path.join(current_directory, 'métiers.json')
+        villes_path = os.path.join(current_directory, 'villes.json')
+
+        with open(villes_path, 'r', encoding='utf-8') as file:
+            villes = json.load(file)
+        with open(metiers_path, 'r', encoding='utf-8') as file:
+            metiers = json.load(file)
+        
+        return render(request, 'enquetes.html', {
+            'villes': villes,
+            'metiers': metiers,
+            'cin_user':current_user_cin
+        })
 
 def compte_active(request):
-    if request.session.get('user_authenticated'):
-        current_user_cin = request.session.get('user_cin')
-        if current_user_cin:
-            data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        if request.session.get('user_authenticated'):
+            current_user_cin = request.session.get('user_cin')
+            if current_user_cin:
+                data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
+            else:
+                data = Doctorant.objects.filter(etat_compte='active')
         else:
             data = Doctorant.objects.filter(etat_compte='active')
-    else:
-        data = Doctorant.objects.filter(etat_compte='active')
-    
-    return render(request, 'compte_active.html', {'data': data})
+        
+        return render(request, 'compte_active.html', {'data': data})
 
 def desactiver_compte(request, cin):
-    doctorant = get_object_or_404(Doctorant, cin=cin)
-    doctorant.etat_compte = 'inactive'
-    doctorant.save()
-    messages.success(request, f"Le compte avec {cin} est désactivé")
-    return redirect('compte_active')
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        doctorant = get_object_or_404(Doctorant, cin=cin)
+        doctorant.etat_compte = 'inactive'
+        doctorant.save()
+        messages.success(request, f"Le compte avec {cin} est désactivé")
+        return redirect('compte_active')
 
 def activer_compte(request, cin):
-    doctorant = get_object_or_404(Doctorant, cin=cin)
-    doctorant.etat_compte = 'active'
-    doctorant.save()
-    messages.success(request, f"Le compte avec {cin} est activé")
-    return redirect('compte_desactive')
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        doctorant = get_object_or_404(Doctorant, cin=cin)
+        doctorant.etat_compte = 'active'
+        doctorant.save()
+        messages.success(request, f"Le compte avec {cin} est activé")
+        return redirect('compte_desactive')
 
 def compte_desactive(request):
-    if request.session.get('user_authenticated'):
-        current_user_cin = request.session.get('user_cin')
-        if current_user_cin:
-            data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        if request.session.get('user_authenticated'):
+            current_user_cin = request.session.get('user_cin')
+            if current_user_cin:
+                data = Doctorant.objects.filter(etat_compte='inactive').exclude(cin=current_user_cin)
+            else:
+                data = Doctorant.objects.filter(etat_compte='inactive')
         else:
             data = Doctorant.objects.filter(etat_compte='inactive')
-    else:
-        data = Doctorant.objects.filter(etat_compte='inactive')
-    return render(request, 'compte_desactive.html', {'data': data})
+        return render(request, 'compte_desactive.html', {'data': data})
 
 @transaction.atomic
 def enquete_soumis(request):
     if request.method == 'POST' :
         try:
+            if request.session.get('user_authenticated'):
+                current_user_cin = request.session.get('user_cin')
+            
+            
             # Personne oooooooookkkk
             prenom = request.POST.get('prenom')
             nom = request.POST.get('nom')
@@ -274,6 +312,7 @@ def enquete_soumis(request):
                 nb_enfant_hors_mariage=nb_enfant_hors_mariage
             )
             
+
             #PrenatalMaternel oookkkkkkkk
             acc_serv_prenatal = request.POST.get('servicePrenatal')
             comp_grass = request.POST.get('complicationGrosse')
@@ -293,7 +332,7 @@ def enquete_soumis(request):
                 acc_serv_maternel=acc_serv_maternel,
                 meth_accouch=meth_accouch
             )
-            
+        
             # Violence ooooooooooookkkkkkk
             taux_viol_sex = request.POST.get('violencesSexuelles') #Avez-vous déjà subi des violences sexuelles lors de rapports sexuels, combien ? *
             agress_sex = request.POST.get('agressionsSexuelles') #Avez-vous déjà été agressé sexuellement, combien de fois ? *
@@ -348,8 +387,8 @@ def enquete_soumis(request):
             )
 
             # Enquete oookkk
-            doctorant = request.POST.get('doctorant')
-            annee_realisation = request.POST.get('anneeRealisation')
+            doctorant = current_user_cin
+            annee_realisation = datetime.now().year
 
             enquete = Enquete.objects.create(
                 id_personne=id_personne,
@@ -359,54 +398,97 @@ def enquete_soumis(request):
 
             return JsonResponse({'message': 'Formulaire soumis avec succès'})
         except Exception as e:
-            # En cas d'erreur, annuler la transaction et renvoyer un message d'erreur
             transaction.set_rollback(True)
             return JsonResponse({'message': str(e)}, status=400)
     return JsonResponse({'message': 'Une erreur s\'est produite.'}, status=400)
 
+def contacts(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')
 
+    current_user_cin = request.session.get('user_cin')
+    user_role = request.session.get('user_role')
+    if user_role=='doctorant':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT nomComplet, role, email, telephone FROM doctorant WHERE cin != %s AND etat_compte = 'active' ",
+                    [current_user_cin]
+                )
+                columns = [col[0] for col in cursor.description]
+                data = [
+                    dict(zip(columns, row))
+                    for row in cursor.fetchall()
+                ]
+        except DatabaseError as e:
+            print(f"Database error: {e}")
+            data = []
 
-
-
+        return render(request, 'contacts.html', {'datas': data})
+    redirect('login')
 
 def personne(request):
-    personnes = Personne.objects.all()  
-    return render(request, 'personne.html', {'personnes': personnes})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        personnes = Personne.objects.all()  
+        return render(request, 'personne.html', {'personnes': personnes})
 
 def ist(request):
-    ists = Ist.objects.all() 
-    return render(request, 'ist.html', {'ists': ists})
-
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        ists = Ist.objects.all() 
+        return render(request, 'ist.html', {'ists': ists})
 
 def violence(request):
-    violences = Violence.objects.all()  
-    return render(request, 'violence.html', {'violences': violences})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        violences = Violence.objects.all()  
+        return render(request, 'violence.html', {'violences': violences})
 
 def sr(request):
-    srs = Sr.objects.all()  
-    return render(request, 'sr.html', {'srs': srs})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        srs = Sr.objects.all()  
+        return render(request, 'sr.html', {'srs': srs})
 
 def pratiques(request):
-    pratiques = Pratique.objects.all()  
-    return render(request, 'pratiques.html', {'pratiques': pratiques})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        pratiques = Pratique.objects.all()  
+        return render(request, 'pratiques.html', {'pratiques': pratiques})
 
 def grossesse(request):
-    grossesses = Grossesse.objects.all()  
-    return render(request, 'grossesse.html', {'grossesses': grossesses})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        grossesses = Grossesse.objects.all()  
+        return render(request, 'grossesse.html', {'grossesses': grossesses})
 
 def facteur(request):
-    facteurs = Facteur.objects.all()  
-    return render(request, 'facteur.html', {'facteurs': facteurs})
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        facteurs = Facteur.objects.all()  
+        return render(request, 'facteur.html', {'facteurs': facteurs})
 
 def prenatal_maternel(request):
-    prenatal_maternels = PrenatalMaternel.objects.all()  
-    return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
-
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        prenatal_maternels = PrenatalMaternel.objects.all()  
+        return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
 
 def general (request):
-    generales = Generale.objects.all()  
-    return render(request, 'general.html', {'generales': generales})
-
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    else:
+        generales = Generale.objects.all()  
+        return render(request, 'general.html', {'generales': generales})
 
 
 
@@ -417,8 +499,6 @@ def projects(request):
 def project_detail(request):
     return render(request, 'project_detail.html')
 
-def contacts(request):
-    return render(request, 'contacts.html')
 
 def profile(request):
     return render(request, 'profile.html')

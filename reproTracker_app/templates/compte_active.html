@@ -72,7 +72,7 @@
                                                     <form action="{% url 'desactiver_compte' doctorant.cin %}"
                                                         method="post">
                                                         {% csrf_token %}
-                                                        <button type="submit">Désactiver</button>
+                                                        <button type="submit" class="btn btn-danger" data-toggle-class="btn-danger" data-toggle-passive-class="btn-secondary">Désactiver</button>
                                                     </form>
                                                 </td>
                                             </tr>

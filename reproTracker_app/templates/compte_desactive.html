@@ -74,7 +74,7 @@
                                                     <form action="{% url 'activer_compte' doctorant.cin %}"
                                                         method="post">
                                                         {% csrf_token %}
-                                                        <button type="submit">Activer</button>
+                                                        <button type="submit" class="btn btn-success" data-toggle-class="btn-success" data-toggle-passive-class="btn-secondary">Activer</button>
                                                     </form>
                                                 </td>
                                             </tr>
