@@ -29,7 +29,8 @@ def login(request):
                 cin, role, etat_compte = row
                 if etat_compte == "active":
                     request.session['user_authenticated'] = True
-                    request.session['user_cin'] = cin  
+                    request.session['user_cin'] = cin 
+                    request.session['user_role'] = role 
                     if role == "responsable":
                         return redirect('index')
                     else:
@@ -77,7 +78,6 @@ def inscrire(request):
 def validate_email(email):
     email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(email_regex, email)
-
 
 def validate_phone(phone):
     phone_regex = r'^(\+212|00212|0)(6|7)[0-9]{8}$'
@@ -402,10 +402,30 @@ def enquete_soumis(request):
             return JsonResponse({'message': str(e)}, status=400)
     return JsonResponse({'message': 'Une erreur s\'est produite.'}, status=400)
 
+def contacts(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')
 
+    current_user_cin = request.session.get('user_cin')
+    user_role = request.session.get('user_role')
+    if user_role=='doctorant':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT nomComplet, role, email, telephone FROM doctorant WHERE cin != %s AND etat_compte = 'active' ",
+                    [current_user_cin]
+                )
+                columns = [col[0] for col in cursor.description]
+                data = [
+                    dict(zip(columns, row))
+                    for row in cursor.fetchall()
+                ]
+        except DatabaseError as e:
+            print(f"Database error: {e}")
+            data = []
 
-
-
+        return render(request, 'contacts.html', {'datas': data})
+    redirect('login')
 
 def personne(request):
     if not request.session.get('user_authenticated'):
@@ -420,7 +440,6 @@ def ist(request):
     else:
         ists = Ist.objects.all() 
         return render(request, 'ist.html', {'ists': ists})
-
 
 def violence(request):
     if not request.session.get('user_authenticated'):
@@ -464,7 +483,6 @@ def prenatal_maternel(request):
         prenatal_maternels = PrenatalMaternel.objects.all()  
         return render(request, 'prenatal_maternel.html', {'prenatal_maternels': prenatal_maternels})
 
-
 def general (request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
@@ -475,15 +493,12 @@ def general (request):
 
 
 
-
 def projects(request):
     return render(request, 'projects.html')
 
 def project_detail(request):
     return render(request, 'project_detail.html')
 
-def contacts(request):
-    return render(request, 'contacts.html')
 
 def profile(request):
     return render(request, 'profile.html')
