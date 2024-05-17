@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import json, os, re
+import json, os, re, bcrypt
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -11,6 +11,9 @@ from django.views.decorators.cache import never_cache
 from .models import *
 from django.http import JsonResponse
 from django.db.models import Count, Q, Max
+from datetime import datetime
+
+
 
 @never_cache
 def login(request):
@@ -43,12 +46,20 @@ def login(request):
 def inscrire(request):
     if request.method == 'POST':
         nomComplet = request.POST.get('nom_prenom')
+        if nomComplet:
+            nomComplet = nomComplet.strip().lower()
         email = request.POST.get('email')
+        if email:
+            email = email.strip().lower()
         password = request.POST.get('passwordInscrire')
+        if password:
+            salt = bcrypt.gensalt()
+            password = bcrypt.hashpw(password.encode('utf-8'), salt)
         telephone = request.POST.get('tele')
         role = request.POST.get('role')
         cin = request.POST.get('cin')
-        
+        if cin:
+            cin = cin.strip().upper()
         doctorant = Doctorant.objects.create(
             nomComplet=nomComplet,
             email=email,
@@ -130,15 +141,23 @@ def index3(request):
     return render(request, 'index3.html')
 
 def enquetes(request):
-    current_directory = os.path.dirname(__file__)+'\\templates'
-    metiers = os.path.join(current_directory, 'métiers.json')
-    villes = os.path.join(current_directory, 'villes.json')
-    with open(villes, 'r', encoding='utf-8') as file:
-        villes = json.load(file)
-    with open(metiers, 'r', encoding='utf-8') as file:
-        metiers = json.load(file)
-    return render(request, 'enquetes.html', {'villes': villes, 'metiers': metiers})
+    if request.session.get('user_authenticated'):
+        current_user_cin = request.session.get('user_cin')
 
+    current_directory = os.path.join(os.path.dirname(__file__), 'templates')
+    metiers_path = os.path.join(current_directory, 'métiers.json')
+    villes_path = os.path.join(current_directory, 'villes.json')
+
+    with open(villes_path, 'r', encoding='utf-8') as file:
+        villes = json.load(file)
+    with open(metiers_path, 'r', encoding='utf-8') as file:
+        metiers = json.load(file)
+    
+    return render(request, 'enquetes.html', {
+        'villes': villes,
+        'metiers': metiers,
+        'cin_user':current_user_cin
+    })
 
 def compte_active(request):
     if request.session.get('user_authenticated'):
@@ -181,6 +200,10 @@ def compte_desactive(request):
 def enquete_soumis(request):
     if request.method == 'POST' :
         try:
+            if request.session.get('user_authenticated'):
+                current_user_cin = request.session.get('user_cin')
+            
+            
             # Personne oooooooookkkk
             prenom = request.POST.get('prenom')
             nom = request.POST.get('nom')
@@ -274,6 +297,7 @@ def enquete_soumis(request):
                 nb_enfant_hors_mariage=nb_enfant_hors_mariage
             )
             
+
             #PrenatalMaternel oookkkkkkkk
             acc_serv_prenatal = request.POST.get('servicePrenatal')
             comp_grass = request.POST.get('complicationGrosse')
@@ -293,7 +317,7 @@ def enquete_soumis(request):
                 acc_serv_maternel=acc_serv_maternel,
                 meth_accouch=meth_accouch
             )
-            
+        
             # Violence ooooooooooookkkkkkk
             taux_viol_sex = request.POST.get('violencesSexuelles') #Avez-vous déjà subi des violences sexuelles lors de rapports sexuels, combien ? *
             agress_sex = request.POST.get('agressionsSexuelles') #Avez-vous déjà été agressé sexuellement, combien de fois ? *
@@ -348,8 +372,8 @@ def enquete_soumis(request):
             )
 
             # Enquete oookkk
-            doctorant = request.POST.get('doctorant')
-            annee_realisation = request.POST.get('anneeRealisation')
+            doctorant = current_user_cin
+            annee_realisation = datetime.now().year
 
             enquete = Enquete.objects.create(
                 id_personne=id_personne,
@@ -359,7 +383,6 @@ def enquete_soumis(request):
 
             return JsonResponse({'message': 'Formulaire soumis avec succès'})
         except Exception as e:
-            # En cas d'erreur, annuler la transaction et renvoyer un message d'erreur
             transaction.set_rollback(True)
             return JsonResponse({'message': str(e)}, status=400)
     return JsonResponse({'message': 'Une erreur s\'est produite.'}, status=400)

@@ -78,7 +78,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#step-5">
+                                    <a href="#step-5"  id="step-5-link">
                                         <span class="step_no">5</span>
                                         <span class="step_descr">
                                             Etape 5<br />
@@ -306,7 +306,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-form-label col-md-6 col-sm-6 "> Utilisz-vous les services
+                                        <label class="col-form-label col-md-6 col-sm-6 "> Utilisez-vous les services
                                             disponible pour controler et prendre soins de votre vie sexuelle? <span
                                                 class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
@@ -638,7 +638,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="step-5" class="centrer">
+                                <div id="step-5" class="centrer a">
+                                    <h2><span id="textHomme" style="visibility: hidden;"> Cette étape ne concerne pas l'homme</span></h2>
+                                    
                                     <div class="form-group x row" id="service_prenatal_div">
                                         <label class="col-form-label col-md-6 col-sm-6 "> Avez-vous accès aux
                                             services prénatals ? <span class="required">*</span></label>
@@ -678,9 +680,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group x row">
+                                    <div class="form-group x row" id="complication_grosse_group">
                                         <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des
-                                            complications de grosses ? <span class="required">*</span></label>
+                                            complications de grossesse ? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
                                             <div id="complication_grosse" class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary" data-toggle-class="btn-primary"
@@ -700,7 +702,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group x row">
+                                    <div class="form-group x row" id="complications_grosses_group">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces
                                             complications:</label>
                                         <div class="col-md-4 col-sm-4 ">
@@ -708,7 +710,7 @@
                                                 class="form-control" required="required" type="text">
                                         </div>
                                     </div>
-                                    <div class="form-group x row">
+                                    <div class="form-group x row" id="complication_accouchement_group">
                                         <label class="col-form-label col-md-6 col-sm-6"> Avez-vous eu des
                                             complications d'accouchement? <span class="required">*</span></label>
                                         <div class="col-md-4 col-sm-4 ">
@@ -730,7 +732,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group x row">
+                                    <div class="form-group x row" id="complications_accouchements_group">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Mots-clés de ces
                                             complications: </label>
                                         <div class="col-md-4 col-sm-4 ">
@@ -738,14 +740,49 @@
                                                 class="form-control" required="required" type="text">
                                         </div>
                                     </div>
-                                    <div class="form-group x row">
+                                    <div class="form-group x row" id="methode_accouchement_group">
                                         <label class="col-form-label col-md-6 col-sm-6  ">Accouchement naturelle ou
                                             opération césarienne <span class="required">*</span></label>
-                                        <div class="col-md-4 col-sm-4 ">
-                                            <input id="methode_accouchement" name="methode_accouchement"
-                                                class="form-control" required="required" type="text">
+                                        <div class="col-md-4 col-sm-4">
+                                            <select class="select2_single form-control" id="methode_accouchement" name="methode_accouchement" required="required"
+                                                tabindex="-1">
+                                                <option value="">choisir une</option>
+                                                <option value="cesarienne">Césarienne</option>
+                                                <option value="naturelle">Naturelle</option>
+                                                <option value="autre">Autres</option>
+                                            </select>
                                         </div>
                                     </div>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                          var nombreEnfantInput = document.getElementById("nombre_enfant");
+                                          var methodeAccouchementGroup = document.getElementById("methode_accouchement_group");
+                                          var complicationsaccouchementsgroup = document.getElementById("complications_accouchements_group");
+                                          var complicationaccouchementgroup = document.getElementById("complication_accouchement_group");
+                                          var complicationsgrossesgroup = document.getElementById("complications_grosses_group");
+                                          var complicationgrossegroup = document.getElementById("complication_grosse_group");
+
+                                          function toggleMethodeAccouchement() {
+                                            if (parseInt(nombreEnfantInput.value, 10) === 0) {
+                                              methodeAccouchementGroup.style.visibility = "hidden";
+                                              complicationsaccouchementsgroup.style.visibility = "hidden";
+                                              complicationaccouchementgroup.style.visibility = "hidden";
+                                              complicationsgrossesgroup.style.visibility = "hidden";
+                                              complicationgrossegroup.style.visibility = "hidden";
+                                            } else {
+                                              methodeAccouchementGroup.style.visibility = "visible";
+                                              complicationsaccouchementsgroup.style.visibility = "visible";
+                                              complicationaccouchementgroup.style.visibility = "visible";
+                                              complicationsgrossesgroup.style.visibility = "visible";
+                                              complicationgrossegroup.style.visibility = "visible";
+                                            }
+                                          }
+                                    
+                                          toggleMethodeAccouchement();
+                                    
+                                          nombreEnfantInput.addEventListener("input", toggleMethodeAccouchement);
+                                        });
+                                    </script>
                                 </div>
                                 <div id="step-6" class="centrer">
                                     <div class="form-group row">
@@ -859,11 +896,12 @@
                                         <div class="col-md-4 col-sm-4">
                                             <select class="select2_single form-control" name="satisfaction_sexuelle"
                                                 tabindex="-1">
-                                                <option value="verbal">non satisfaisante</option>
-                                                <option value="non verbal">passable</option>
-                                                <option value="les deux">acceptable</option>
-                                                <option value="aucun">satisfaisante</option>
-                                                <option value="aucun">très satisfaisante</option>
+                                                <option value="non satisfaisante">non satisfaisante</option>
+                                                <option value="passable">passable</option>
+                                                <option value="acceptable">acceptable</option>
+                                                <option value="satisfaisante">satisfaisante</option>
+                                                <option value="très satisfaisante">très satisfaisante</option>
+                                                <option value="aucun idee">aucune idée</option>
                                             </select>
                                         </div>
                                     </div>
@@ -990,9 +1028,10 @@
                                         <label class="col-form-label col-md-3 col-sm-3  ">Enquete réalisé par le
                                             doctorant : <span class="required">*</span>
                                         </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input id="doctorant" name="doctorant" class="form-control"
-                                                required="required" type="text">
+                                        <div class="col-md-6 col-sm-6  ">
+                                            <select class="select2_single form-control o" name="ville" tabindex="-1">
+                                                <option value="{{ cin_user }}">{{ cin_user }}</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -1025,21 +1064,27 @@
 </div>
 <script>
     // step 1  *******************************************************************
-    const labelH = document.getElementById('labelH');
-    const labelF = document.getElementById('labelF');
-    var servicePrenatalDiv = document.getElementById('service_prenatal_div');
-    var serviceMaternelDiv = document.getElementById('service_maternel_div');
-    labelH.addEventListener('click', () => {
-        document.querySelectorAll('.x').forEach(function (div) {
-            if (div !== servicePrenatalDiv && div !== serviceMaternelDiv) {
-                div.style.visibility = "hidden";
-            }
-        });
-    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const labelH = document.getElementById('labelH');
+        const labelF = document.getElementById('labelF');
+        const step5 = document.getElementById('step-5');
+        const textHomme = document.getElementById('textHomme');
 
-    labelF.addEventListener('click', () => {
-        document.querySelectorAll('.x').forEach(function (div) {
-            div.style.visibility = "visible";
+        labelH.addEventListener('click', () => {
+            document.querySelectorAll('.x').forEach(function (div) {
+                div.style.visibility = "hidden";
+            });
+            step5.style.display = "none";
+            textHomme.style.visibility = "visible";
+            
+        });
+
+        labelF.addEventListener('click', () => {
+            document.querySelectorAll('.x').forEach(function (div) {
+                div.style.visibility = "visible";
+            });
+            step5.style.display = "block";
+            textHomme.style.visibility = "hidden";
         });
     });
 
