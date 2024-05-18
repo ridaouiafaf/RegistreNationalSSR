@@ -14,7 +14,6 @@ from django.db.models import Count, Q, Max
 from datetime import datetime
 
 
-
 @never_cache
 def login(request):
     if request.method == 'POST':
@@ -22,27 +21,45 @@ def login(request):
         password = request.POST.get('password')
 
         with connection.cursor() as cursor:
-            cursor.execute("SELECT cin, role, etat_compte FROM doctorant WHERE email = %s AND password = %s", [email, password])
+            cursor.execute("SELECT cin, role, etat_compte, password, nomComplet FROM doctorant WHERE email = %s", [email])
             row = cursor.fetchone()
 
             if row:
-                cin, role, etat_compte = row
-                if etat_compte == "active":
-                    request.session['user_authenticated'] = True
-                    request.session['user_cin'] = cin 
-                    request.session['user_role'] = role 
-                    if role == "responsable":
-                        return redirect('index')
+                cin, role, etat_compte, hashed_password, nomComplet = row
+                try:
+                    if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
+                        if etat_compte == "active":
+                            request.session['user_authenticated'] = True
+                            request.session['user_cin'] = cin 
+                            request.session['user_role'] = role 
+                            request.session['user_name'] = nomComplet
+                            if role == "responsable":
+                                return redirect('index')
+                            else:
+                                return redirect('index2')
+                        else:
+                            error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
+                            return render(request, 'login.html', {'error_message': error_message})
                     else:
-                        return redirect('index2')
-                else:
-                    error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
+                        error_message = "Nom d'utilisateur ou mot de passe incorrect."
+                        return render(request, 'login.html', {'error_message': error_message})
+                except ValueError:
+                    error_message = "Erreur de vérification du mot de passe. Veuillez réessayer."
                     return render(request, 'login.html', {'error_message': error_message})
             else:
                 error_message = "Nom d'utilisateur ou mot de passe incorrect."
                 return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+
+def username(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')
+    user_name = request.session.get('user_name')  
+    context = {
+        'user_name': user_name
+    }
+    return render(request, 'sidebar_doc.html', context)
 
 def inscrire(request):
     if request.method == 'POST':
@@ -55,7 +72,7 @@ def inscrire(request):
         password = request.POST.get('passwordInscrire')
         if password:
             salt = bcrypt.gensalt()
-            password = bcrypt.hashpw(password.encode('utf-8'), salt)
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
         telephone = request.POST.get('tele')
         role = request.POST.get('role')
         cin = request.POST.get('cin')
@@ -64,7 +81,7 @@ def inscrire(request):
         doctorant = Doctorant.objects.create(
             nomComplet=nomComplet,
             email=email,
-            password=password,
+            password=hashed_password,
             telephone=telephone,
             role=role,
             cin=cin
@@ -74,7 +91,7 @@ def inscrire(request):
         return render(request, 'login.html', {'success_message': success_message})
     else:
         return redirect('login')
-    
+
 def validate_email(email):
     email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(email_regex, email)
@@ -82,6 +99,8 @@ def validate_email(email):
 def validate_phone(phone):
     phone_regex = r'^(\+212|00212|0)(6|7)[0-9]{8}$'
     return re.match(phone_regex, phone)
+
+
 
 def index(request):
     if not request.session.get('user_authenticated'):
