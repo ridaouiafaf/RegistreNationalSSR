@@ -69,7 +69,16 @@
                                                 <td>{{item.ville}}</td>
                                                 <td>{{item.metier}}</td>
                                                 <td>{{item.etat_civil}}</td>
-                                                <td>{{item.sexe}}</td>                                                
+                                                <td>
+                                                    {% if item.sexe == 'H' %}
+                                                     Homme
+                                                    {% elif item.sexe == 'F' %}
+                                                     Femme
+                                                    {% else %}
+                                                       {{ item.sexe }}
+                                                    {% endif %}
+                                                </td>  
+                                                                                              
                                             </tr>
                                             {% endfor %}
                             
