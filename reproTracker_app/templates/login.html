@@ -36,6 +36,9 @@
             {% if success_message %}
             <div style="color: rgb(17, 208, 87); font-size: medium; font-weight: bold;">{{ success_message }}</div>
             {% endif %}
+            {% if duplicate_message %}
+            <div style="color: brown; font-size: medium; font-weight: bold;">{{ duplicate_message }}</div><br>
+            {% endif %}
             <div>
               <input type="text" class="form-control" placeholder="email" required="" name="username"
                 id="username" />
