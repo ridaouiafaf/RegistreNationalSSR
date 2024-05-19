@@ -45,8 +45,8 @@
   <link href="{% static 'vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %}" rel="stylesheet">
   <!-- Notification  -->
-  <link href="{% static 'vendors/notification/nuget/content/content/toastr.min.css' %}">  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">  
+  <link href="{% static 'vendors/notification/nuget/content/content/toastr.min.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 
   <!-- Additional styles -->
@@ -61,9 +61,9 @@
     <div class="main_container">
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
-          <!-- <div class="navbar nav_title" style="border: 0;">
-            <a href="{% url 'index' %}" class="site_title"><i class="fa fa-hospital-o"></i> <span>SSR</span></a>
-          </div> -->
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="#" class="site_title"><i class="fa fa-hospital-o"></i> <span>SSR</span></a>
+          </div>
 
           <div class="clearfix"></div>
 
@@ -73,26 +73,17 @@
 
           <!-- /menu footer buttons -->
           <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <a data-toggle="tooltip" data-placement="top" title="Logout" href="#"
+              onclick="document.getElementById('logout-form').submit();">
+              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-            </a>
-            <!-- Lien de déconnexion -->
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="#" onclick="document.getElementById('logout-form').submit();">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-        </div>
-        
-        <!-- Formulaire de déconnexion caché -->
-        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+          </div>
+
+          <!-- Formulaire de déconnexion caché -->
+          <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
             {% csrf_token %}
-        </form>
-        
+          </form>
+
           <!-- /menu footer buttons -->
         </div>
       </div>
@@ -188,43 +179,43 @@
   <script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
   <!-- Notification  -->
   <script src="{% static 'vendors/notification/nuget/content/scripts/toastr.min.js' %}"></script>
-  
-<!-- Inclure toastr JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<script>
-  // Prepare data for Chart.js
-  var data = {
+
+  <!-- Inclure toastr JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script>
+    // Prepare data for Chart.js
+    var data = {
       labels: cities,
       datasets: [{
-          label: 'Number of People',
-          data: counts,
-          backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color for bars
-          borderColor: 'rgba(255, 99, 132, 1)', // Border color for bars
-          borderWidth: 1
+        label: 'Number of People',
+        data: counts,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color for bars
+        borderColor: 'rgba(255, 99, 132, 1)', // Border color for bars
+        borderWidth: 1
       }]
-  };
+    };
 
-  // Chart options
-  var options = {
+    // Chart options
+    var options = {
       responsive: true,
       scales: {
-          yAxes: [{
-              ticks: {
-                  beginAtZero: true
-              }
-          }]
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
       }
-  };
+    };
 
-  // Create and render the bar chart
-  var ctx = document.getElementById('cityChart').getContext('2d');
-  var cityChart = new Chart(ctx, {
+    // Create and render the bar chart
+    var ctx = document.getElementById('cityChart').getContext('2d');
+    var cityChart = new Chart(ctx, {
       type: 'bar',
       data: data,
       options: options
-  });
-</script>
-<!-- <script>
+    });
+  </script>
+  <!-- <script>
   var data = {
   labels: ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'],
   datasets: [{
@@ -267,7 +258,7 @@ var myPieChart = new Chart(ctx, {
 
 </script> -->
   <!-- Additional scripts -->
-  {% block scripts %}  {% endblock %}
+  {% block scripts %} {% endblock %}
 </body>
 
 </html>
