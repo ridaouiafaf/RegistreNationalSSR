@@ -12,7 +12,8 @@ from .models import *
 from django.http import JsonResponse
 from django.db.models import Count, Q, Max
 from datetime import datetime
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 @never_cache
 def login(request):
@@ -51,6 +52,33 @@ def login(request):
                 return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        reset_email = request.POST.get('resetEmail')
+        try:
+            user = User.objects.get(email=reset_email)
+            # Générer un nouveau mot de passe temporaire
+            new_password = User.objects.make_random_password()
+            # Mettre à jour le mot de passe de l'utilisateur
+            user.set_password(new_password)
+            user.save()
+            # Envoyer un email à l'utilisateur avec le nouveau mot de passe
+            send_mail(
+                'Réinitialisation de votre mot de passe',
+                f'Votre nouveau mot de passe est : {new_password}',
+                settings.EMAIL_HOST_USER,
+                [reset_email],
+                fail_silently=False,
+            )
+            success_message = "Un email de réinitialisation de mot de passe a été envoyé à votre adresse email."
+            return render(request, 'login.html', {'success_message': success_message})
+        except User.DoesNotExist:
+            error_message = "Aucun utilisateur trouvé avec cette adresse email."
+            return render(request, 'login.html', {'error_message': error_message})
+    else:
+        return redirect('login') 
 
 def username(request):
     if not request.session.get('user_authenticated'):

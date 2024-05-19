@@ -20,6 +20,7 @@ urlpatterns = [
     path('prenatal_maternel/', views.prenatal_maternel, name='prenatal_maternel'),  
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('enquete_soumis/', views.enquete_soumis, name='enquete_soumis'),
+    path('reset_password/', views.reset_password, name='reset_password'),
    
     #------------------------------------------------------------------------------------------------------------------------#
 
