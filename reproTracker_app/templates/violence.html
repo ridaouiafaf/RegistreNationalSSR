@@ -65,6 +65,9 @@
                                                 <td>{{item.soutien_psyc}}</td>
                                                 <td>{{item.type_harcelement_sex}}</td>
                                                 <td>{{item.taux_harcelement_sex}}</td>
+                                                <td>
+                                                    <a href="{% url 'violence_edit' pk=item.pk %}">Modifier</a>
+                                                </td>
 
                                             </tr>
                                             {% endfor %}

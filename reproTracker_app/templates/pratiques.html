@@ -62,6 +62,9 @@
                                                 <td>{{item.cle_conn}}</td>
                                                 <td>{{item.consultation}}</td>
                                                 <td>{{item.question}}</td>
+                                                <td>
+                                                    <a href="{% url 'pratiques_edit' pk=item.pk %}">Modifier</a>
+                                                </td>
                                             </tr>
                                             {% endfor %}
                                             

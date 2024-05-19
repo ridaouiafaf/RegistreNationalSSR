@@ -63,6 +63,9 @@
                                                 <td>{{item.problemes_sex}}</td>
                                                 <td>{{item.qualité_relation_sex}}</td>
                                                 <td>{{item.demande_soutien}}</td>
+                                                <td>
+                                                    <a href="{% url 'sr_edit' pk=item.pk %}">Modifier</a>
+                                                </td>
                                             </tr>
                                             {% endfor %}
                                             

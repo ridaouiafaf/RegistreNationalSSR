@@ -72,5 +72,12 @@ urlpatterns = [
     path('Grossesse/', views.grossesse, name='grossesse'),
     path('Pratique/', views.pratiques, name='pratiques'),
     path('Facteur/', views.facteur, name='facteur'),
-    
+    path('edit/<int:pk>/', views.personne_edit, name='personne_edit'),
+    path('pratiques/edit/<int:pk>/', views.pratiques_edit, name='pratiques_edit'),
+    path('ist/edit/<int:pk>/', views.ist_edit, name='ist_edit'),
+    path('grossesse/edit/<int:pk>/', views.grossesse_edit, name='grossesse_edit'),
+    path('prenatal_maternel/edit/<int:pk>/', views.prenatal_maternel_edit, name='prenatal_maternel_edit'),
+    path('facteur/edit/<int:pk>/', views.facteur_edit, name='facteur_edit'),
+    path('violence/edit/<int:pk>/', views.violence_edit, name='violence_edit'),
+    path('sr/edit/<int:pk>/', views.sr_edit, name='sr_edit'),
 ]

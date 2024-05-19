@@ -65,6 +65,9 @@
                                                 <td>{{item.niv_social}}</td>
                                                 <td>{{item.impact_norme_culturelle}}</td>
                                                 <td>{{item.impact_norme_religieuse}}</td>
+                                                <td>
+                                                    <a href="{% url 'facteur_edit' pk=item.pk %}">Modifier</a>
+                                                </td>
 
                                             </tr>
                                             {% endfor %}
