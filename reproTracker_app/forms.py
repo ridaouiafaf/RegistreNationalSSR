@@ -33,14 +33,12 @@ class ViolenceForm(forms.ModelForm):
     class Meta:
         model = Violence
         fields = ['taux_viol_sex', 'agress_sex', 'taux_abus_viol_sex', 'soutien_psyc', 'type_harcelement_sex', 'taux_harcelement_sex']
- 
 
 
 class GrossesseForm(forms.ModelForm):
     class Meta:
         model = Grossesse
         fields = ['planification', 'meth_planification', 'envi_enfant', 'nb_enfant', 'nb_enfant_planifie', 'nb_enfant_nplanifie', 'nb_fausse_couche', 'nb_fausse_couche_intentionnelle', 'nb_enfant_hors_mariage']
-
 
 class FacteurForm(forms.ModelForm):
     class Meta:
