@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import json, os, re, bcrypt
+import json, os, re, bcrypt, random, string
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -58,13 +58,11 @@ def reset_password(request):
     if request.method == 'POST':
         reset_email = request.POST.get('resetEmail')
         try:
-            user = User.objects.get(email=reset_email)
-            # Générer un nouveau mot de passe temporaire
-            new_password = User.objects.make_random_password()
-            # Mettre à jour le mot de passe de l'utilisateur
-            user.set_password(new_password)
-            user.save()
-            # Envoyer un email à l'utilisateur avec le nouveau mot de passe
+            user = Doctorant.objects.get(email=reset_email)
+            new_password = generate_random_password()
+            hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            with connection.cursor() as cursor:
+                cursor.execute(" UPDATE doctorant SET password = %s WHERE email = %s ",[hashed_password, reset_email] )
             send_mail(
                 'Réinitialisation de votre mot de passe',
                 f'Votre nouveau mot de passe est : {new_password}',
@@ -74,11 +72,16 @@ def reset_password(request):
             )
             success_message = "Un email de réinitialisation de mot de passe a été envoyé à votre adresse email."
             return render(request, 'login.html', {'success_message': success_message})
-        except User.DoesNotExist:
+        except Doctorant.DoesNotExist:
             error_message = "Aucun utilisateur trouvé avec cette adresse email."
             return render(request, 'login.html', {'error_message': error_message})
     else:
-        return redirect('login') 
+        return redirect('login')
+
+def generate_random_password(length=10):
+    """Generate a random password."""
+    # You can customize the length or other parameters here if needed
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 def username(request):
     if not request.session.get('user_authenticated'):
