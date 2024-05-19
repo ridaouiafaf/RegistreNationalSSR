@@ -714,7 +714,7 @@ def personne_edit(request, pk):
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
             personne = form.save()
-            return redirect('personnes')  
+            return redirect('personne')  
     else:
         form = PersonneForm(instance=personne)
     return render(request, 'personne_edit.html', {'form': form})
