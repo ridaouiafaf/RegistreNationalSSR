@@ -47,7 +47,7 @@ def login(request):
                     error_message = "Erreur de vérification du mot de passe. Veuillez réessayer."
                     return render(request, 'login.html', {'error_message': error_message})
             else:
-                error_message = "Nom d'utilisateur ou mot de passe incorrect."
+                error_message = "Le compte n'existe pas. Veuillez créer un compte."
                 return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
@@ -78,6 +78,17 @@ def inscrire(request):
         cin = request.POST.get('cin')
         if cin:
             cin = cin.strip().upper()
+
+        # Vérifiez les doublons
+        if Doctorant.objects.filter(email=email).exists():
+            duplicate_message = "L'email est déjà existé, essayez de s'authentifier."
+            return render(request, 'login.html', {'duplicate_message': duplicate_message})
+        
+        if Doctorant.objects.filter(cin=cin).exists():
+            duplicate_message = "Le CIN est déjà existé, essayez de s'authentifier."
+            return render(request, 'login.html', {'duplicate_message': duplicate_message})
+
+        # Créez le nouveau doctorant si aucun doublon n'est trouvé
         doctorant = Doctorant.objects.create(
             nomComplet=nomComplet,
             email=email,
@@ -85,9 +96,10 @@ def inscrire(request):
             telephone=telephone,
             role=role,
             cin=cin
-        )                
-        success_message = '''Votre compte est crée avec succès   
-                            Veuilez attendre l'activation de votre compte'''
+        )
+        
+        success_message = '''Votre compte est créé avec succès.
+                            Veuillez attendre l'activation de votre compte.'''
         return render(request, 'login.html', {'success_message': success_message})
     else:
         return redirect('login')
