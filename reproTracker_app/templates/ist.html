@@ -52,6 +52,7 @@
                                                 <th>HSV</th>
                                                 <th>PVH</th>
                                                 <th>Taux depistoge</th>
+                                            
                                             </tr>
                                         </thead>
 
@@ -69,10 +70,13 @@
                                                 <td>{{item.hsv}}</td>
                                                 <td>{{item.phv}}</td>
                                                 <td>{{item.taux_depistoge}}</td>
+                                                <td>
+                                                    <a href="{% url 'ist_edit' pk=item.pk %}">Modifier</a>
+                                                </td>
                                             </tr>
-                                           
+                                                     
                                             {% endfor %}
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>

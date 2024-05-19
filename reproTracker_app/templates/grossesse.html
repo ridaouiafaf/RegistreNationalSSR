@@ -74,8 +74,12 @@
                                                 <td>{{item.nb_fausse_couche}}</td>
                                                 <td>{{item.nb_fausse_couche_intentionnelle}}</td>
                                                 <td>{{item.nb_enfant_hors_mariage}}</td>
+                                                <td>
+                                                    <a href="{% url 'grossesse_edit' item.pk %}">Modifier</a> 
+                                                </td>
                                             </tr>
                                             {% endfor %}
+                                            
                                                 
                                         </tbody>
                                     </table>

@@ -173,14 +173,14 @@ class Doctorant(models.Model):
 
 class Ist(models.Model):
     id_personne = models.IntegerField(primary_key=True)
-    vih_sid = models.CharField(db_column='VIH_SID', max_length=45, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    syphilis = models.CharField(db_column='SYPHILIS', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    vih_sid = models.CharField(db_column='VIH_SID', max_length=45, blank=True, null=True)  
+    syphilis = models.CharField(db_column='SYPHILIS', max_length=45, blank=True, null=True)  
     gonorrhee = models.CharField(max_length=45, blank=True, null=True)
     chlamydiose = models.CharField(max_length=45, blank=True, null=True)
     trichomonase = models.CharField(max_length=45, blank=True, null=True)
-    hepatite_b = models.CharField(db_column='hepatite_B', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    hsv = models.CharField(db_column='HSV', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    pvh = models.CharField(db_column='PVH', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    hepatite_b = models.CharField(db_column='hepatite_B', max_length=45, blank=True, null=True) 
+    hsv = models.CharField(db_column='HSV', max_length=45, blank=True, null=True)  
+    pvh = models.CharField(db_column='PVH', max_length=45, blank=True, null=True)  
     taux_depistoge = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -199,7 +199,7 @@ class Personne(models.Model):
     ville = models.CharField(max_length=45, blank=True, null=True)
     metier = models.CharField(max_length=45, blank=True, null=True)
     etat_civil = models.CharField(max_length=45, blank=True, null=True)
-    sexe = models.CharField(max_length=45, blank=True, null=True)
+    sexe =  models.CharField(max_length=1, choices=[('H', 'Homme'), ('F', 'Femme')])
 
     class Meta:
         managed = False

@@ -473,6 +473,9 @@ def contacts(request):
         return render(request, 'contacts.html', {'datas': data})
     redirect('login')
 
+
+
+
 def personne(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
@@ -652,3 +655,109 @@ def fixed_footer(request):
 
 
 
+
+
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Personne, Pratique, Ist, Grossesse, Facteur, PrenatalMaternel, Violence, Sr 
+from .forms import PersonneForm, PratiqueForm, IstForm, GrossesseForm, FacteurForm, PrenatalMaternelForm, ViolenceForm, SrForm
+
+def personne_edit(request, pk):
+    personne = get_object_or_404(Personne, pk=pk)
+    if request.method == "POST":
+        form = PersonneForm(request.POST, instance=personne)
+        if form.is_valid():
+            personne = form.save()
+            return redirect('personne_list')  
+    else:
+        form = PersonneForm(instance=personne)
+    return render(request, 'personne_edit.html', {'form': form})
+    
+
+    
+def pratiques_edit(request, pk):
+    pratiques = get_object_or_404(Pratique, pk=pk)
+    if request.method == "POST":
+        form = PratiqueForm(request.POST, instance=pratiques)
+        if form.is_valid():
+            pratiques = form.save()
+            return redirect('pratiques_list')  
+    else:
+        form = PratiqueForm(instance=pratiques)
+    return render(request, 'pratiques_edit.html', {'form': form})
+
+
+
+def ist_edit(request, pk):
+    ist = get_object_or_404(Ist, pk=pk)
+    if request.method == "POST":
+        form = IstForm(request.POST, instance=ist)
+        if form.is_valid():
+            ist=form.save()
+            return redirect('ist_list')
+    else:
+        form = IstForm(instance=ist)
+    return render(request, 'ist_edit.html', {'form': form})
+
+
+def grossesse_edit(request, pk):
+    grossesse = get_object_or_404(Grossesse, pk=pk)
+    
+    if request.method == "POST":
+       
+        form = GrossesseForm(request.POST, instance=grossesse)
+        if form.is_valid():
+            grossesse = form.save()
+            return redirect('grossesse_list') 
+    else:
+        form = GrossesseForm(instance=grossesse)
+    return render(request, 'grossesse_edit.html', {'form': form})
+
+
+def facteur_edit(request, pk):
+    facteur = get_object_or_404(Facteur, pk=pk)
+    if request.method == "POST":
+        form = FacteurForm(request.POST, instance=facteur)
+        if form.is_valid():
+            facteur = form.save()
+            return redirect('facteur_list')  
+    else:
+        form = FacteurForm(instance=facteur)
+    return render(request, 'facteur_edit.html', {'form': form})
+
+def prenatal_maternel_edit(request, pk):
+    prenatal_maternel = get_object_or_404(PrenatalMaternel, pk=pk)
+    if request.method == "POST":
+        form = PrenatalMaternelForm(request.POST, instance=prenatal_maternel)
+        if form.is_valid():
+            prenatal_maternel = form.save()
+            return redirect('renatal_maternel_list')  
+    else:
+        form = PrenatalMaternelForm(instance=PrenatalMaternel)
+    return render(request, 'prenatal_maternel_edit.html', {'form': form})
+
+def violence_edit(request, pk):
+    violence = get_object_or_404(Violence, pk=pk)
+    if request.method == "POST":
+        form = ViolenceForm(request.POST, instance=violence)
+        if form.is_valid():
+            violence = form.save()
+            return redirect('violence_sr_list')  
+    else:
+        form = ViolenceForm(instance=violence)
+    return render(request, 'violence_edit.html', {'form': form})
+
+
+def sr_edit(request, pk):
+    sr= get_object_or_404(Sr, pk=pk)
+    if request.method == "POST":
+        form = SrForm(request.POST, instance=sr)
+        if form.is_valid():
+            sr = form.save()
+            return redirect('sr_list') 
+    else:
+        form = SrForm(instance=sr)
+    return render(request, 'sr_edit.html', {'form': form})

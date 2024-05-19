@@ -78,6 +78,9 @@
                                                        {{ item.sexe }}
                                                     {% endif %}
                                                 </td>  
+                                                <td>
+                                                    <a href="{% url 'personne_edit' item.pk %}">Modifier</a> 
+                                                </td> 
                                                                                               
                                             </tr>
                                             {% endfor %}

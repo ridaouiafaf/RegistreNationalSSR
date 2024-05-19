@@ -68,8 +68,12 @@
                                                 <td>{{item.desc_comp_accouch}}</td>
                                                 <td>{{item.acc_serv_maternel}}</td>
                                                 <td>{{item.meth_accouch}}</td>
+                                                <td>
+                                                    <a href="{% url 'prenatal_maternel_edit' item.pk %}">Modifier</a> 
+                                                </td>
                                             </tr>
                                             {% endfor %}
+                                            
                                         </tbody>
                                     </table>
                                 </div>
