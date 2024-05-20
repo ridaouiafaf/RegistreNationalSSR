@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import json, os, re, bcrypt
+import json, os, re, bcrypt, random, string
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -12,8 +12,8 @@ from .models import *
 from django.http import JsonResponse
 from django.db.models import Count, Q, Max
 from datetime import datetime
-
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 @never_cache
 def login(request):
@@ -22,27 +22,75 @@ def login(request):
         password = request.POST.get('password')
 
         with connection.cursor() as cursor:
-            cursor.execute("SELECT cin, role, etat_compte FROM doctorant WHERE email = %s AND password = %s", [email, password])
+            cursor.execute("SELECT cin, role, etat_compte, password, nomComplet FROM doctorant WHERE email = %s", [email])
             row = cursor.fetchone()
 
             if row:
-                cin, role, etat_compte = row
-                if etat_compte == "active":
-                    request.session['user_authenticated'] = True
-                    request.session['user_cin'] = cin 
-                    request.session['user_role'] = role 
-                    if role == "responsable":
-                        return redirect('index')
+                cin, role, etat_compte, hashed_password, nomComplet = row
+                try:
+                    if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
+                        if etat_compte == "active":
+                            request.session['user_authenticated'] = True
+                            request.session['user_cin'] = cin 
+                            request.session['user_role'] = role 
+                            request.session['user_name'] = nomComplet
+                            if role == "responsable":
+                                return redirect('index')
+                            else:
+                                return redirect('index2')
+                        else:
+                            error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
+                            return render(request, 'login.html', {'error_message': error_message})
                     else:
-                        return redirect('index2')
-                else:
-                    error_message = "Le compte n'est pas activé. Veuillez attendre l'activation du compte."
+                        error_message = "Nom d'utilisateur ou mot de passe incorrect."
+                        return render(request, 'login.html', {'error_message': error_message})
+                except ValueError:
+                    error_message = "Erreur de vérification du mot de passe. Veuillez réessayer."
                     return render(request, 'login.html', {'error_message': error_message})
             else:
-                error_message = "Nom d'utilisateur ou mot de passe incorrect."
+                error_message = "Le compte n'existe pas. Veuillez créer un compte."
                 return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        reset_email = request.POST.get('resetEmail')
+        try:
+            user = Doctorant.objects.get(email=reset_email)
+            new_password = generate_random_password()
+            hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            with connection.cursor() as cursor:
+                cursor.execute(" UPDATE doctorant SET password = %s WHERE email = %s ",[hashed_password, reset_email] )
+            send_mail(
+                'Réinitialisation de votre mot de passe',
+                f'Votre nouveau mot de passe est : {new_password}',
+                settings.EMAIL_HOST_USER,
+                [reset_email],
+                fail_silently=False,
+            )
+            success_message = "Un email de réinitialisation de mot de passe a été envoyé à votre adresse email."
+            return render(request, 'login.html', {'success_message': success_message})
+        except Doctorant.DoesNotExist:
+            error_message = "Aucun utilisateur trouvé avec cette adresse email."
+            return render(request, 'login.html', {'error_message': error_message})
+    else:
+        return redirect('login')
+
+def generate_random_password(length=10):
+    """Generate a random password."""
+    # You can customize the length or other parameters here if needed
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+def username(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')
+    user_name = request.session.get('user_name')  
+    context = {
+        'user_name': user_name
+    }
+    return render(request, 'sidebar_doc.html', context)
 
 def inscrire(request):
     if request.method == 'POST':
@@ -55,26 +103,38 @@ def inscrire(request):
         password = request.POST.get('passwordInscrire')
         if password:
             salt = bcrypt.gensalt()
-            password = bcrypt.hashpw(password.encode('utf-8'), salt)
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
         telephone = request.POST.get('tele')
         role = request.POST.get('role')
         cin = request.POST.get('cin')
         if cin:
             cin = cin.strip().upper()
+
+        # Vérifiez les doublons
+        if Doctorant.objects.filter(email=email).exists():
+            duplicate_message = "L'email est déjà existé, essayez de s'authentifier."
+            return render(request, 'login.html', {'duplicate_message': duplicate_message})
+        
+        if Doctorant.objects.filter(cin=cin).exists():
+            duplicate_message = "Le CIN est déjà existé, essayez de s'authentifier."
+            return render(request, 'login.html', {'duplicate_message': duplicate_message})
+
+        # Créez le nouveau doctorant si aucun doublon n'est trouvé
         doctorant = Doctorant.objects.create(
             nomComplet=nomComplet,
             email=email,
-            password=password,
+            password=hashed_password,
             telephone=telephone,
             role=role,
             cin=cin
-        )                
-        success_message = '''Votre compte est crée avec succès   
-                            Veuilez attendre l'activation de votre compte'''
+        )
+        
+        success_message = '''Votre compte est créé avec succès.
+                            Veuillez attendre l'activation de votre compte.'''
         return render(request, 'login.html', {'success_message': success_message})
     else:
         return redirect('login')
-    
+
 def validate_email(email):
     email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(email_regex, email)
@@ -82,6 +142,8 @@ def validate_email(email):
 def validate_phone(phone):
     phone_regex = r'^(\+212|00212|0)(6|7)[0-9]{8}$'
     return re.match(phone_regex, phone)
+
+
 
 def index(request):
     if not request.session.get('user_authenticated'):
@@ -473,6 +535,9 @@ def contacts(request):
         return render(request, 'contacts.html', {'datas': data})
     redirect('login')
 
+
+
+
 def personne(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')  
@@ -652,3 +717,109 @@ def fixed_footer(request):
 
 
 
+
+
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Personne, Pratique, Ist, Grossesse, Facteur, PrenatalMaternel, Violence, Sr 
+from .forms import PersonneForm, PratiqueForm, IstForm, GrossesseForm, FacteurForm, PrenatalMaternelForm, ViolenceForm, SrForm
+
+def personne_edit(request, pk):
+    personne = get_object_or_404(Personne, pk=pk)
+    if request.method == "POST":
+        form = PersonneForm(request.POST, instance=personne)
+        if form.is_valid():
+            personne = form.save()
+            return redirect('personne')  
+    else:
+        form = PersonneForm(instance=personne)
+    return render(request, 'personne_edit.html', {'form': form})
+    
+
+    
+def pratiques_edit(request, pk):
+    pratiques = get_object_or_404(Pratique, pk=pk)
+    if request.method == "POST":
+        form = PratiqueForm(request.POST, instance=pratiques)
+        if form.is_valid():
+            pratiques = form.save()
+            return redirect('pratiques_list')  
+    else:
+        form = PratiqueForm(instance=pratiques)
+    return render(request, 'pratiques_edit.html', {'form': form})
+
+
+
+def ist_edit(request, pk):
+    ist = get_object_or_404(Ist, pk=pk)
+    if request.method == "POST":
+        form = IstForm(request.POST, instance=ist)
+        if form.is_valid():
+            ist=form.save()
+            return redirect('ist_list')
+    else:
+        form = IstForm(instance=ist)
+    return render(request, 'ist_edit.html', {'form': form})
+
+
+def grossesse_edit(request, pk):
+    grossesse = get_object_or_404(Grossesse, pk=pk)
+    
+    if request.method == "POST":
+       
+        form = GrossesseForm(request.POST, instance=grossesse)
+        if form.is_valid():
+            grossesse = form.save()
+            return redirect('grossesse_list') 
+    else:
+        form = GrossesseForm(instance=grossesse)
+    return render(request, 'grossesse_edit.html', {'form': form})
+
+
+def facteur_edit(request, pk):
+    facteur = get_object_or_404(Facteur, pk=pk)
+    if request.method == "POST":
+        form = FacteurForm(request.POST, instance=facteur)
+        if form.is_valid():
+            facteur = form.save()
+            return redirect('facteur_list')  
+    else:
+        form = FacteurForm(instance=facteur)
+    return render(request, 'facteur_edit.html', {'form': form})
+
+def prenatal_maternel_edit(request, pk):
+    prenatal_maternel = get_object_or_404(PrenatalMaternel, pk=pk)
+    if request.method == "POST":
+        form = PrenatalMaternelForm(request.POST, instance=prenatal_maternel)
+        if form.is_valid():
+            prenatal_maternel = form.save()
+            return redirect('renatal_maternel_list')  
+    else:
+        form = PrenatalMaternelForm(instance=PrenatalMaternel)
+    return render(request, 'prenatal_maternel_edit.html', {'form': form})
+
+def violence_edit(request, pk):
+    violence = get_object_or_404(Violence, pk=pk)
+    if request.method == "POST":
+        form = ViolenceForm(request.POST, instance=violence)
+        if form.is_valid():
+            violence = form.save()
+            return redirect('violence_sr_list')  
+    else:
+        form = ViolenceForm(instance=violence)
+    return render(request, 'violence_edit.html', {'form': form})
+
+
+def sr_edit(request, pk):
+    sr= get_object_or_404(Sr, pk=pk)
+    if request.method == "POST":
+        form = SrForm(request.POST, instance=sr)
+        if form.is_valid():
+            sr = form.save()
+            return redirect('sr_list') 
+    else:
+        form = SrForm(instance=sr)
+    return render(request, 'sr_edit.html', {'form': form})

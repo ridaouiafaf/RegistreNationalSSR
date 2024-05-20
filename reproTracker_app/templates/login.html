@@ -36,6 +36,9 @@
             {% if success_message %}
             <div style="color: rgb(17, 208, 87); font-size: medium; font-weight: bold;">{{ success_message }}</div>
             {% endif %}
+            {% if duplicate_message %}
+            <div style="color: brown; font-size: medium; font-weight: bold;">{{ duplicate_message }}</div><br>
+            {% endif %}
             <div>
               <input type="text" class="form-control" placeholder="email" required="" name="username"
                 id="username" />
@@ -46,7 +49,7 @@
             </div>
             <div>
               <input type="submit" class="btn btn-default submit" value="Se connecter">
-              <a class="reset_pass" href="#">Mot de passe oublié ?</a>
+              <a class="reset_pass" href="#" data-toggle="modal" data-target="#forgotPasswordModal">Mot de passe oublié ?</a>
             </div>
 
             <div class="clearfix"></div>
@@ -189,6 +192,33 @@
       </div>
     </div>
   </div>
+  <!-- Modale Mot de passe oublié -->
+<div id="forgotPasswordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgotPasswordModalLabel">Mot de passe oublié</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="forgotPasswordForm" method="post" action="{% url 'reset_password' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="email">Adresse Email</label>
+            <input type="email" class="form-control" id="resetEmail" name="resetEmail" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+
 </body>
 
 </html>
