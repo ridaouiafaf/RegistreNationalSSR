@@ -53,16 +53,175 @@
         <div class="row x_title">
           <!-- <div class="col-md-6"></div> -->
         <div class="x_content">
-          <canvas id="myChart" width="50" height="50"></canvas>
-          <canvas id="cityChart"></canvas>
-          <canvas id="istChart"></canvas>
+          <!-- Chart IST -->
+          <div>
+            <label for="istFilter">Filter by IST:</label>
+            <select id="istFilter">
+                <option value="all">All ISTs</option>
+                <!-- Options will be populated dynamically -->
+            </select>
         </div>
+          <canvas id="istChart" width="400" height="400"></canvas>
+        </div>
+        <!-- Chart nbr personne par ville -->
+        <div>
+          <label for="istFilter">Select IST:</label>
+          <select id="istFilter">
+              <option value="vih_sid">VIH/SID</option>
+              <option value="syphilis">Syphilis</option>
+              <option value="gonorrhee">Gonorrhée</option>
+              <option value="chlamydiose">Chlamydiose</option>
+              <option value="trichomonase">Trichomonase</option>
+              <option value="hepatite_b">Hépatite B</option>
+              <option value="hsv">HSV</option>
+              <option value="pvh">PVH</option>
+          </select>
+      </div>
+      <canvas id="istVilleChart" width="400" height="400"></canvas>
       </div>
     </div>
   </div>
 
   
 </div>
+{% block scripts%}
+
+<!-- chart des IST -->
+<script>
+  // Sample data (replace with your actual data)
+var allISTLabels = ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'];
+var allISTCounts = [{{ vih_sid_count }}, {{ syphilis_count }}, {{ gonorrhee_count }}, {{ chlamydiose_count }}, {{ trichomonase_count }}, {{ hepatite_b_count }}, {{ hsv_count }}, {{ pvh_count }}];
+
+// Populate the dropdown with IST options
+var istFilter = document.getElementById('istFilter');
+// Clear existing options
+istFilter.innerHTML = '';
+
+// Add default "all" option
+var allOption = document.createElement('option');
+allOption.value = 'all';
+allOption.text = 'All ISTs';
+istFilter.add(allOption);
+allISTLabels.forEach(function(ist) {
+    var option = document.createElement('option');
+    option.value = ist;
+    option.text = ist;
+    istFilter.add(option);
+});
+
+// Initial chart data
+var chartData = {
+    labels: allISTLabels,
+    datasets: [{
+        label: 'Nombre de "oui" par IST',
+        data: allISTCounts,
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 0, 0, 0.5)',
+            'rgba(0, 255, 0, 0.5)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 0, 0, 1)',
+            'rgba(0, 255, 0, 1)'
+        ],
+        borderWidth: 1
+    }]
+};
+
+// Chart options
+var chartOptions = {
+    responsive: false,
+    maintainAspectRatio: false
+};
+
+// Create the pie chart
+var ctx = document.getElementById('istChart').getContext('2d');
+var istChart = new Chart(ctx, {
+    type: 'pie',
+    data: chartData,
+    options: chartOptions
+});
+
+// Function to update the chart based on the selected filter
+function updateChart() {
+    var selectedIST = istFilter.value;
+    if (selectedIST === 'all') {
+        istChart.data.labels = allISTLabels;
+        istChart.data.datasets[0].data = allISTCounts;
+    } else {
+        var filteredIndex = allISTLabels.indexOf(selectedIST);
+        istChart.data.labels = [selectedIST];
+        istChart.data.datasets[0].data = [allISTCounts[filteredIndex]];
+    }
+    istChart.update();
+}
+
+// Add event listener to the dropdown
+istFilter.addEventListener('change', updateChart);
+
+// Initial chart update to reflect any default selection
+updateChart();
+
+</script>
+
+<!-- script chart istVilleChart -->
+<script>
+  // Data from Django
+  const cities = {{ cities|safe }};
+  const istByCity = {{ ist_by_city|safe }};
+
+  // Initialize chart
+  const ctx = document.getElementById('istVilleChart').getContext('2d');
+  let istChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: cities,
+          datasets: [{
+              label: 'Number of People',
+              data: [],
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: false,
+          maintainAspectRatio:false,
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  // Function to update chart data based on selected IST
+  function updateChartData(selectedIST) {
+      const newData = cities.map(city => istByCity[city] ? istByCity[city][selectedIST] : 0);
+      istChart.data.datasets[0].data = newData;
+      istChart.update();
+  }
+
+  // Event listener for dropdown change
+  document.getElementById('istFilter').addEventListener('change', function() {
+      updateChartData(this.value);
+  });
+
+  // Initial update to show default IST data
+  updateChartData(document.getElementById('istFilter').value);
+</script>
+{% endblock%}
 <!-- /page content -->
 {% endblock %}
 

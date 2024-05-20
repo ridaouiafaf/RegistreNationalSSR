@@ -104,8 +104,9 @@ def index(request):
     city_counts = Personne.objects.values('ville').annotate(count=models.Count('id_personne'))
     cities = [entry['ville'] for entry in city_counts]
     counts = [entry['count'] for entry in city_counts]
-    years = [personne.date_naiss.year for personne in personnes]
+    # years = [personne.date_naiss.year for personne in personnes]
 
+    # les données de graphe pie IST
     vih_sid_count = Ist.objects.filter(vih_sid='oui').count()
     syphilis_count = Ist.objects.filter(syphilis='oui').count()
     gonorrhee_count = Ist.objects.filter(gonorrhee='oui').count()
@@ -115,6 +116,23 @@ def index(request):
     hsv_count = Ist.objects.filter(hsv='oui').count()
     pvh_count = Ist.objects.filter(pvh='oui').count()
 
+    # graphe de nbr per ont un IST par ville
+    ist_data = Ist.objects.values('vih_sid', 'syphilis', 'gonorrhee', 'chlamydiose', 'trichomonase', 'hepatite_b', 'hsv', 'pvh', 'id_personne')
+    ist_by_city = {}
+    for entry in ist_data:
+        personne = Personne.objects.get(id_personne=entry['id_personne'])
+        city = personne.ville
+        
+        if city not in ist_by_city:
+            ist_by_city[city] = {
+                'vih_sid': 0, 'syphilis': 0, 'gonorrhee': 0, 'chlamydiose': 0,
+                'trichomonase': 0, 'hepatite_b': 0, 'hsv': 0, 'pvh': 0
+            }
+
+        for ist, value in entry.items():
+            if ist != 'id_personne' and value == 'oui':
+                ist_by_city[city][ist] += 1
+
     context= {
         'person': count,
         'homme': count_h, 
@@ -122,7 +140,7 @@ def index(request):
         'personnes': personnes,
         'cities': cities,
         'counts': counts,
-        'years': years,
+        # 'years': years,
         'vih_sid_count': vih_sid_count,
         'syphilis_count': syphilis_count,
         'gonorrhee_count': gonorrhee_count,
@@ -131,6 +149,7 @@ def index(request):
         'hepatite_b_count': hepatite_b_count,
         'hsv_count': hsv_count,
         'pvh_count': pvh_count,
+        'ist_by_city': ist_by_city
     }
     return render(request, 'index.html', context)
 
