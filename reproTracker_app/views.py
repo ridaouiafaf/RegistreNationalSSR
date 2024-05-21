@@ -223,8 +223,68 @@ def index2(request):
     
     if user_role != 'doctorant':
         return redirect('login')
+    
 
-    return render(request, 'index2.html')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT COUNT(*) FROM PERSONNE")
+        count = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'H'")
+        count_h = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
+        count_f = cursor.fetchone()[0]
+    
+    # for gender by birth year line chart
+    selected_year = request.GET.get('year')
+    personnes = Personne.objects.all()
+    h_ycounts = defaultdict(int)
+    f_ycounts = defaultdict(int)
+    for personne in personnes:
+        if personne.date_naiss:
+            year = personne.date_naiss.year
+            if personne.sexe == 'H':
+                h_ycounts[year] += 1
+            elif personne.sexe == 'F':
+                f_ycounts[year] += 1
+    years = sorted(set(h_ycounts.keys()).union(f_ycounts.keys()))
+    homme_data = [h_ycounts[year] for year in years]
+    femme_data = [f_ycounts[year] for year in years]
+    # Filter data based on selected year
+    if selected_year:
+        selected_year = int(selected_year)
+        if selected_year in years:
+            homme_data = [h_ycounts[selected_year]]
+            femme_data = [f_ycounts[selected_year]]
+            years = [selected_year]
+
+    # les données de graphe pie IST
+    vih_sid_count = Ist.objects.filter(vih_sid='oui').count()
+    syphilis_count = Ist.objects.filter(syphilis='oui').count()
+    gonorrhee_count = Ist.objects.filter(gonorrhee='oui').count()
+    chlamydiose_count = Ist.objects.filter(chlamydiose='oui').count()
+    trichomonase_count = Ist.objects.filter(trichomonase='oui').count()
+    hepatite_b_count = Ist.objects.filter(hepatite_b='oui').count()
+    hsv_count = Ist.objects.filter(hsv='oui').count()
+    pvh_count = Ist.objects.filter(pvh='oui').count()
+
+    context= {
+        'person': count,
+        'count_homme': count_h, 
+        'count_femme': count_f,
+        'personnes': personnes,
+        'vih_sid_count': vih_sid_count,
+        'syphilis_count': syphilis_count,
+        'gonorrhee_count': gonorrhee_count,
+        'chlamydiose_count': chlamydiose_count,
+        'trichomonase_count': trichomonase_count,
+        'hepatite_b_count': hepatite_b_count,
+        'hsv_count': hsv_count,
+        'pvh_count': pvh_count,
+        'years': years,
+        'homme_data': homme_data,
+        'femme_data': femme_data,
+        'selected_year': selected_year
+    }
+    return render(request, 'index2.html', context)
 
 def index3(request):
     if not request.session.get('user_authenticated'):
