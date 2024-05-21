@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.sessions.models import Session
 from django.contrib import auth, messages
 from django.db import connection,transaction
-from .models import Personne
 from django.views.decorators.cache import never_cache
 from .models import *
 from django.http import JsonResponse
@@ -14,6 +13,14 @@ from django.db.models import Count, Q, Max
 from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
+from .models import Personne, Pratique, Ist, Grossesse, Facteur, PrenatalMaternel, Violence, Sr 
+from .forms import PersonneForm, PratiqueForm, IstForm, GrossesseForm, FacteurForm, PrenatalMaternelForm, ViolenceForm, SrForm
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
+
 
 @never_cache
 def login(request):
@@ -196,12 +203,9 @@ def index(request):
 def index2(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')
-    
-    user_role = request.session.get('user_role')
-    
+    user_role = request.session.get('user_role')   
     if user_role != 'doctorant':
         return redirect('login')
-
     return render(request, 'index2.html')
 
 def index3(request):
@@ -239,6 +243,7 @@ def enquetes(request):
         'cin_user':current_user_cin
     })
 
+
 def compte_active(request):
     if not request.session.get('user_authenticated'):
         return redirect('login')
@@ -246,13 +251,11 @@ def compte_active(request):
     user_role = request.session.get('user_role')
     if user_role != 'responsable':
         return redirect('login')
-    
     current_user_cin = request.session.get('user_cin')
     if current_user_cin:
         data = Doctorant.objects.filter(etat_compte='active').exclude(cin=current_user_cin)
     else:
         data = Doctorant.objects.filter(etat_compte='active')
-
     return render(request, 'compte_active.html', {'data': data})
 
 def desactiver_compte(request, cin):
@@ -701,9 +704,7 @@ def fixed_footer(request):
 
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Personne, Pratique, Ist, Grossesse, Facteur, PrenatalMaternel, Violence, Sr 
-from .forms import PersonneForm, PratiqueForm, IstForm, GrossesseForm, FacteurForm, PrenatalMaternelForm, ViolenceForm, SrForm
+
 
 def personne_edit(request, pk):
     personne = get_object_or_404(Personne, pk=pk)
@@ -711,7 +712,8 @@ def personne_edit(request, pk):
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
             personne = form.save()
-            return redirect('personne_list')  
+            messages.success(request, "Enregistrement validé.")
+            return redirect('personne')  
     else:
         form = PersonneForm(instance=personne)
     return render(request, 'personne_edit.html', {'form': form})
@@ -719,12 +721,18 @@ def personne_edit(request, pk):
 
     
 def pratiques_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     pratiques = get_object_or_404(Pratique, pk=pk)
     if request.method == "POST":
         form = PratiqueForm(request.POST, instance=pratiques)
         if form.is_valid():
             pratiques = form.save()
-            return redirect('pratiques_list')  
+            messages.success(request, "Enregistrement validé.")
+            return redirect('pratiques')  
     else:
         form = PratiqueForm(instance=pratiques)
     return render(request, 'pratiques_edit.html', {'form': form})
@@ -732,72 +740,151 @@ def pratiques_edit(request, pk):
 
 
 def ist_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     ist = get_object_or_404(Ist, pk=pk)
     if request.method == "POST":
         form = IstForm(request.POST, instance=ist)
         if form.is_valid():
             ist=form.save()
-            return redirect('ist_list')
+            messages.success(request, "Enregistrement validé.")
+            return redirect('ist')
     else:
         form = IstForm(instance=ist)
     return render(request, 'ist_edit.html', {'form': form})
 
-
 def grossesse_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     grossesse = get_object_or_404(Grossesse, pk=pk)
-    
-    if request.method == "POST":
-       
+    if request.method == "POST":   
         form = GrossesseForm(request.POST, instance=grossesse)
         if form.is_valid():
             grossesse = form.save()
-            return redirect('grossesse_list') 
+            messages.success(request, "Enregistrement validé.")
+            return redirect('grossesse') 
     else:
         form = GrossesseForm(instance=grossesse)
     return render(request, 'grossesse_edit.html', {'form': form})
 
-
 def facteur_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     facteur = get_object_or_404(Facteur, pk=pk)
     if request.method == "POST":
         form = FacteurForm(request.POST, instance=facteur)
         if form.is_valid():
             facteur = form.save()
-            return redirect('facteur_list')  
+            messages.success(request, "Enregistrement validé.")
+            return redirect('facteur')  
     else:
         form = FacteurForm(instance=facteur)
     return render(request, 'facteur_edit.html', {'form': form})
 
+
+
+
 def prenatal_maternel_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     prenatal_maternel = get_object_or_404(PrenatalMaternel, pk=pk)
     if request.method == "POST":
         form = PrenatalMaternelForm(request.POST, instance=prenatal_maternel)
         if form.is_valid():
             prenatal_maternel = form.save()
-            return redirect('renatal_maternel_list')  
+            messages.success(request, "Enregistrement validé.")
+            return redirect('prenatal_maternel')  
     else:
-        form = PrenatalMaternelForm(instance=PrenatalMaternel)
+        form = PrenatalMaternelForm(instance=prenatal_maternel)
     return render(request, 'prenatal_maternel_edit.html', {'form': form})
 
 def violence_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     violence = get_object_or_404(Violence, pk=pk)
     if request.method == "POST":
         form = ViolenceForm(request.POST, instance=violence)
         if form.is_valid():
             violence = form.save()
-            return redirect('violence_sr_list')  
+            messages.success(request, "Enregistrement validé.")
+            return redirect('violence')  
     else:
         form = ViolenceForm(instance=violence)
     return render(request, 'violence_edit.html', {'form': form})
 
-
 def sr_edit(request, pk):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')  
+    user_role = request.session.get('user_role')
+    if user_role != 'doctorant':
+        return redirect('login')
     sr= get_object_or_404(Sr, pk=pk)
     if request.method == "POST":
         form = SrForm(request.POST, instance=sr)
         if form.is_valid():
             sr = form.save()
-            return redirect('sr_list') 
+            messages.success(request, "Enregistrement validé.")
+            return redirect('sr') 
     else:
         form = SrForm(instance=sr)
     return render(request, 'sr_edit.html', {'form': form})
+
+
+import os
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponseNotFound
+from .models import Personne
+
+def archive(request):
+    if not request.session.get('user_authenticated'):
+        return redirect('login')
+    user_role = request.session.get('user_role')
+    if user_role != 'responsable':
+        return redirect('login')
+
+    fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'uploads'))
+
+    if request.method == 'POST':
+        if 'pdf_file' in request.FILES:
+            pdf_file = request.FILES['pdf_file']
+            filename = fs.save(pdf_file.name, pdf_file)
+            file_url = fs.url(filename)
+        elif 'delete_file' in request.POST:
+            filename = request.POST['delete_file']
+            file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', filename)
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    # Liste des fichiers PDF dans le répertoire uploads
+    uploads_dir = os.path.join(settings.MEDIA_ROOT, 'uploads')
+    if not os.path.exists(uploads_dir):
+        os.makedirs(uploads_dir)
+    pdf_list = []
+    for filename in os.listdir(uploads_dir):
+        if filename.endswith('.pdf'):
+            file_url = fs.url(os.path.join('uploads', filename))
+            pdf_list.append({
+                'title': filename,
+                'description': 'Uploaded PDF file',
+                'file_url': file_url,
+                'filename': filename
+            })
+
+    return render(request, 'archive.html', {'pdf_list': pdf_list})

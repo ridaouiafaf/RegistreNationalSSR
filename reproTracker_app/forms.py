@@ -44,3 +44,7 @@ class FacteurForm(forms.ModelForm):
     class Meta:
         model = Facteur
         fields = ['religion', 'niv_etud', 'revenu', 'niv_social', 'impact_norme_culturelle', 'impact_norme_religieuse']
+from django import forms
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
