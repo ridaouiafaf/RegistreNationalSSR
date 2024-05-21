@@ -17,12 +17,7 @@
     <div class="menu_section">
         <h3>General</h3>
         <ul class="nav side-menu">
-            <li><a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li><a href="{% url 'index2' %}">Dashboard</a></li>
-                    <li><a href="{% url 'index2' %}">Dashboard2</a></li>
-                    <li><a href="{% url 'index3' %}">Dashboard3</a></li>
-                </ul>
+            <li><a href="{% url 'index' %}"><i class="fa fa-home"></i>Dashboard</a>
             </li>
             <li><a  href="{% url 'enquetes' %}"><i class="fa fa-edit"></i> Enquetes </a></li>
             <li><a><i class="fa fa-desktop"></i> Tables <span class="fa fa-chevron-down"></span></a>
@@ -40,14 +35,14 @@
 
                 </ul>
             </li>
-            <li><a><i class="fa fa-desktop"></i> Visualisation <span class="fa fa-chevron-down"></span></a>
+            <!-- <li><a><i class="fa fa-desktop"></i> Visualisation <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="{% url 'general_elements' %}">Graphe 1</a></li>
                     <li><a href="{% url 'media_gallery' %}">Graphe 2</a></li>
                     <li><a href="{% url 'typography' %}">Graphe 3</a></li>
                     <li><a href="{% url 'icons' %}">Maps</a></li>
                 </ul>
-            </li>
+            </li> -->
             <li><a href="{% url 'contacts' %}"><i class="fa fa-table"></i> Contacts </a>
             </li>
             <li><a href="{% url 'contacts' %}"><i class="fa fa-table"></i> Archive </a>
