@@ -84,7 +84,6 @@ EMAIL_HOST_USER = 'service.urologie.ssr@gmail.com'
 EMAIL_HOST_PASSWORD = 'kgnn xdcl cqzf peqq'
 EMAIL_USE_TLS = True  
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
