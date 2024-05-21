@@ -32,6 +32,9 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+                        <div id="successMessage" class="alert alert-success" style="display: none;">
+                            Enregistrement validé!
+                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card-box table-responsive">
@@ -42,7 +45,6 @@
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                
                                                 <th>acc serv prenatal</th>
                                                 <th>comp_grass</th>
                                                 <th>desc_comp_gross</th>
@@ -50,14 +52,13 @@
                                                 <th>desc_comp_accouch</th>
                                                 <th>acc_serv_maternel</th>
                                                 <th>meth_accouch</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                     
                                         <tbody>
                                             {% for item in prenatal_maternels %}
                                             <tr>
-                                            
-                                                
                                                 <td>{{item.acc_serv_prenatal}}</td>
                                                 <td>{{item.comp_grass}}</td>
                                                 <td>{{item.desc_comp_gross}}</td>
@@ -70,7 +71,6 @@
                                                 </td>
                                             </tr>
                                             {% endfor %}
-                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -82,4 +82,19 @@
         </div>
     </div>
 </div>
+<script>
+    // Afficher le message de succès et le masquer après 2 secondes
+    window.onload = function() {
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        $('#successMessage').show();
+        setTimeout(function() {
+            $('#successMessage').hide();
+        }, 2000); // Masquer le message après 2 secondes
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    }
+</script>
 {% endblock %}

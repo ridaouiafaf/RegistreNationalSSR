@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Archive{% endblock %}
+{% block sidebar %}
+{% include 'sidebar.html' %}
+{% endblock %}
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Archive<small>Rapports et Graphes</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <p class="text-muted font-13 m-b-30">
+                                        Liste des rapports et des graphes archivés.
+                                    </p>
+                                    <form action="{% url 'archive' %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="pdf_file">Upload PDF</label>
+                                            <input type="file" name="pdf_file" accept="application/pdf" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </form>
+                                    <div class="row">
+                                        {% for pdf in pdf_list %}
+                                        <div class="col-md-4">
+                                            <div class="card mb-4 shadow-sm">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ pdf.title }}</h5>
+                                                    <p class="card-text">{{ pdf.description }}</p>
+                                                    <a href="{{ pdf.file_url }}" class="btn btn-primary">Télécharger</a>
+                                                    <form action="{% url 'archive' %}" method="post" style="display:inline;">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="delete_file" value="{{ pdf.filename }}">
+                                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% if not pdf_list %}
+                                    <p>Aucun rapport disponible pour le moment.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+

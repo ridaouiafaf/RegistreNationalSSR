@@ -32,6 +32,9 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+                        <div id="successMessage" class="alert alert-success" style="display: none;">
+                            Enregistrement validé!
+                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card-box table-responsive">
@@ -42,8 +45,7 @@
                                         <thead>
                                             <tr>
                                                 
-                                                <th>Nom</th>
-                                                <th>Prénom</th>
+                                                <th>Nom Prénom</th>
                                                 <th>Date naissance</th>
                                                 <th>cin</th>
                                                 <th>Nationalité</th>
@@ -52,6 +54,7 @@
                                                 <th>Métier</th>
                                                 <th>Etat Civil</th>
                                                 <th>Sexe</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
 
@@ -60,8 +63,7 @@
                                             {% for item in personnes %}
                                             <tr>
                                             
-                                                <td>{{item.prenom}}</td>
-                                                <td>{{item.nom}}</td>
+                                                <td>{{item.prenom}} {{item.nom}}</td>
                                                 <td>{{item.date_naiss}}</td>
                                                 <td>{{item.cin}}</td>
                                                 <td>{{item.nationalite}}</td>
@@ -96,4 +98,19 @@
         </div>
     </div>
 </div>
+<script>
+    // Afficher le message de succès et le masquer après 2 secondes
+    window.onload = function() {
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        $('#successMessage').show();
+        setTimeout(function() {
+            $('#successMessage').hide();
+        }, 2000); // Masquer le message après 2 secondes
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    }
+</script>
 {% endblock %}
