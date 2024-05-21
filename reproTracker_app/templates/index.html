@@ -14,35 +14,17 @@
   <div class="row" style="display: inline-block;">
     <div class="tile_count">
       <div class="col-md-4 col-sm-4  tile_stats_count">
-        <span class="count_top"><i class="fa fa-user"></i> Personne </span>
+        <span class="count_top"><i class="fa fa-user"></i> Total </span>
         <div class="count">{{person}}</div>
-        <!-- <span class="count_bottom"><i class="green">4 <i class="fa fa-sort-asc"></i></i></span> -->
       </div>
-      <!-- <div class="col-md-4 col-sm-4  tile_stats_count">
-        <span class="count_top"><i class="fa fa-clock-o"></i> Heures Totales</span>
-        <div class="count">123.50</div>
-        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> </span>
-      </div> -->
       <div class="col-md-4 col-sm-4  tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Homme</span>
-        <div class="count">{{homme}}</div>
-        <!-- <span class="count_bottom"><i class="green">34 <i class="fa fa-sort-asc"></i></i> </span> -->
+        <div class="count">{{count_homme}}</div>
       </div>
       <div class="col-md-4 col-sm-4  tile_stats_count">
         <span class="count_top"><i class="fa fa-user"></i> Femme</span>
-        <div class="count">{{femme}}</div>
-        <!-- <span class="count_bottom"><i class="green">12 <i class="fa fa-sort-asc"></i></i> </span> -->
+        <div class="count">{{count_femme}}</div>
       </div>
-      <!-- <div class="col-md-2 col-sm-4  tile_stats_count">
-        <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
-        <div class="count">2,315</div>
-        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-      </div>
-      <div class="col-md-2 col-sm-4  tile_stats_count">
-        <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-        <div class="count">7,325</div>
-        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-      </div> -->
     </div>
   </div>
   <!-- /top tiles -->
@@ -53,16 +35,230 @@
         <div class="row x_title">
           <!-- <div class="col-md-6"></div> -->
         <div class="x_content">
-          <canvas id="myChart" width="50" height="50"></canvas>
-          <canvas id="cityChart"></canvas>
-          <canvas id="istChart"></canvas>
+          <!-- chart gender by birth year -->
+          <form method="get" action="">
+            <label for="year">Select Year:</label>
+            <select id="year" name="year">
+                <option value="">All</option>
+                {% for year in years %}
+                  <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Filter</button>
+          </form>
+          <canvas id="genderYearChart" width="400" height="200"></canvas>
+          <!-- Chart IST -->
+          <div>
+            <label for="istFilter">Filter by IST:</label>
+            <select id="istFilter">
+                <option value="all">All ISTs</option>
+                <!-- Options will be populated dynamically -->
+            </select>
+          </div>
+          <canvas id="istChart" width="300" height="300"></canvas>
         </div>
+        <!-- Chart nbr personne par ville -->
+        
       </div>
     </div>
   </div>
 
   
 </div>
+{% block scripts%}
+<!-- line chart gender by birth year -->
+<script>
+  // Get data from Django context
+  var years = {{ years|safe }};
+  var hommeData = {{ homme_data|safe }};
+  var femmeData = {{ femme_data|safe }};
+  
+  // Data for the chart
+  var data = {
+      labels: years,
+      datasets: [
+          {
+              label: 'Homme',
+              data: hommeData,
+              fill: false,
+              borderColor: 'rgba(54, 162, 235, 1)',
+              tension: 0.1
+          },
+          {
+              label: 'Femme',
+              data: femmeData,
+              fill: false,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              tension: 0.1
+          }
+      ]
+  };
+
+  // Options for the chart
+  var options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Year of Birth'
+              }
+          },
+          y: {
+              beginAtZero: true,
+              title: {
+                  display: true,
+                  text: 'Number of People'
+              }
+          }
+      }
+  };
+
+  // Create the line chart
+  var ctx = document.getElementById('genderYearChart').getContext('2d');
+  var genderYearChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+  });
+</script>
+<!-- chart des IST -->
+<script>
+  // Sample data (replace with your actual data)
+var allISTLabels = ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'];
+var allISTCounts = [{{ vih_sid_count }}, {{ syphilis_count }}, {{ gonorrhee_count }}, {{ chlamydiose_count }}, {{ trichomonase_count }}, {{ hepatite_b_count }}, {{ hsv_count }}, {{ pvh_count }}];
+
+// Populate the dropdown with IST options
+var istFilter = document.getElementById('istFilter');
+// Clear existing options
+istFilter.innerHTML = '';
+
+// Add default "all" option
+var allOption = document.createElement('option');
+allOption.value = 'all';
+allOption.text = 'All ISTs';
+istFilter.add(allOption);
+allISTLabels.forEach(function(ist) {
+    var option = document.createElement('option');
+    option.value = ist;
+    option.text = ist;
+    istFilter.add(option);
+});
+
+// Initial chart data
+var chartData = {
+    labels: allISTLabels,
+    datasets: [{
+        label: 'Nombre de "oui" par IST',
+        data: allISTCounts,
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 0, 0, 0.5)',
+            'rgba(0, 255, 0, 0.5)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 0, 0, 1)',
+            'rgba(0, 255, 0, 1)'
+        ],
+        borderWidth: 1
+    }]
+};
+
+// Chart options
+var chartOptions = {
+    responsive: false,
+    maintainAspectRatio: false
+};
+
+// Create the pie chart
+var ctx = document.getElementById('istChart').getContext('2d');
+var istChart = new Chart(ctx, {
+    type: 'pie',
+    data: chartData,
+    options: chartOptions
+});
+
+// Function to update the chart based on the selected filter
+function updateChart() {
+    var selectedIST = istFilter.value;
+    if (selectedIST === 'all') {
+        istChart.data.labels = allISTLabels;
+        istChart.data.datasets[0].data = allISTCounts;
+    } else {
+        var filteredIndex = allISTLabels.indexOf(selectedIST);
+        istChart.data.labels = [selectedIST];
+        istChart.data.datasets[0].data = [allISTCounts[filteredIndex]];
+    }
+    istChart.update();
+}
+
+// Add event listener to the dropdown
+istFilter.addEventListener('change', updateChart);
+
+// Initial chart update to reflect any default selection
+updateChart();
+
+</script>
+
+<!-- script chart istVilleChart -->
+<script>
+  // Data from Django
+  const cities = {{ cities|safe }};
+  const istByCity = {{ ist_by_city|safe }};
+
+  // Initialize chart
+  const ctx = document.getElementById('istVilleChart').getContext('2d');
+  let istChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: cities,
+          datasets: [{
+              label: 'Number of People',
+              data: [],
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: false,
+          maintainAspectRatio:false,
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  // Function to update chart data based on selected IST
+  function updateChartData(selectedIST) {
+      const newData = cities.map(city => istByCity[city] ? istByCity[city][selectedIST] : 0);
+      istChart.data.datasets[0].data = newData;
+      istChart.update();
+  }
+
+  // Event listener for dropdown change
+  document.getElementById('istFilter').addEventListener('change', function() {
+      updateChartData(this.value);
+  });
+
+  // Initial update to show default IST data
+  updateChartData(document.getElementById('istFilter').value);
+</script>
+{% endblock%}
 <!-- /page content -->
 {% endblock %}
 

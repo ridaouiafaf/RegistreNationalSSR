@@ -1,5 +1,5 @@
+import json, os, re, bcrypt, random, string
 from django.shortcuts import render, redirect, get_object_or_404
-import json, os, re, bcrypt
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -7,12 +7,11 @@ from django.contrib.sessions.models import Session
 from django.contrib import auth, messages
 from django.db import connection,transaction
 from django.views.decorators.cache import never_cache
-from .models import *
 from django.http import JsonResponse
 from django.db.models import Count, Q, Max
-from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
+<<<<<<< HEAD
 from .models import Personne, Pratique, Ist, Grossesse, Facteur, PrenatalMaternel, Violence, Sr 
 from .forms import PersonneForm, PratiqueForm, IstForm, GrossesseForm, FacteurForm, PrenatalMaternelForm, ViolenceForm, SrForm
 from django.contrib import messages
@@ -21,6 +20,11 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
 
+=======
+from .models import *
+from datetime import datetime
+from collections import defaultdict
+>>>>>>> c05b33aabaf1075b24ec996691d25a9bbe0398c8
 
 @never_cache
 def login(request):
@@ -65,13 +69,11 @@ def reset_password(request):
     if request.method == 'POST':
         reset_email = request.POST.get('resetEmail')
         try:
-            user = User.objects.get(email=reset_email)
-            # Générer un nouveau mot de passe temporaire
-            new_password = User.objects.make_random_password()
-            # Mettre à jour le mot de passe de l'utilisateur
-            user.set_password(new_password)
-            user.save()
-            # Envoyer un email à l'utilisateur avec le nouveau mot de passe
+            user = Doctorant.objects.get(email=reset_email)
+            new_password = generate_random_password()
+            hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            with connection.cursor() as cursor:
+                cursor.execute(" UPDATE doctorant SET password = %s WHERE email = %s ",[hashed_password, reset_email] )
             send_mail(
                 'Réinitialisation de votre mot de passe',
                 f'Votre nouveau mot de passe est : {new_password}',
@@ -81,11 +83,16 @@ def reset_password(request):
             )
             success_message = "Un email de réinitialisation de mot de passe a été envoyé à votre adresse email."
             return render(request, 'login.html', {'success_message': success_message})
-        except User.DoesNotExist:
+        except Doctorant.DoesNotExist:
             error_message = "Aucun utilisateur trouvé avec cette adresse email."
             return render(request, 'login.html', {'error_message': error_message})
     else:
-        return redirect('login') 
+        return redirect('login')
+
+def generate_random_password(length=10):
+    """Generate a random password."""
+    # You can customize the length or other parameters here if needed
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 def username(request):
     if not request.session.get('user_authenticated'):
@@ -165,13 +172,31 @@ def index(request):
         count_h = cursor.fetchone()[0]
         cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
         count_f = cursor.fetchone()[0]
-
+    
+    # for gender by birth year line chart
+    selected_year = request.GET.get('year')
     personnes = Personne.objects.all()
-    city_counts = Personne.objects.values('ville').annotate(count=models.Count('id_personne'))
-    cities = [entry['ville'] for entry in city_counts]
-    counts = [entry['count'] for entry in city_counts]
-    years = [personne.date_naiss.year for personne in personnes]
+    h_ycounts = defaultdict(int)
+    f_ycounts = defaultdict(int)
+    for personne in personnes:
+        if personne.date_naiss:
+            year = personne.date_naiss.year
+            if personne.sexe == 'H':
+                h_ycounts[year] += 1
+            elif personne.sexe == 'F':
+                f_ycounts[year] += 1
+    years = sorted(set(h_ycounts.keys()).union(f_ycounts.keys()))
+    homme_data = [h_ycounts[year] for year in years]
+    femme_data = [f_ycounts[year] for year in years]
+    # Filter data based on selected year
+    if selected_year:
+        selected_year = int(selected_year)
+        if selected_year in years:
+            homme_data = [h_ycounts[selected_year]]
+            femme_data = [f_ycounts[selected_year]]
+            years = [selected_year]
 
+    # les données de graphe pie IST
     vih_sid_count = Ist.objects.filter(vih_sid='oui').count()
     syphilis_count = Ist.objects.filter(syphilis='oui').count()
     gonorrhee_count = Ist.objects.filter(gonorrhee='oui').count()
@@ -183,12 +208,9 @@ def index(request):
 
     context= {
         'person': count,
-        'homme': count_h, 
-        'femme': count_f,
+        'count_homme': count_h, 
+        'count_femme': count_f,
         'personnes': personnes,
-        'cities': cities,
-        'counts': counts,
-        'years': years,
         'vih_sid_count': vih_sid_count,
         'syphilis_count': syphilis_count,
         'gonorrhee_count': gonorrhee_count,
@@ -197,6 +219,10 @@ def index(request):
         'hepatite_b_count': hepatite_b_count,
         'hsv_count': hsv_count,
         'pvh_count': pvh_count,
+        'years': years,
+        'homme_data': homme_data,
+        'femme_data': femme_data,
+        'selected_year': selected_year
     }
     return render(request, 'index.html', context)
 
@@ -712,7 +738,10 @@ def personne_edit(request, pk):
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
             personne = form.save()
+<<<<<<< HEAD
             messages.success(request, "Enregistrement validé.")
+=======
+>>>>>>> c05b33aabaf1075b24ec996691d25a9bbe0398c8
             return redirect('personne')  
     else:
         form = PersonneForm(instance=personne)

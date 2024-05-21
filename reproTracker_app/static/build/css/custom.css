@@ -3329,7 +3329,11 @@ ul.social li {
 .chart canvas {
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0; 
+  /* pour le size des graphes */
+  width: 100% !important;
+  height: 100% !important;
+}
 
 .percent {
   display: inline-block;

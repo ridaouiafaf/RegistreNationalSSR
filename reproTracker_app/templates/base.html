@@ -180,84 +180,11 @@
   <script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
   <!-- Notification  -->
   <script src="{% static 'vendors/notification/nuget/content/scripts/toastr.min.js' %}"></script>
+  
+<!-- Inclure toastr JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-  <!-- Inclure toastr JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-  <script>
-    // Prepare data for Chart.js
-    var data = {
-      labels: cities,
-      datasets: [{
-        label: 'Number of People',
-        data: counts,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)', // Red color for bars
-        borderColor: 'rgba(255, 99, 132, 1)', // Border color for bars
-        borderWidth: 1
-      }]
-    };
 
-    // Chart options
-    var options = {
-      responsive: true,
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    };
-
-    // Create and render the bar chart
-    var ctx = document.getElementById('cityChart').getContext('2d');
-    var cityChart = new Chart(ctx, {
-      type: 'bar',
-      data: data,
-      options: options
-    });
-  </script>
-  <!-- <script>
-  var data = {
-  labels: ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'],
-  datasets: [{
-    label: 'Nombre de "oui" par IST',
-    data: [{{ vih_sid_count }}, {{ syphilis_count }}, {{ gonorrhee_count }}, {{ chlamydiose_count }}, {{ trichomonase_count }}, {{ hepatite_b_count }}, {{ hsv_count }}, {{ pvh_count }}],
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.5)',
-      'rgba(54, 162, 235, 0.5)',
-      'rgba(255, 206, 86, 0.5)',
-      'rgba(75, 192, 192, 0.5)',
-      'rgba(153, 102, 255, 0.5)',
-      'rgba(255, 159, 64, 0.5)',
-      'rgba(255, 0, 0, 0.5)',
-      'rgba(0, 255, 0, 0.5)'
-    ],
-    borderColor: [
-      'rgba(255, 99, 132, 1)',
-      'rgba(54, 162, 235, 1)',
-      'rgba(255, 206, 86, 1)',
-      'rgba(75, 192, 192, 1)',
-      'rgba(153, 102, 255, 1)',
-      'rgba(255, 159, 64, 1)',
-      'rgba(255, 0, 0, 1)',
-      'rgba(0, 255, 0, 1)'
-    ],
-    borderWidth: 1
-  }]
-};
-
-var options = {
-  responsive: true
-};
-
-var ctx = document.getElementById('istChart').getContext('2d');
-var myPieChart = new Chart(ctx, {
-  type: 'pie',
-  data: data,
-  options: options
-});
-
-</script> -->
   <!-- Additional scripts -->
   {% block scripts %} {% endblock %}
 </body>
