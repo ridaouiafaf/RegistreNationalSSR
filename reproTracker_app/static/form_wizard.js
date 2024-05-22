@@ -118,11 +118,7 @@ function SmartWizard(target, options) {
                     revenu: $('#revenu').val(),
                     niveauSocial: $('select[name="niveau_social"]').val(),
                     normeCulturelle: $('select[name="norme_culturelle"]').val(),
-                    normeReligieuse: $('select[name="norme_religieuse"]').val(),
-        
-                    doctorant: $('#doctorant').val(),
-                    anneeRealisation: $('#annee_realisation').val(),
-                    enquete: $('#enquete').val()
+                    normeReligieuse: $('select[name="norme_religieuse"]').val()
                 };
         
                 // Vérification des champs requis
@@ -143,9 +139,7 @@ function SmartWizard(target, options) {
                     enquete_data.satisfactionSexuelle == null || enquete_data.demandeSoutien == null ||
                     enquete_data.religion == null || enquete_data.niveauEtudes == null || enquete_data.revenu.trim() == '' ||
                     enquete_data.niveauSocial == null || enquete_data.normeCulturelle == null ||
-                    enquete_data.normeReligieuse == null || enquete_data.doctorant== '' ||
-                    enquete_data.anneeRealisation.trim() == '') {
-                    alert("sitik");
+                    enquete_data.normeReligieuse == null) {
                     if(enquete_data.genre=='F'){
                         if(enquete_data.servicePrenatal==null || enquete_data.complicationGrosse==null||
                             enquete_data.complicationAccouchement==null || enquete_data.serviceMaternel==null || enquete_data.methodeAccouchement==''){                    
