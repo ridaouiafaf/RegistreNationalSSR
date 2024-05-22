@@ -11,20 +11,15 @@ from django.http import JsonResponse
 from django.db.models import Count, Q, Max
 from django.core.mail import send_mail
 from django.conf import settings
-<<<<<<< HEAD
 from .models import Personne, Pratique, Ist, Grossesse, Facteur, PrenatalMaternel, Violence, Sr 
 from .forms import PersonneForm, PratiqueForm, IstForm, GrossesseForm, FacteurForm, PrenatalMaternelForm, ViolenceForm, SrForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-
-
-=======
 from .models import *
 from datetime import datetime
 from collections import defaultdict
->>>>>>> c05b33aabaf1075b24ec996691d25a9bbe0398c8
 
 @never_cache
 def login(request):
@@ -738,10 +733,7 @@ def personne_edit(request, pk):
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
             personne = form.save()
-<<<<<<< HEAD
             messages.success(request, "Enregistrement validé.")
-=======
->>>>>>> c05b33aabaf1075b24ec996691d25a9bbe0398c8
             return redirect('personne')  
     else:
         form = PersonneForm(instance=personne)
