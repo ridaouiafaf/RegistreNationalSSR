@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}Dasboard{% endblock %}
 {% block sidebar %}
 {% include 'sidebar_doc.html'%}
 {% endblock %}
@@ -7,467 +8,308 @@
 {% include 'navbar.html'%}
 {% endblock %}
 {% block content %}
+
 <!-- page content -->
 <div class="right_col" role="main">
-  <div class="">
-    <div class="row" style="display: inline-block;">
-      <div class="top_tiles">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-          <div class="tile-stats">
-            <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-            <div class="count">179</div>
-            <h3>New Sign ups</h3>
-            <p>Lorem ipsum psdea itgum rixt.</p>
-          </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-          <div class="tile-stats">
-            <div class="icon"><i class="fa fa-comments-o"></i></div>
-            <div class="count">179</div>
-            <h3>New Sign ups</h3>
-            <p>Lorem ipsum psdea itgum rixt.</p>
-          </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-          <div class="tile-stats">
-            <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-            <div class="count">179</div>
-            <h3>New Sign ups</h3>
-            <p>Lorem ipsum psdea itgum rixt.</p>
-          </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-          <div class="tile-stats">
-            <div class="icon"><i class="fa fa-check-square-o"></i></div>
-            <div class="count">179</div>
-            <h3>New Sign ups</h3>
-            <p>Lorem ipsum psdea itgum rixt.</p>
-          </div>
-        </div>
+  <!-- top tiles -->
+  <div class="row" style="display: inline-block;">
+    <div class="tile_count">
+      <div class="col-md-4 col-sm-4  tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Total </span>
+        <div class="count">{{person}}</div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Transaction Summary <small>Weekly progress</small></h2>
-            <div class="filter">
-              <div id="reportrange" class="pull-right"
-                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <div class="col-md-9 col-sm-12 ">
-              <div class="demo-container" style="height:280px">
-                <div id="chart_plot_02" class="demo-placeholder"></div>
-              </div>
-              <div class="tiles">
-                <div class="col-md-4 tile">
-                  <span>Total Sessions</span>
-                  <h2>231,809</h2>
-                  <span class="sparkline11 graph" style="height: 160px;">
-                    <canvas width="200" height="60"
-                      style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
-                </div>
-                <div class="col-md-4 tile">
-                  <span>Total Revenue</span>
-                  <h2>$231,809</h2>
-                  <span class="sparkline22 graph" style="height: 160px;">
-                    <canvas width="200" height="60"
-                      style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
-                </div>
-                <div class="col-md-4 tile">
-                  <span>Total Sessions</span>
-                  <h2>231,809</h2>
-                  <span class="sparkline11 graph" style="height: 160px;">
-                    <canvas width="200" height="60"
-                      style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="col-md-3 col-sm-12 ">
-              <div>
-                <div class="x_title">
-                  <h2>Top Profiles</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                          class="fa fa-wrench"></i></a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Settings 1</a>
-                        <a class="dropdown-item" href="#">Settings 2</a>
-                      </div>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <ul class="list-unstyled top_profiles scroll-view">
-                  <li class="media event">
-                    <a class="pull-left border-aero profile_thumb">
-                      <i class="fa fa-user aero"></i>
-                    </a>
-                    <div class="media-body">
-                      <a class="title" href="#">Ms. Mary Jane</a>
-                      <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                      <p> <small>12 Sales Today</small>
-                      </p>
-                    </div>
-                  </li>
-                  <li class="media event">
-                    <a class="pull-left border-green profile_thumb">
-                      <i class="fa fa-user green"></i>
-                    </a>
-                    <div class="media-body">
-                      <a class="title" href="#">Ms. Mary Jane</a>
-                      <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                      <p> <small>12 Sales Today</small>
-                      </p>
-                    </div>
-                  </li>
-                  <li class="media event">
-                    <a class="pull-left border-blue profile_thumb">
-                      <i class="fa fa-user blue"></i>
-                    </a>
-                    <div class="media-body">
-                      <a class="title" href="#">Ms. Mary Jane</a>
-                      <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                      <p> <small>12 Sales Today</small>
-                      </p>
-                    </div>
-                  </li>
-                  <li class="media event">
-                    <a class="pull-left border-aero profile_thumb">
-                      <i class="fa fa-user aero"></i>
-                    </a>
-                    <div class="media-body">
-                      <a class="title" href="#">Ms. Mary Jane</a>
-                      <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                      <p> <small>12 Sales Today</small>
-                      </p>
-                    </div>
-                  </li>
-                  <li class="media event">
-                    <a class="pull-left border-green profile_thumb">
-                      <i class="fa fa-user green"></i>
-                    </a>
-                    <div class="media-body">
-                      <a class="title" href="#">Ms. Mary Jane</a>
-                      <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                      <p> <small>12 Sales Today</small>
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-          </div>
-        </div>
+      <div class="col-md-4 col-sm-4  tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Homme</span>
+        <div class="count">{{count_homme}}</div>
       </div>
-    </div>
-
-
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Weekly Summary <small>Activity shares</small></h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Settings 1</a>
-                  <a class="dropdown-item" href="#">Settings 2</a>
-                </div>
-              </li>
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-
-            <div class="row" style="border-bottom: 1px solid #E0E0E0; padding-bottom: 5px; margin-bottom: 5px;">
-              <div class="col-md-7" style="overflow:hidden;">
-                <span class="sparkline_one" style="height: 160px; padding: 10px 25px;">
-                  <canvas width="200" height="60"
-                    style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                </span>
-                <h4 style="margin:18px">Weekly sales progress</h4>
-              </div>
-
-              <div class="col-md-5">
-                <div class="row" style="text-align: center;">
-                  <div class="col-md-4">
-                    <canvas class="canvasDoughnut" height="110" width="110" style="margin: 5px 10px 10px 0"></canvas>
-                    <h4 style="margin:0">Bounce Rates</h4>
-                  </div>
-                  <div class="col-md-4">
-                    <canvas class="canvasDoughnut" height="110" width="110" style="margin: 5px 10px 10px 0"></canvas>
-                    <h4 style="margin:0">New Traffic</h4>
-                  </div>
-                  <div class="col-md-4">
-                    <canvas class="canvasDoughnut" height="110" width="110" style="margin: 5px 10px 10px 0"></canvas>
-                    <h4 style="margin:0">Device Share</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="row">
-      <div class="col-md-4">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Top Profiles <small>Sessions</small></h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Settings 1</a>
-                  <a class="dropdown-item" href="#">Settings 2</a>
-                </div>
-              </li>
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item One Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Three Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Top Profiles <small>Sessions</small></h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Settings 1</a>
-                  <a class="dropdown-item" href="#">Settings 2</a>
-                </div>
-              </li>
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item One Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Three Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Top Profiles <small>Sessions</small></h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Settings 1</a>
-                  <a class="dropdown-item" href="#">Settings 2</a>
-                </div>
-              </li>
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item One Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Three Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-          </div>
-        </div>
+      <div class="col-md-4 col-sm-4  tile_stats_count">
+        <span class="count_top"><i class="fa fa-user"></i> Femme</span>
+        <div class="count">{{count_femme}}</div>
       </div>
     </div>
   </div>
+  <!-- /top tiles -->
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+      <div class="dashboard_graph x_panel">
+        <div class="row x_title">
+          <!-- <div class="col-md-6"></div> -->
+        <div class="x_content">
+          <!-- chart gender by birth year -->
+          <form method="get" action="">
+            <label for="year">Select Year:</label>
+            <select id="year" name="year">
+                <option value="">All</option>
+                {% for year in years %}
+                  <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Filter</button>
+          </form>
+          <canvas id="genderYearChart" width="1000" height="300"></canvas>
+  
+          <form method="GET" action="">
+            <label for="marital_status">Filtre par état civil:</label>
+            <select name="marital_status" id="marital_status" onchange="this.form.submit()">
+              <option value="all" {% if selected_status == 'all' %}selected{% endif %}>All</option>
+              {% for status in all_statuses %}
+              <option value="{{ status }}" {% if selected_status == status %}selected{% endif %}>{{ status }}</option>
+              {% endfor %}
+            </select>
+          </form>
+          <canvas id="maritalStatusSexualSatisfactionChart" width="500" height="400"></canvas>
+
+          <!-- Chart IST -->
+          <div>
+            <label for="istFilter">Filter by IST:</label>
+            <select id="istFilter">
+                <option value="all">All ISTs</option>
+                <!-- Options will be populated dynamically -->
+            </select>
+          </div>
+          <canvas id="istChart" width="300" height="300"></canvas>
+        </div>
+        <!-- Chart nbr personne par ville -->
+        
+      </div>
+    </div>
+  </div>
+
+  
 </div>
+{% block scripts%}
+<!-- line chart gender by birth year -->
+<script>
+  // Get data from Django context
+  var years = {{ years|safe }};
+  var hommeData = {{ homme_data|safe }};
+  var femmeData = {{ femme_data|safe }};
+  
+  // Data for the chart
+  var data = {
+      labels: years,
+      datasets: [
+          {
+              label: 'Homme',
+              data: hommeData,
+              fill: false,
+              borderColor: 'rgba(255, 99, 132, 0.5)',
+              tension: 0.1
+          },
+          {
+              label: 'Femme',
+              data: femmeData,
+              fill: false,
+              borderColor: 'rgba(54, 162, 235, 0.5)',
+              tension: 0.1
+          }
+      ]
+  };
+
+  // Options for the chart
+  var options = {
+      responsive:false,
+      maintainAspectRatio: false,
+      scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Year of Birth'
+              }
+          },
+          y: {
+              beginAtZero: true,
+              title: {
+                  display: true,
+                  text: 'Number of People'
+              },
+              ticks:{
+                stepSize: 1,
+                callback: function(value) {
+                  if (Number.isInteger(value)) {
+                    return value;
+                  }
+                }
+              }
+          }
+      }
+  };
+
+  // Create the line chart
+  var ctx = document.getElementById('genderYearChart').getContext('2d');
+  var genderYearChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+  });
+</script>
+<!-- chart des IST -->
+<script>
+  // Sample data (replace with your actual data)
+var allISTLabels = ['VIH/SID', 'Syphilis', 'Gonorrhée', 'Chlamydiose', 'Trichomonase', 'Hépatite B', 'HSV', 'PVH'];
+var allISTCounts = [{{ vih_sid_count }}, {{ syphilis_count }}, {{ gonorrhee_count }}, {{ chlamydiose_count }}, {{ trichomonase_count }}, {{ hepatite_b_count }}, {{ hsv_count }}, {{ pvh_count }}];
+
+// Populate the dropdown with IST options
+var istFilter = document.getElementById('istFilter');
+// Clear existing options
+istFilter.innerHTML = '';
+
+// Add default "all" option
+var allOption = document.createElement('option');
+allOption.value = 'all';
+allOption.text = 'All ISTs';
+istFilter.add(allOption);
+allISTLabels.forEach(function(ist) {
+    var option = document.createElement('option');
+    option.value = ist;
+    option.text = ist;
+    istFilter.add(option);
+});
+
+// Initial chart data
+var chartData = {
+    labels: allISTLabels,
+    datasets: [{
+        label: 'Nombre de "oui" par IST',
+        data: allISTCounts,
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)',
+            'rgba(255, 159, 64, 0.5)',
+            'rgba(255, 0, 0, 0.5)',
+            'rgba(0, 255, 0, 0.5)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 0, 0, 1)',
+            'rgba(0, 255, 0, 1)'
+        ],
+        borderWidth: 1
+    }]
+};
+
+// Chart options
+var chartOptions = {
+    responsive: false,
+    maintainAspectRatio: false
+};
+
+// Create the pie chart
+var ctx = document.getElementById('istChart').getContext('2d');
+var istChart = new Chart(ctx, {
+    type: 'pie',
+    data: chartData,
+    options: chartOptions
+});
+
+// Function to update the chart based on the selected filter
+function updateChart() {
+    var selectedIST = istFilter.value;
+    if (selectedIST === 'all') {
+        istChart.data.labels = allISTLabels;
+        istChart.data.datasets[0].data = allISTCounts;
+    } else {
+        var filteredIndex = allISTLabels.indexOf(selectedIST);
+        istChart.data.labels = [selectedIST];
+        istChart.data.datasets[0].data = [allISTCounts[filteredIndex]];
+    }
+    istChart.update();
+}
+
+// Add event listener to the dropdown
+istFilter.addEventListener('change', updateChart);
+
+// Initial chart update to reflect any default selection
+updateChart();
+
+</script>
+<!-- chart sexual  satisfaction X martial status -->
+<script>
+  // Get data from Django context
+  var maritalStatus = {{ marital_status|safe }};
+  var satisfactionLevels = {{ satisfaction_levels|safe }};
+  var counts = {{ counts|safe }};
+
+  // Prepare data for Chart.js
+  var uniqueMaritalStatus = [...new Set(maritalStatus)];
+  var uniqueSatisfactionLevels = [...new Set(satisfactionLevels)];
+
+  var datasets = uniqueSatisfactionLevels.map((level, index) => {
+      return {
+          label: level,
+          data: uniqueMaritalStatus.map(status => {
+              let idx = maritalStatus.findIndex((s, i) => s === status && satisfactionLevels[i] === level);
+              return idx !== -1 ? counts[idx] : 0;
+          }),
+          backgroundColor: ['rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
+        ],
+          borderWidth: 1
+      };
+  });
+
+  var data = {
+      labels: uniqueMaritalStatus,
+      datasets: datasets
+  };
+
+  // Options for the chart
+  var options = {
+      indexAxis: 'y', // Make it horizontal
+      responsive: false,
+      maintainAspectRatio: false,
+      scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Number of People'
+              },
+              beginAtZero: true,
+              ticks: {
+                  stepSize: 1
+              }
+          },
+          y: {
+              title: {
+                  display: true,
+                  text: 'Marital Status'
+              }
+          }
+      }
+  };
+
+  // Create the horizontal bar chart
+  var ctx = document.getElementById('maritalStatusSexualSatisfactionChart').getContext('2d');
+  var maritalStatusSexualSatisfactionChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options
+  });
+</script>
+
+{% endblock%}
 <!-- /page content -->
 {% endblock %}
+
 {% block footer%}
 {% include 'footer.html'%}
 {% endblock %}
