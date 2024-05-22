@@ -161,7 +161,7 @@ def index(request):
 
     with connection.cursor() as cursor:
         cursor.execute("SELECT COUNT(*) FROM PERSONNE")
-        count = cursor.fetchone()[0]
+        person = cursor.fetchone()[0]
         cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'H'")
         count_h = cursor.fetchone()[0]
         cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
@@ -200,8 +200,46 @@ def index(request):
     hsv_count = Ist.objects.filter(hsv='oui').count()
     pvh_count = Ist.objects.filter(pvh='oui').count()
 
+    # chart sexual satisfaction X martial status
+    selected_status = request.GET.get('marital_status', 'all')
+    
+    # Filter persons by selected marital status
+    if selected_status == 'all':
+        personnes = Personne.objects.all()
+    else:
+        personnes = Personne.objects.filter(etat_civil=selected_status)
+
+    sr_records = Sr.objects.filter(id_personne__in=[p.id_personne for p in personnes])
+    combined_data = []
+
+    for personne in personnes:
+        sr_record = sr_records.filter(id_personne=personne.id_personne).first()
+        if sr_record:
+            combined_data.append({
+                'etat_civil': personne.etat_civil,
+                'qualité_relation_sex': sr_record.qualité_relation_sex,
+            })
+
+    # Aggregate the combined data
+    data = {}
+    for item in combined_data:
+        key = (item['etat_civil'], item['qualité_relation_sex'])
+        if key not in data:
+            data[key] = 0
+        data[key] += 1
+
+    # Prepare data for the chart
+    marital_status = []
+    satisfaction_levels = []
+    counts = []
+
+    for key, count in data.items():
+        marital_status.append(key[0])
+        satisfaction_levels.append(key[1])
+        counts.append(count)
+
     context= {
-        'person': count,
+        'person': person,
         'count_homme': count_h, 
         'count_femme': count_f,
         'personnes': personnes,
@@ -216,7 +254,12 @@ def index(request):
         'years': years,
         'homme_data': homme_data,
         'femme_data': femme_data,
-        'selected_year': selected_year
+        'selected_year': selected_year,
+        'marital_status': marital_status,
+        'satisfaction_levels': satisfaction_levels,
+        'counts': counts,
+        'selected_status': selected_status,
+        'all_statuses': Personne.objects.values_list('etat_civil', flat=True).distinct()
     }
     return render(request, 'index.html', context)
 
@@ -229,7 +272,7 @@ def index2(request):
     
     with connection.cursor() as cursor:
         cursor.execute("SELECT COUNT(*) FROM PERSONNE")
-        count = cursor.fetchone()[0]
+        person = cursor.fetchone()[0]
         cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'H'")
         count_h = cursor.fetchone()[0]
         cursor.execute("SELECT COUNT(*) FROM PERSONNE WHERE SEXE like 'F'")
@@ -268,8 +311,46 @@ def index2(request):
     hsv_count = Ist.objects.filter(hsv='oui').count()
     pvh_count = Ist.objects.filter(pvh='oui').count()
 
+    # chart sexual satisfaction X martial status
+    selected_status = request.GET.get('marital_status', 'all')
+    
+    # Filter persons by selected marital status
+    if selected_status == 'all':
+        personnes = Personne.objects.all()
+    else:
+        personnes = Personne.objects.filter(etat_civil=selected_status)
+
+    sr_records = Sr.objects.filter(id_personne__in=[p.id_personne for p in personnes])
+    combined_data = []
+
+    for personne in personnes:
+        sr_record = sr_records.filter(id_personne=personne.id_personne).first()
+        if sr_record:
+            combined_data.append({
+                'etat_civil': personne.etat_civil,
+                'qualité_relation_sex': sr_record.qualité_relation_sex,
+            })
+
+    # Aggregate the combined data
+    data = {}
+    for item in combined_data:
+        key = (item['etat_civil'], item['qualité_relation_sex'])
+        if key not in data:
+            data[key] = 0
+        data[key] += 1
+
+    # Prepare data for the chart
+    marital_status = []
+    satisfaction_levels = []
+    counts = []
+
+    for key, count in data.items():
+        marital_status.append(key[0])
+        satisfaction_levels.append(key[1])
+        counts.append(count)
+
     context= {
-        'person': count,
+        'person': person,
         'count_homme': count_h, 
         'count_femme': count_f,
         'personnes': personnes,
@@ -284,7 +365,12 @@ def index2(request):
         'years': years,
         'homme_data': homme_data,
         'femme_data': femme_data,
-        'selected_year': selected_year
+        'selected_year': selected_year,
+        'marital_status': marital_status,
+        'satisfaction_levels': satisfaction_levels,
+        'counts': counts,
+        'selected_status': selected_status,
+        'all_statuses': Personne.objects.values_list('etat_civil', flat=True).distinct()
     }
     return render(request, 'index2.html', context)
 

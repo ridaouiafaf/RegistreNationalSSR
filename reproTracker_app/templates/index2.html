@@ -8,6 +8,7 @@
 {% include 'navbar.html'%}
 {% endblock %}
 {% block content %}
+
 <!-- page content -->
 <div class="right_col" role="main">
   <!-- top tiles -->
@@ -46,7 +47,19 @@
             </select>
             <button type="submit">Filter</button>
           </form>
-          <canvas id="genderYearChart" width="400" height="200"></canvas>
+          <canvas id="genderYearChart" width="1000" height="300"></canvas>
+  
+          <form method="GET" action="">
+            <label for="marital_status">Filtre par état civil:</label>
+            <select name="marital_status" id="marital_status" onchange="this.form.submit()">
+              <option value="all" {% if selected_status == 'all' %}selected{% endif %}>All</option>
+              {% for status in all_statuses %}
+              <option value="{{ status }}" {% if selected_status == status %}selected{% endif %}>{{ status }}</option>
+              {% endfor %}
+            </select>
+          </form>
+          <canvas id="maritalStatusSexualSatisfactionChart" width="500" height="400"></canvas>
+
           <!-- Chart IST -->
           <div>
             <label for="istFilter">Filter by IST:</label>
@@ -81,14 +94,14 @@
               label: 'Homme',
               data: hommeData,
               fill: false,
-              borderColor: 'rgba(54, 162, 235, 1)',
+              borderColor: 'rgba(255, 99, 132, 0.5)',
               tension: 0.1
           },
           {
               label: 'Femme',
               data: femmeData,
               fill: false,
-              borderColor: 'rgba(255, 99, 132, 1)',
+              borderColor: 'rgba(54, 162, 235, 0.5)',
               tension: 0.1
           }
       ]
@@ -96,7 +109,7 @@
 
   // Options for the chart
   var options = {
-      responsive: true,
+      responsive:false,
       maintainAspectRatio: false,
       scales: {
           x: {
@@ -110,6 +123,14 @@
               title: {
                   display: true,
                   text: 'Number of People'
+              },
+              ticks:{
+                stepSize: 1,
+                callback: function(value) {
+                  if (Number.isInteger(value)) {
+                    return value;
+                  }
+                }
               }
           }
       }
@@ -211,53 +232,80 @@ istFilter.addEventListener('change', updateChart);
 updateChart();
 
 </script>
-
-<!-- script chart istVilleChart -->
+<!-- chart sexual  satisfaction X martial status -->
 <script>
-  // Data from Django
-  const cities = {{ cities|safe }};
-  const istByCity = {{ ist_by_city|safe }};
+  // Get data from Django context
+  var maritalStatus = {{ marital_status|safe }};
+  var satisfactionLevels = {{ satisfaction_levels|safe }};
+  var counts = {{ counts|safe }};
 
-  // Initialize chart
-  const ctx = document.getElementById('istVilleChart').getContext('2d');
-  let istChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: cities,
-          datasets: [{
-              label: 'Number of People',
-              data: [],
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-          }]
-      },
-      options: {
-          responsive: false,
-          maintainAspectRatio:false,
-          scales: {
-              y: {
-                  beginAtZero: true
+  // Prepare data for Chart.js
+  var uniqueMaritalStatus = [...new Set(maritalStatus)];
+  var uniqueSatisfactionLevels = [...new Set(satisfactionLevels)];
+
+  var datasets = uniqueSatisfactionLevels.map((level, index) => {
+      return {
+          label: level,
+          data: uniqueMaritalStatus.map(status => {
+              let idx = maritalStatus.findIndex((s, i) => s === status && satisfactionLevels[i] === level);
+              return idx !== -1 ? counts[idx] : 0;
+          }),
+          backgroundColor: ['rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)',
+            'rgba(75, 192, 192, 0.5)',
+            'rgba(153, 102, 255, 0.5)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
+        ],
+          borderWidth: 1
+      };
+  });
+
+  var data = {
+      labels: uniqueMaritalStatus,
+      datasets: datasets
+  };
+
+  // Options for the chart
+  var options = {
+      indexAxis: 'y', // Make it horizontal
+      responsive: false,
+      maintainAspectRatio: false,
+      scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Number of People'
+              },
+              beginAtZero: true,
+              ticks: {
+                  stepSize: 1
+              }
+          },
+          y: {
+              title: {
+                  display: true,
+                  text: 'Marital Status'
               }
           }
       }
+  };
+
+  // Create the horizontal bar chart
+  var ctx = document.getElementById('maritalStatusSexualSatisfactionChart').getContext('2d');
+  var maritalStatusSexualSatisfactionChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options
   });
-
-  // Function to update chart data based on selected IST
-  function updateChartData(selectedIST) {
-      const newData = cities.map(city => istByCity[city] ? istByCity[city][selectedIST] : 0);
-      istChart.data.datasets[0].data = newData;
-      istChart.update();
-  }
-
-  // Event listener for dropdown change
-  document.getElementById('istFilter').addEventListener('change', function() {
-      updateChartData(this.value);
-  });
-
-  // Initial update to show default IST data
-  updateChartData(document.getElementById('istFilter').value);
 </script>
+
 {% endblock%}
 <!-- /page content -->
 {% endblock %}
