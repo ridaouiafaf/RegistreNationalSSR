@@ -140,7 +140,6 @@ function SmartWizard(target, options) {
                     enquete_data.religion == null || enquete_data.niveauEtudes == null || enquete_data.revenu.trim() == '' ||
                     enquete_data.niveauSocial == null || enquete_data.normeCulturelle == null ||
                     enquete_data.normeReligieuse == null) {
-                    alert("sitik");
                     if(enquete_data.genre=='F'){
                         if(enquete_data.servicePrenatal==null || enquete_data.complicationGrosse==null||
                             enquete_data.complicationAccouchement==null || enquete_data.serviceMaternel==null || enquete_data.methodeAccouchement==''){                    
