@@ -19,21 +19,27 @@
         <ul class="nav side-menu">
             <li><a href="{% url 'index2' %}"><i class="fa fa-home"></i>Dashboard</a>
             </li>
-            <li><a  href="{% url 'enquetes' %}"><i class="fa fa-edit"></i> Enquetes </a></li>
-            <li><a><i class="fa fa-desktop"></i> Tables <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-desktop"></i> Projet SSR<span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-
-                    <li><a href="{% url 'personne' %}">Personne</a></li>
-                    <li><a href="{% url 'ist' %}">IST</a></li>
-                    <li><a href="{% url 'pratiques' %}">Pratiques</a></li>
-                    <li><a href="{% url 'grossesse' %}">Grossesse</a></li>
-                    <li><a href="{% url 'prenatal_maternel' %}">Prénatal & Maternel</a></li>
-                    <li><a href="{% url 'facteur' %}">Facteurs</a></li>
-                    <li><a href="{% url 'general' %}">Général</a></li>
-                    <li><a href="{% url 'sr' %}">santé reproductive</a></li>
-                    <li><a href="{% url 'violence' %}">Violence</a></li>
-
+                    <li><a  href="{% url 'enquetes' %}"><i class="fa fa-edit"></i> Enquetes </a></li>
+                    <li><a><i class="fa fa-desktop"></i> Tables <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{% url 'personne' %}">Personne</a></li>
+                            <li><a href="{% url 'ist' %}">IST</a></li>
+                            <li><a href="{% url 'pratiques' %}">Pratiques</a></li>
+                            <li><a href="{% url 'grossesse' %}">Grossesse</a></li>
+                            <li><a href="{% url 'prenatal_maternel' %}">Prénatal & Maternel</a></li>
+                            <li><a href="{% url 'facteur' %}">Facteurs</a></li>
+                            <li><a href="{% url 'general' %}">Général</a></li>
+                            <li><a href="{% url 'sr' %}">Santé Reproductive</a></li>
+                            <li><a href="{% url 'violence' %}">Violence</a></li>
+                        </ul>
+                    </li>
+                    
+            <li><a href="{% url 'supprimer_projet' %}"><i class="fa fa-edit"></i> Supprimer Projet </a>
                 </ul>
+            </li>
+            <li><a href="{% url 'ajouter_projet' %}"><i class="fa fa-edit"></i> Ajouter Projet </a>
             </li>
             <!-- <li><a><i class="fa fa-desktop"></i> Visualisation <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
@@ -45,8 +51,8 @@
             </li> -->
             <li><a href="{% url 'contacts' %}"><i class="fa fa-table"></i> Contacts </a>
             </li>
-            <li><a href="{% url 'contacts' %}"><i class="fa fa-table"></i> Archive </a>
-            </li>
+            <!-- <li><a href="{% url 'archive' %}"><i class="fa fa-table"></i> Archive </a>
+            </li> -->
         </ul>
     </div>
 </div>

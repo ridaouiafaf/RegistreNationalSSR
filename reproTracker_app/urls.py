@@ -3,6 +3,7 @@ from . import views
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import *
 
 
 urlpatterns = [
@@ -24,6 +25,9 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('enquete_soumis/', views.enquete_soumis, name='enquete_soumis'),
     path('reset_password/', views.reset_password, name='reset_password'),
+    path('projet/ajouter/', ajouter_projet, name='ajouter_projet'),
+    path('projet/supprimer/', supprimer_projet, name='supprimer_projet'),
+
    
     #------------------------------------------------------------------------------------------------------------------------#
 
