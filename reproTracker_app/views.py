@@ -1012,6 +1012,12 @@ def sr_edit(request, pk):
         form = SrForm(instance=sr)
     return render(request, 'sr_edit.html', {'form': form})
 
+def ajouter_projet(request):
+    return render(request, 'ajouter_projet.html')
+
+def supprimer_projet(request):
+    return render(request, 'supprimer_projet.html')
+
 
 import os
 from django.shortcuts import render, redirect
