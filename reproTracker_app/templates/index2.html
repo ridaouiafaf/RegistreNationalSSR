@@ -36,7 +36,9 @@
         <div class="row x_title">
           <!-- <div class="col-md-6"></div> -->
         <div class="x_content">
+
           <!-- chart gender by birth year -->
+          <h3>Nombre de femme/homme par année de naissance</h3> <br>
           <form method="get" action="">
             <label for="year">Select Year:</label>
             <select id="year" name="year">
@@ -48,7 +50,7 @@
             <button type="submit">Filter</button>
           </form>
           <canvas id="genderYearChart" width="1000" height="300"></canvas>
-  
+          <h3>Le niveau de satisfaction des relations sexuelles par catégorie état civil (Marié(e), divorcé(e)), ou célibataire</h3> <br>
           <form method="GET" action="">
             <label for="marital_status">Filtre par état civil:</label>
             <select name="marital_status" id="marital_status" onchange="this.form.submit()">
@@ -61,6 +63,7 @@
           <canvas id="maritalStatusSexualSatisfactionChart" width="500" height="400"></canvas>
 
           <!-- Chart IST -->
+          <h3>Nombre de personne par infection sexuelle transmissible IST</h3><br>
           <div>
             <label for="istFilter">Filter by IST:</label>
             <select id="istFilter">
